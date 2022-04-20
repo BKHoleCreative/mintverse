@@ -13,11 +13,11 @@ let blockData = {
     x: 0,
     y: 0,
     color: 0,
-    stokeColor: 255
+    strokeColor: 255
   },
   top:{
     color: 0,
-    stokeColor: 255,
+    strokeColor: 255,
     x: 0,
     y: 0,
     height: bgH * 0.088,
@@ -55,13 +55,13 @@ let blockData = {
       },
       {
         width: bgW * 0.054,
-        height: bgH * 0.307,
+        height: bgH * 0.311,
         y: bgH * 0.106 + bgH * 0.088 + bgH * 0.494,
         x: 0
       },
       {
         width: bgW * 0.866,
-        height: bgH * 0.307,
+        height: bgH * 0.311,
         y: bgH * 0.106 + bgH * 0.088 + bgH * 0.494,
         x: bgW * 0.054
       }
@@ -88,7 +88,7 @@ let blockData = {
         height: bgH * 0.106,
       },
       {
-        width:bgW * 0.67,
+        width:bgW * 0.671,
         height: bgH * 0.106,
       }
     ],
@@ -96,7 +96,7 @@ let blockData = {
   },
   name:{
     color:0,
-    stokeColor: 255,
+    strokeColor: 255,
     height: bgH * 0.106,
     width: bgW * 0.054,
     x: 0,
@@ -104,11 +104,27 @@ let blockData = {
     inputData:'蛋餅人' 
   }
 }
-let notes = '', selectContent = '', selectContent1 = '';
+let notes = '', selectContent = '', selectContent1 = '', synonym =  '';
 const marqueeSpeed = 5;
 let sel,sel1;
+
+// blink data
+let randomY;
+let randomHight;
+let randomAlpha;
+let randomY_2;
+let randomHight_2;
+let randomAlpha_2;
+let tiempoInicio = 0;
+let tiempoEspera = 100;
+let img, imgDotList;
+let message = "Imagine";
+let messageIndex = 0;
+function preload() {
+  img = loadImage('../image/fish.png');
+}
 function setup() {
-  pixelDensity(3.0);
+  pixelDensity(2.0);
   createCanvas(bgW,bgH);
   HelveticaBlack = loadFont('../font/Monotype  - Helvetica Now Display Black.otf');
   imgMint = createImg('https://hobeselect.com/mintverse/mint.png');
@@ -120,7 +136,10 @@ function setup() {
   marqueeTwo.setPositionY(blockData.marquee.height)
   let notesInput = createInput('');
   notesInput.input(notesInputEvent);
-  
+  let synonymInput = createInput('');
+  synonymInput.input(synonymInputEvent);
+
+
   sel = createSelect();
   sel.option('請選擇詞性');
   sel.option('動詞');
@@ -134,10 +153,29 @@ function setup() {
   sel1.option('副詞');
   sel1.selected('請選擇詞性');
   sel1.changed(selectChange1);
+
+  img.loadPixels()
+  imgDotList = [];
+  messageIndex = 0;
+  for (let y = 0; y < img.height; y += 3) {
+    for (let x = 0; x < img.width; x += 3) {
+      i = ((y * img.width) + x) * 4;
+      r = img.pixels[i];
+      g = img.pixels[i + 1];
+      b = img.pixels[i + 2];
+      if (r + g + b > 230) {
+        // statement
+        imgDotList.push({x: x,y: y})
+      }
+    }
+  }
 }
 function notesInputEvent() {
   notes = this.value()
   console.log('you are typing: ', notes);
+}
+function synonymInputEvent() {
+  synonym = this.value()
 }
 function selectChange() {
   let item = this.value();
@@ -156,15 +194,17 @@ function selectChange1() {
   }
 }
 function draw(){
+  clear();
+  drawingContext.shadowBlur = 0;
+  smooth();
   background(100);
-  fill(0);
-  rect(0, 0, bgW, bgH);
+
   drawBoxBackground();
   marqueeOne.draw();
   marqueeTwo.draw();
   marqueeOne.animate();
   marqueeTwo.animate();
-  
+  drawBlink();
   //drawBackground();
 }
 
@@ -173,10 +213,10 @@ function drawBackground() {
   drawRect();
 }
 function drawMarqueeBg(){
-  const marqueeData = blockData.marquee
+  const marqueeData = blockData.marquee;
   fill(marqueeData.color);
   strokeWeight(blockData.stokeWeight);
-  stroke(marqueeData.stokeColor);
+  stroke(marqueeData.strokeColor);
   rect(marqueeData.x, marqueeData.y, marqueeData.width, marqueeData.height);
 }
 function drawBoxBackground() {
@@ -215,18 +255,25 @@ function drawTopBarBg(){
   text('宇宙飛船', topData.width * blockData.top.blocks[1].width / 2 + blockData.top.blocks[1].x, topData.height / 2 + 10);
   textSize(15);
   text('作者 朱宥勳', topData.width * blockData.top.blocks[2].width / 2 + blockData.top.blocks[2].x , topData.height * 0.7 / 2 + 5);
+  textFont('Taipei Sans TC');
+  fill(0);
+  textSize(12);
+  textStyle(BOLD);
+  text('TOKEN ID', topData.width * blockData.top.blocks[2].width / 2 + blockData.top.blocks[2].x , topData.height * 0.85  );
   textFont(HelveticaBlack);
+  fill(255);
   textSize(70)
   textLeading(10);
   textAlign(LEFT, CENTER);
   let font = '0023';
   for (var b = 0; b< font.length; b++) {
-   text(font[b], blockData.top.blocks[3].x + b * 50 + 10, topData.height / 2 - 15); 
+   text(font[b], blockData.top.blocks[3].x + b * 55 + 10, topData.height / 2 - 15); 
   }
 }
 function drawMainBg(){
   const mainData = blockData.main
   fill(mainData.color)
+  stroke(mainData.strokeColor);
   strokeWeight(blockData.stokeWeight);
   let marqueeX = blockData.marquee.width;
   mainData.blocks.forEach( function(block, index) {
@@ -249,6 +296,22 @@ function drawMainBg(){
   textLeading(mainTextSize * 1.1);
   measureText();
   text(notes, marqueeX + mainData.blocks[2].x + 20, mainData.blocks[2].y + 20, marqueeX + mainData.blocks[2].x  +  mainData.blocks[2].width - 150, mainData.blocks[2].y + mainData.blocks[2].height - 100 )
+  textSize(70);
+  text('。', bgW - 70, bgH - 70);
+  drawMainImg();
+}
+function drawMainImg(){
+  imgDotList.forEach((item)=>{
+    fill(255);
+    textSize(12);
+    if(item.x % 4 == 0 && item.y % 4 == 0){
+      text(message[messageIndex], item.x*1.3 + 130 , item.y*1.3 + 100);  
+    }
+    messageIndex++;
+    messageIndex %= message.length;
+  })
+  let firstChar = message[0].shift;
+  message = message + firstChar;
 }
 let mainTextSize = 90;
 let level = [100, 70, 60, 50, 40, 30, 20, 20, 20, 20];
@@ -267,7 +330,7 @@ function measureText(){
   }
   mainTextSize = level[currentLevel];
 
-  console.log(`Level: ${level[currentLevel]}  Lines: ${lines[currentLevel]}`);
+  //console.log(`Level: ${level[currentLevel]}  Lines: ${lines[currentLevel]}`);
 }
 
 function drawNameBg() {
@@ -298,17 +361,17 @@ function drawSynonymBg() {
   let synonymData = blockData.synonym
   let positionY = blockData.top.height + blockData.main.blocks[0].height;
   let positionX;
-  fill(synonymData.color)
+  fill(0)
   strokeWeight(blockData.stokeWeight);
   positionX = blockData.marquee.width;
   synonymData.blocks.forEach( function(block, index) {
     // statements
     let y = positionY;
-    if(index == 2) y = y + block.height;
+    if(index == 2) {y = y + block.height;}
     synonymData.blocks[index].x = positionX;
     synonymData.blocks[index].y = y;
     rect(positionX, y, block.width, block.height);
-    if(index != 2) positionX = positionX + block.width
+    if(index != 1) positionX = positionX + block.width
   });
 
   fill(synonymData.textColor)
@@ -320,21 +383,31 @@ function drawSynonymBg() {
   text('詞\n性', synonymData.blocks[0].x + synonymData.blocks[0].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
   textLeading(22);
   text('同\n義\n詞', synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
-
+  textSize(50);
+  text(synonym, synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + synonymData.blocks[4].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
+  
   textAlign(LEFT, CENTER);
   let selecType = selectContent;
+  let selecType1 = selectContent1;
   if(selecType != ''){
     for (var b = 0; b< selecType.length; b++) {
       let space = selecType.length < 3 ? 40 : 20;
       text(selecType[b], synonymData.blocks[0].x + synonymData.blocks[0].width + b * space + 26, synonymData.blocks[0].y + synonymData.blocks[2].height / 2); 
     }
   }else{
-    line(synonymData.blocks[0].x + synonymData.blocks[0].width, synonymData.blocks[0].y, synonymData.blocks[0].x + synonymData.blocks[0].width +  synonymData.blocks[1].width, synonymData.blocks[0].y + synonymData.blocks[1].height)
+    strokeWeight(1);
+    stroke(255);
+    line(synonymData.blocks[0].x + synonymData.blocks[0].width, synonymData.blocks[0].y, synonymData.blocks[0].x + synonymData.blocks[0].width +  synonymData.blocks[1].width, synonymData.blocks[0].y + synonymData.blocks[1].height);
   }
-  let selecType1 = selectContent1;
-  for (var b = 0; b< selecType1.length; b++) {
-    let space1 = selecType1.length < 3 ? 40 : 20;
-    text(selecType1[b], synonymData.blocks[0].x + synonymData.blocks[0].width  + b * space1 + 26 , synonymData.blocks[0].y + synonymData.blocks[2].height * 1.5);
+  if(selecType1 != ''){
+    for (var b = 0; b< selecType1.length; b++) {
+      let space1 = selecType1.length < 3 ? 40 : 20;
+      text(selecType1[b], synonymData.blocks[0].x + synonymData.blocks[0].width  + b * space1 + 26 , synonymData.blocks[0].y + synonymData.blocks[2].height * 1.5);
+    }
+  }else{
+    strokeWeight(1);
+    stroke(255);
+    line(synonymData.blocks[0].x + synonymData.blocks[0].width, synonymData.blocks[0].y + synonymData.blocks[1].height, synonymData.blocks[0].x + synonymData.blocks[0].width +  synonymData.blocks[1].width, synonymData.blocks[0].y + synonymData.blocks[1].height * 2);
   }
 
 }
@@ -409,7 +482,50 @@ function randomFun() {
 // function windowResized() {
 //   resizeCanvas(windowWidth, windowHeight);
 // }
+function drawBlink() {
+  if (millis() - tiempoInicio > tiempoEspera) {
+    // 寬度大
+    randomAlpha_2 = random(100, 250);
+    randomHight_2 = random(10, 90);
+    randomY_2 = random(height);
+    drawingContext.shadowColor = color(255);
+    drawingContext.shadowBlur = 50;
+    fill(255, randomAlpha);
+    noStroke();
+    rect(0, randomY, width, randomHight);
+    
+    // 寬度小
+    randomAlpha = random(50, 100);
+    randomHight = random(5, 10);
+    randomY = random(height);
+    drawingContext.shadowColor = color(255);
+    drawingContext.shadowBlur = 50;
+    fill(255, randomAlpha);
+    noStroke();
+    rect(0, randomY, width, randomHight);
 
+    tiempoInicio = millis();
+    tiempoEspera = random(50, 120);
+  }
+  
+  // 寬度大
+  // randomY_2 = randomY_2 + 2;
+  randomAlpha_2 = randomAlpha_2 - 5;
+  drawingContext.shadowColor = color(255);
+  drawingContext.shadowBlur = 50;
+  fill(255, randomAlpha_2);
+  noStroke();
+  rect(0, randomY_2, width, randomHight_2);
+  
+  // 寬度小
+  randomY = randomY + 0.5;
+  randomAlpha = randomAlpha - 1;
+  drawingContext.shadowColor = color(255);
+  drawingContext.shadowBlur = 50;
+  fill(255, randomAlpha);
+  noStroke();
+  rect(0, randomY, width, randomHight);
+}
 class marquee {
   constructor({ height = 500, width = 40, speed = 1} = {}){
     this.width = width;
