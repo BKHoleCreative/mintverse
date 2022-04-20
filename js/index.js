@@ -104,8 +104,9 @@ let blockData = {
     inputData:'蛋餅人' 
   }
 }
-let notes = '';
+let notes = '', selectContent = '', selectContent1 = '';
 const marqueeSpeed = 5;
+let sel,sel1;
 function setup() {
   pixelDensity(3.0);
   createCanvas(bgW,bgH);
@@ -120,10 +121,39 @@ function setup() {
   let notesInput = createInput('');
   notesInput.input(notesInputEvent);
   
+  sel = createSelect();
+  sel.option('請選擇詞性');
+  sel.option('動詞');
+  sel.option('名詞');
+  sel.selected('請選擇詞性');
+  sel.changed(selectChange);
+
+  sel1 = createSelect();
+  sel1.option('請選擇詞性');
+  sel1.option('形容詞');
+  sel1.option('副詞');
+  sel1.selected('請選擇詞性');
+  sel1.changed(selectChange1);
 }
 function notesInputEvent() {
   notes = this.value()
   console.log('you are typing: ', notes);
+}
+function selectChange() {
+  let item = this.value();
+  if(item != '請選擇詞性'){
+    selectContent = item;
+  }else{
+    selectContent = '';
+  }
+}
+function selectChange1() {
+  let item = this.value();
+  if(item != '請選擇詞性'){
+    selectContent1 = item;
+  }else{
+    selectContent1 = '';
+  }
 }
 function draw(){
   background(100);
@@ -212,12 +242,34 @@ function drawMainBg(){
   textFont('Taipei Sans TC');
   textLeading(200);
   text('註\n釋', marqueeX + mainData.blocks[1].x + mainData.blocks[1].width / 2 , mainData.blocks[1].y + mainData.blocks[1].height / 2);
-  textSize(90);
+  textSize(mainTextSize);
+  textStyle(BOLD);
   textAlign(LEFT, TOP);
   textWrap(CHAR);
-  textLeading(100);
+  textLeading(mainTextSize * 1.1);
+  measureText();
   text(notes, marqueeX + mainData.blocks[2].x + 20, mainData.blocks[2].y + 20, marqueeX + mainData.blocks[2].x  +  mainData.blocks[2].width - 150, mainData.blocks[2].y + mainData.blocks[2].height - 100 )
 }
+let mainTextSize = 90;
+let level = [100, 70, 60, 50, 40, 30, 20, 20, 20, 20];
+let lines = [1, 1, 2, 2, 3, 4, 5, 5, 5, 5];
+let currentLevel = 0;
+let currnTextWidth = 0;
+
+function measureText(){
+  currnTextWidth = textWidth(notes);
+  if(currnTextWidth >= 750*lines[currentLevel] + 400){
+    currentLevel++;
+    if(currentLevel>=9) currentLevel = 9;
+  }else if(currnTextWidth <= 750*(lines[currentLevel])/2 + 300){
+    currentLevel--;
+    if(currentLevel<=0) currentLevel = 0;
+  }
+  mainTextSize = level[currentLevel];
+
+  console.log(`Level: ${level[currentLevel]}  Lines: ${lines[currentLevel]}`);
+}
+
 function drawNameBg() {
   let nameBlockData = blockData.name
   let mainBlockOne = blockData.main.blocks[0]
@@ -268,6 +320,23 @@ function drawSynonymBg() {
   text('詞\n性', synonymData.blocks[0].x + synonymData.blocks[0].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
   textLeading(22);
   text('同\n義\n詞', synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
+
+  textAlign(LEFT, CENTER);
+  let selecType = selectContent;
+  if(selecType != ''){
+    for (var b = 0; b< selecType.length; b++) {
+      let space = selecType.length < 3 ? 40 : 20;
+      text(selecType[b], synonymData.blocks[0].x + synonymData.blocks[0].width + b * space + 26, synonymData.blocks[0].y + synonymData.blocks[2].height / 2); 
+    }
+  }else{
+    line(synonymData.blocks[0].x + synonymData.blocks[0].width, synonymData.blocks[0].y, synonymData.blocks[0].x + synonymData.blocks[0].width +  synonymData.blocks[1].width, synonymData.blocks[0].y + synonymData.blocks[1].height)
+  }
+  let selecType1 = selectContent1;
+  for (var b = 0; b< selecType1.length; b++) {
+    let space1 = selecType1.length < 3 ? 40 : 20;
+    text(selecType1[b], synonymData.blocks[0].x + synonymData.blocks[0].width  + b * space1 + 26 , synonymData.blocks[0].y + synonymData.blocks[2].height * 1.5);
+  }
+
 }
 function textHeight(text, maxWidth) {
    var words = text.split(' ');
