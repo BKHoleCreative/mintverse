@@ -105,7 +105,7 @@ let blockData = {
   }
 }
 let notes = '';
-
+const marqueeSpeed = 5;
 function setup() {
   pixelDensity(3.0);
   createCanvas(bgW,bgH);
@@ -114,9 +114,9 @@ function setup() {
   imgR = createImg('https://hobeselect.com/mintverse/r.png');
   imgDisctionary = createImg('https://hobeselect.com/mintverse/disctionary.png');
   background(100);
-  marqueeOne = new marquee();
-  marqueeTwo = new marquee();
- 
+  marqueeOne = new marquee({height:blockData.marquee.height, width:blockData.marquee.width, speed: marqueeSpeed});
+  marqueeTwo = new marquee({height:blockData.marquee.height, width:blockData.marquee.width, speed: marqueeSpeed});
+  marqueeTwo.setPositionY(blockData.marquee.height)
   let notesInput = createInput('');
   notesInput.input(notesInputEvent);
   
@@ -131,7 +131,9 @@ function draw(){
   rect(0, 0, bgW, bgH);
   drawBoxBackground();
   marqueeOne.draw();
-  // marquee.height = marquee.height > 0 ? marquee.height -= 1 : bgH;
+  marqueeTwo.draw();
+  marqueeOne.animate();
+  marqueeTwo.animate();
   
   //drawBackground();
 }
@@ -214,8 +216,7 @@ function drawMainBg(){
   textAlign(LEFT, TOP);
   textWrap(CHAR);
   textLeading(100);
-  let t = text(notes, marqueeX + mainData.blocks[2].x + 20, mainData.blocks[2].y + 20, marqueeX + mainData.blocks[2].x  +  mainData.blocks[2].width - 150, mainData.blocks[2].y + mainData.blocks[2].height - 100 )
-  console.log(t);
+  text(notes, marqueeX + mainData.blocks[2].x + 20, mainData.blocks[2].y + 20, marqueeX + mainData.blocks[2].x  +  mainData.blocks[2].width - 150, mainData.blocks[2].y + mainData.blocks[2].height - 100 )
 }
 function drawNameBg() {
   let nameBlockData = blockData.name
@@ -341,9 +342,10 @@ function randomFun() {
 // }
 
 class marquee {
-  constructor({ height = 500} = {}){
-    this.width = 40;
+  constructor({ height = 500, width = 40, speed = 1} = {}){
+    this.width = width;
     this.height = height;
+    this.speed = speed;
     this.x = 0; 
     this.y = 10;
     this.padding_top = 0;
@@ -382,6 +384,16 @@ class marquee {
     image(imgMint, this.mint.x , this.mint.y, this.mint.width, this.mint.height);
     image(imgR,this.r.x, this.r.y, this.r.width , this.r.height);
     image(imgDisctionary, this.disctionary.x, this.disctionary.y, this.disctionary.width, this.disctionary.height);
+  }
+  animate(){
+    let currentY = this.getPositionY();
+    currentY = currentY -= this.speed;
+    this.setPositionY();
+    if(currentY < blockData.marquee.height * -1){
+      this.setPositionY(blockData.marquee.height);
+    }else{
+      this.setPositionY(currentY);
+    }
   }
   getPositionY(){
     return this.y;
