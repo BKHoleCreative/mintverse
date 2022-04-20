@@ -124,6 +124,7 @@ function preload() {
   img = loadImage('../image/fish.png');
 }
 function setup() {
+  frameRate(24);
   pixelDensity(2.0);
   createCanvas(bgW,bgH);
   HelveticaBlack = loadFont('../font/Monotype  - Helvetica Now Display Black.otf');
@@ -484,48 +485,39 @@ function randomFun() {
 // }
 function drawBlink() {
   if (millis() - tiempoInicio > tiempoEspera) {
-    // 寬度大
-    randomAlpha_2 = random(100, 250);
-    randomHight_2 = random(10, 90);
-    randomY_2 = random(height);
-    drawingContext.shadowColor = color(255);
-    drawingContext.shadowBlur = 50;
-    fill(255, randomAlpha);
-    noStroke();
-    rect(0, randomY, width, randomHight);
-    
-    // 寬度小
-    randomAlpha = random(50, 100);
-    randomHight = random(5, 10);
-    randomY = random(height);
-    drawingContext.shadowColor = color(255);
-    drawingContext.shadowBlur = 50;
-    fill(255, randomAlpha);
-    noStroke();
-    rect(0, randomY, width, randomHight);
-
+    generateBlinkLine(5, 10, 50, 100, 50);
+    generateBlinkLine(50, 100, 50, 100, 50);
+    generateBlinkLine(200, 300, 20, 50, 100);
+    generateBlinkLine(200, 300, 80, 100, 100);
     tiempoInicio = millis();
     tiempoEspera = random(50, 120);
   }
-  
-  // 寬度大
-  // randomY_2 = randomY_2 + 2;
-  randomAlpha_2 = randomAlpha_2 - 5;
+
+  moveLine((frameCount*10)%height, 3);
+  moveLine((frameCount+50)%(height+50), 1);
+  moveLine((frameCount*frameCount/10)%(height+50), 1);
+}
+
+
+function generateBlinkLine(h1, h2, a1, a2, blur){
+  randomAlpha = random(a1, a2);
+  randomHight = random(h1, h2);
+  randomY = random(height);
   drawingContext.shadowColor = color(255);
-  drawingContext.shadowBlur = 50;
-  fill(255, randomAlpha_2);
-  noStroke();
-  rect(0, randomY_2, width, randomHight_2);
-  
-  // 寬度小
-  randomY = randomY + 0.5;
-  randomAlpha = randomAlpha - 1;
-  drawingContext.shadowColor = color(255);
-  drawingContext.shadowBlur = 50;
+  drawingContext.shadowBlur = blur;
   fill(255, randomAlpha);
   noStroke();
   rect(0, randomY, width, randomHight);
 }
+
+function moveLine(posY, h){
+  fill(255, 60);
+  noStroke();
+  rect(0, posY, width, h);
+}
+
+
+
 class marquee {
   constructor({ height = 500, width = 40, speed = 1} = {}){
     this.width = width;
