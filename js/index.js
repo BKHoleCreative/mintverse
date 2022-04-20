@@ -118,7 +118,7 @@ let randomAlpha_2;
 let tiempoInicio = 0;
 let tiempoEspera = 100;
 let img, imgDotList;
-let message = "Imagine";
+let message = "0x7cEaD04E4D41eDcd765154add180CD73951D2275";
 let messageIndex = 0;
 function preload() {
   img = loadImage('../image/fish.png');
@@ -385,7 +385,7 @@ function drawSynonymBg() {
   text('同\n義\n詞', synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
   textSize(50);
   text(synonym, synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + synonymData.blocks[4].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
-  
+  textSize(18);
   textAlign(LEFT, CENTER);
   let selecType = selectContent;
   let selecType1 = selectContent1;
