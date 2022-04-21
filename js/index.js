@@ -9,7 +9,7 @@ let columns;
 let rows;
 let bgW = 800, bgH = 800;
 let rectList = [];
-let imgMint, imgR, imgDisctionary, marqueeOne, marqueeTwo , HelveticaBlack, TaipeiSanc;
+let imgMint, imgR, imgDisctionary, marqueeOne, marqueeTwo , HelveticaBlack, TaipeiSanc, VT323;
 let blockData = {
   stokeWeight:1,
   textColor: cardType ? 255 : 0,
@@ -145,6 +145,7 @@ function preload() {
   imgMint = loadImage(`${path}${imageMintName}.png`);
   imgR = loadImage(`${path}${imageRName}.png`);
   imgDisctionary = loadImage(`${path}${imgDisctionaryName}.png`);
+  VT323 = loadFont('../font/VT323-Regular.ttf')
 }
 function setup() {
   frameRate(24);
@@ -408,7 +409,8 @@ function drawMainBg(){
 function drawMainImg(){
   imgDotList.forEach((item)=>{
     fill(blockData.textColor);
-    textSize(14);
+    textFont(VT323);
+    textSize(20);
     strokeWeight(0);
     if(textOpen){
       if(item.x % 4 == 0 && item.y % 4 == 0 && item.y  < maskPointY){
