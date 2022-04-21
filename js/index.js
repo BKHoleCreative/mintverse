@@ -133,6 +133,7 @@ let textOpen = true;
 // gradiant animation
 
 let topGradient,mainGradientTop,mainGradientBottom,marqueeGradient,nameGradient, synonymGradient;
+ 
 
 function preload() {
   const path = '../image/'
@@ -144,7 +145,6 @@ function preload() {
   imgMint = loadImage(`${path}${imageMintName}.png`);
   imgR = loadImage(`${path}${imageRName}.png`);
   imgDisctionary = loadImage(`${path}${imgDisctionaryName}.png`);
-
 }
 function setup() {
   frameRate(24);
@@ -445,10 +445,10 @@ let currnTextWidth = 0;
 
 function measureText(){
   currnTextWidth = textWidth(notes);
-  if(currnTextWidth >= 750*lines[currentLevel] + 400){
+  if(currnTextWidth > 750*lines[currentLevel] + 400){
     currentLevel++;
     if(currentLevel>=9) currentLevel = 9;
-  }else if(currnTextWidth < 750*(lines[currentLevel])/2 + 300){
+  }else if(currnTextWidth < 750*(lines[currentLevel])/2 + 1200){
     currentLevel--;
     if(currentLevel<=0) currentLevel = 0;
   }
