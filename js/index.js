@@ -117,9 +117,12 @@ let randomHight_2;
 let randomAlpha_2;
 let tiempoInicio = 0;
 let tiempoEspera = 100;
+//
 let img, imgDotList;
 let message = "0x7cEaD04E4D41eDcd765154add180CD73951D2275";
 let messageIndex = 0;
+let maskPointY = 0;
+let textOpen = true;
 function preload() {
   img = loadImage('../image/fish.png');
 }
@@ -305,14 +308,33 @@ function drawMainImg(){
   imgDotList.forEach((item)=>{
     fill(255);
     textSize(12);
-    if(item.x % 4 == 0 && item.y % 4 == 0){
-      text(message[messageIndex], item.x*1.3 + 130 , item.y*1.3 + 100);  
+    strokeWeight(0);
+    if(textOpen){
+      if(item.x % 4 == 0 && item.y % 4 == 0 && item.y  < maskPointY){
+        text(message[messageIndex], item.x * 1.3 + 130 , item.y * 1.3 + 100);  
+      }
+      strokeWeight(2);
+      if( item.y > maskPointY )
+        point(item.x * 1.3 + 130, item.y * 1.3 + 100 );
+      maskPointY += 0.0005;
+    }else{
+      if(item.x % 4 == 0 && item.y % 4 == 0 && item.y  > maskPointY){
+        text(message[messageIndex], item.x * 1.3 + 130 , item.y * 1.3 + 100);  
+      }
+      strokeWeight(2);
+      if( item.y < maskPointY )
+        point(item.x * 1.3 + 130, item.y * 1.3 + 100 );
+      maskPointY -= 0.0005;
     }
     messageIndex++;
     messageIndex %= message.length;
+
+    if(maskPointY > imgDotList[imgDotList.length - 1].y || maskPointY < 0)
+      textOpen = !textOpen;
   })
   let firstChar = message[0].shift;
   message = message + firstChar;
+
 }
 let mainTextSize = 90;
 let level = [100, 70, 60, 50, 40, 30, 20, 20, 20, 20];
