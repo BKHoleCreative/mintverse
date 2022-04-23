@@ -1,14 +1,10 @@
-
 let cardType = true;
 const SearchURL = new URL(window.location.href);
 let params = SearchURL.searchParams;
-if(params.has('normal'))cardType = false;
-let w;
-let h;
-let columns;
-let rows;
+if(params.has('normal')) cardType = false;
+
 let bgW = 800, bgH = 800;
-let rectList = [];
+let backgroundColor = cardType ? {h:0,s:0,b:0} : {h:12,s:95,b:96};
 let imgMint, imgR, imgDisctionary, marqueeOne, marqueeTwo , HelveticaBlack, TaipeiSanc, VT323;
 let blockData = {
   stokeWeight:1,
@@ -124,17 +120,19 @@ let randomHight_2;
 let randomAlpha_2;
 let tiempoInicio = 0;
 let tiempoEspera = 100;
+
 // text animation
 let img, imgDotList;
 let message = "0x7cEaD04E4D41eDcd765154add180CD73951D2275";
 let messageIndex = 0;
 let maskPointY = 0;
 let textOpen = true;
+
 // gradiant animation
 
 let topGradient,mainGradientTop,mainGradientBottom,marqueeGradient,nameGradient, synonymGradient;
- 
-
+let topFlash, nameFlash, marqueeFlash, mainFlashTop, mainFlashBottom, synonymFlash;
+let marqueeTimer, nameTimer, topTimer, mainTopTimer, mainBottomTimer, synonymTimer;
 function preload() {
   const path = '../image/'
   const imageName = cardType ? 'fish' : 'fish';
@@ -148,18 +146,25 @@ function preload() {
   VT323 = loadFont('../font/VT323-Regular.ttf')
 }
 function setup() {
+  //canvas setting
   frameRate(24);
   pixelDensity(2.0);
   createCanvas(bgW,bgH);
   HelveticaBlack = loadFont('../font/Monotype  - Helvetica Now Display Black.otf');
   
-  background(100);
+  marqueeTimer = new Timer();
+  nameTimer = new Timer(); 
+  topTimer = new Timer(); 
+  mainTopTimer = new Timer(); 
+  mainBottomTimer = new Timer();
+  synonymTimer = new Timer();
+
   marqueeOne = new marquee({height:blockData.marquee.height, width:blockData.marquee.width, speed: marqueeSpeed});
   marqueeTwo = new marquee({height:blockData.marquee.height, width:blockData.marquee.width, speed: marqueeSpeed});
   marqueeTwo.setPositionY(blockData.marquee.height)
-  let notesInput = createInput('');
+  let notesInput = createInput('').attribute('placeholder', '請輸入註釋');
   notesInput.input(notesInputEvent);
-  let synonymInput = createInput('');
+  let synonymInput = createInput('').attribute('placeholder', '請輸入同義詞');
   synonymInput.input(synonymInputEvent);
 
 
@@ -192,44 +197,69 @@ function setup() {
       }
     }
   }
-  topGradient = new gradient({startColor:0, startEndGap:30, offset:0, width : blockData.top.width, height:blockData.top.height, x:blockData.marquee.width, y:blockData.top.y, speedAnimate:1});
-  mainGradientTop = new gradient({startColor:0, startEndGap:30, offset:150, width : blockData.main.blocks[0].width, height:blockData.main.blocks[0].height, x:blockData.marquee.width, y:blockData.main.blocks[0].y, speedAnimate:1});
-  mainGradientBottom = new gradient({startColor:0, startEndGap:30, offset:150, width : blockData.main.blocks[0].width, height:blockData.main.blocks[0].height, x:blockData.marquee.width, y:blockData.main.blocks[1].y, speedAnimate:1});
-  
-  marqueeGradient = new gradient(
+  topFlash = new lightBlink({
+    w: blockData.top.height, 
+    h: blockData.top.width, 
+    x:blockData.marquee.width + blockData.top.width, 
+    y:blockData.top.y, 
+    distance: blockData.top.width, 
+    speed:40
+  });
+  //topGradient = new gradient({startColor:0, startEndGap:30, offset:0, width : blockData.top.width, height:blockData.top.height, x:blockData.marquee.width, y:blockData.top.y, speedAnimate:1});
+  mainFlashTop = new lightBlink(
     {
-      startColor:0, 
-      startEndGap:30, 
-      offset:90,
-      width : blockData.marquee.width, 
-      height:blockData.marquee.height, 
+      direction: 'down',
+      w : blockData.main.blocks[0].width, 
+      h:blockData.main.blocks[0].height, 
+      distance: blockData.main.blocks[0].height,
+      x:blockData.marquee.width, 
+      y:blockData.main.blocks[0].y, 
+      speed:40
+    }
+  );
+  mainFlashBottom = new lightBlink(
+    {
+      distance: blockData.main.blocks[0].width,
+      direction:'right',
+      h : blockData.main.blocks[0].width, 
+      w:blockData.main.blocks[0].height, 
+      x:blockData.marquee.width , 
+      y:blockData.main.blocks[1].y, 
+      speed:40
+    }
+  );
+  marqueeFlash = new lightBlink(
+    {
+      direction:'down',
+      distance: blockData.marquee.height, 
+      w : blockData.marquee.width, 
+      h:blockData.marquee.height, 
       x:blockData.marquee.x, 
       y:blockData.marquee.y, 
-      speedAnimate:1
+      speed:40
     }
   );
-  nameGradient = new gradient(
+  nameFlash = new lightBlink(
     {
-      startColor:0, 
-      startEndGap:30, 
-      offset:50, 
-      width : blockData.name.width + 78, 
-      height: blockData.name.height, 
+      distance: blockData.name.width + 200,
+      direction:'right',
+      h : blockData.name.width + 200, 
+      w: blockData.name.height, 
       x: blockData.marquee.width , 
-      y:blockData.main.blocks[0].y + blockData.main.blocks[0].height - blockData.name.height, 
-      speedAnimate:1
+      y: blockData.main.blocks[0].y + blockData.main.blocks[0].height - blockData.name.height, 
+      speed:50
     }
   );
-  synonymGradient = new gradient(
+ 
+  synonymFlash = new lightBlink(
     {
-      startColor:0, 
-      startEndGap:30, 
-      offset:20, 
-      width : bgW * 0.919, 
-      height: blockData.synonym.blocks[0].height, 
+      direction:'up',
+      distance: blockData.synonym.blocks[0].height,
+      w : bgW * 0.919, 
+      h: blockData.synonym.blocks[0].height,
       x: blockData.marquee.width, 
-      y: blockData.top.height + blockData.main.blocks[0].height, 
-      speedAnimate:1
+      y: blockData.top.height + blockData.main.blocks[0].height + blockData.synonym.blocks[0].height, 
+      speed:10
     }
   );
 }
@@ -238,12 +268,21 @@ function notesInputEvent() {
   let notesLength = notes.length;
   if(!cardType){
     notesLength = sin(notesLength % 360) * 360;
-    topGradient.reset(notesLength);
-    mainGradientTop.reset(notesLength);
-    mainGradientBottom.reset(notesLength);
-    marqueeGradient.reset(notesLength);
-    nameGradient.reset(notesLength);
-    synonymGradient.reset(notesLength);
+    backgroundColor.h = notesLength;
+    backgroundColor.s = 30;
+    topFlash.setColor({h:notesLength,s:80,b:100});
+    nameFlash.setColor({h:notesLength,s:80,b:100});
+    marqueeFlash.setColor({h:notesLength,s:80,b:100});
+    mainFlashTop.setColor({h:notesLength,s:80,b:100});
+    mainFlashBottom.setColor({h:notesLength,s:80,b:100});
+    synonymFlash.setColor({h:notesLength,s:80,b:100});
+    // topGradient.reset(notesLength);
+    // mainGradientTop.reset(notesLength);
+    // mainGradientBottom.reset(notesLength);
+    // marqueeGradient.reset(notesLength);
+    // nameGradient.reset(notesLength);
+
+    // synonymGradient.reset(notesLength);
   }
 }
 function synonymInputEvent() {
@@ -266,13 +305,14 @@ function selectChange1() {
   }
 }
 function draw(){
-  clear();
-  colorMode(RGB, 255, 255, 255, 1);
+
+  colorMode(HSB);
 
   drawingContext.shadowBlur = 0;
   smooth();
-  background(100);
+  background(backgroundColor.h,backgroundColor.s,backgroundColor.b);
 
+  colorMode(RGB, 255, 255, 255, 1);
   drawBoxBackground();
   marqueeOne.draw();
   marqueeTwo.draw();
@@ -280,7 +320,9 @@ function draw(){
   marqueeTwo.animate();
   if(cardType)
     drawBlink();
+
   //drawBackground();
+
 }
 
 function drawBackground() {
@@ -293,7 +335,18 @@ function drawMarqueeBg(){
   let alpha = 1;
   if(notes.length!=0 && !cardType)
   {
-    marqueeGradient.draw();
+    if(marqueeFlash.getState() == 0){
+      //this.init();
+      let wait = random(200,300);
+      
+      if(marqueeTimer.getState()){
+         marqueeFlash.restart();
+         marqueeTimer.stopTime();
+      }else{
+        marqueeTimer.timeCount(10000);
+      }        
+    }
+    marqueeFlash.animation();
     alpha = 0;
   }
   fill(marqueeData.color.r,marqueeData.color.g,marqueeData.color.b, alpha);
@@ -318,14 +371,25 @@ function drawTopBarBg(){
 
   
   let alpha = 1;
-  let labelAlpha = 0;
+  let labelAlpha = 1;
   if(notes.length!=0 && !cardType)
   {
-    topGradient.draw();
-    alpha = 0;
-    labelAlpha = 1;
-  }
+    //topGradient.draw();
 
+    if(topFlash.getState() == 0){
+      if(topTimer.getState()){
+         topFlash.restart();
+         topTimer.stopTime();
+      }else{
+        let wait = random(5000,10000);
+        topTimer.timeCount(wait);
+      }        
+    }
+    topFlash.animation();
+    alpha = 0;
+    //labelAlpha = 1;
+  }
+  
   topData.blocks.forEach( function(block, index) {
     fill(topData.color.r,topData.color.g,topData.color.b, alpha);
     strokeWeight(blockData.stokeWeight);
@@ -352,9 +416,12 @@ function drawTopBarBg(){
   fill(blockData.labelTextColor.r,blockData.labelTextColor.g,blockData.labelTextColor.b,alpha);
   textSize(12);
   textStyle(BOLD);
-  stroke(blockData.labelTextColor.r,blockData.labelTextColor.g,blockData.labelTextColor.b,labelAlpha);
+  colorMode(HSB);
+  fill(backgroundColor.h, backgroundColor.s, backgroundColor.b);
+  //fill(blockData.labelTextColor.r,blockData.labelTextColor.g,blockData.labelTextColor.b,labelAlpha);
   strokeWeight(1);
   text('TOKEN ID', topData.width * blockData.top.blocks[2].width / 2 + blockData.top.blocks[2].x , topData.height * 0.85  );
+  colorMode(RGB);
   textFont(HelveticaBlack);
   fill(blockData.textColor);
   strokeWeight(0);
@@ -372,8 +439,29 @@ function drawMainBg(){
   let alpha = 1;
   if(notes.length != 0 && !cardType)
   {
-    mainGradientTop.draw();
-    mainGradientBottom.draw();
+
+    if(mainFlashTop.getState() == 0){
+      if(mainTopTimer.getState()){
+         mainFlashTop.restart();
+         mainTopTimer.stopTime();
+      }else{
+        let wait = random(5000,10000);
+        mainTopTimer.timeCount(10000);
+      }     
+     
+    }
+    if(mainFlashBottom.getState() == 0){
+      if(mainBottomTimer.getState()){
+         mainFlashBottom.restart();
+         mainBottomTimer.stopTime();
+      }else{
+        let wait1 = random(5000,10000);
+        mainBottomTimer.timeCount(wait1);
+      }     
+     
+    }
+    mainFlashTop.animation();
+    mainFlashBottom.animation();
     alpha = 0;
   }
 
@@ -467,7 +555,27 @@ function drawNameBg() {
   let alpha = 1;
   if(notes.length != 0 && !cardType)
   {
-    nameGradient.draw();
+    colorMode(HSB,360,100,100);
+    strokeWeight(blockData.stokeWeight);
+    fill(backgroundColor.h,backgroundColor.s,backgroundColor.b)
+    nameBlockData.x = blockData.marquee.width;
+    positionY = mainBlockOne.y + mainBlockOne.height - nameBlockData.height;
+    positionX = nameBlockData.x + nameBlockData.width;
+    rect(nameBlockData.x , positionY, nameBlockData.width, nameBlockData.height);
+    rect(positionX, positionY, 200, nameBlockData.height);
+
+    if(nameFlash.getState() == 0){
+      if(nameTimer.getState()){
+         nameFlash.restart();
+         nameTimer.stopTime();
+      }else{
+        let wait = random(5000,10000);
+        nameTimer.timeCount(wait);
+      }    
+      
+    }
+    nameFlash.animation();
+
     alpha = 0;
   }
 
@@ -498,7 +606,19 @@ function drawSynonymBg() {
   let alpha = 1;
   if(notes.length != 0 && !cardType)
   {
-    synonymGradient.draw();
+    if(synonymFlash.getState() == 0){
+
+      if(synonymTimer.getState()){
+         synonymFlash.restart();
+         synonymTimer.stopTime();
+      }else{
+        let wait = random(5000,10000);
+        synonymTimer.timeCount(wait);
+      }    
+      synonymFlash.restart();
+      
+    }
+    synonymFlash.animation();
     alpha = 0;
   }
 
@@ -525,7 +645,8 @@ function drawSynonymBg() {
   textLeading(22);
   text('同\n義\n詞', synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
   textSize(50);
-  text(synonym, synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + synonymData.blocks[4].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
+  textAlign(LEFT, CENTER);
+  text(synonym, synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + 20 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
   textSize(18);
   textAlign(LEFT, CENTER);
   let selecType = selectContent;
@@ -571,6 +692,16 @@ function textHeight(text, maxWidth) {
 
    return h;
 }
+
+
+
+
+
+let w;
+let h;
+let columns;
+let rows;
+let rectList = [];
 function drawRect () {
   let random_i = Math.floor(Math.random() * columns);
   let random_j = Math.floor(Math.random() * rows);
@@ -625,29 +756,72 @@ function randomFun() {
 // }
 function drawBlink() {
   if (millis() - tiempoInicio > tiempoEspera ) {
-    generateBlinkLine(5, 10, 0, 0.2, 50);
+    const topData = blockData.top;
+    const marqueeData = blockData.marquee;
+    let blockX = marqueeData.width;
+    const mainData = blockData.main
+    let marqueeX = blockData.marquee.width;
+    // main block blink
+    mainData.blocks.forEach( function(block, index) {
+      // statements
+      generateBlinkLine(
+        block.width, 
+        block.height, 
+        marqueeX + block.x,
+        block.y, 
+        0,
+        0.2, 
+        50
+      );
+    });
+
+
+    // top blink
+    topData.blocks.forEach( function(block, index) {
+      generateBlinkLine(topData.width * block.width, topData.height, blockX, topData.y,0 ,0.2, 50 );
+      if(index == 2){
+        generateBlinkLine(topData.width * block.width, topData.height * 0.3, blockX, topData.height * 0.7,0 ,0.2, 50 );
+      }
+      blockData.top.blocks[index].x = blockX;
+      blockX = blockX + topData.width * block.width;
+    });
+
+    // synonym blink
+    let synonymData = blockData.synonym
+    let positionY = blockData.top.height + blockData.main.blocks[0].height;
+    let positionX;
+    positionX = blockData.marquee.width;
+    synonymData.blocks.forEach( function(block, index) {
+      // statements
+      let y = positionY;
+      if(index == 2) {y = y + block.height;}
+      synonymData.blocks[index].x = positionX;
+      synonymData.blocks[index].y = y;
+      generateBlinkLine(block.width, block.height, positionX, y, 0 ,0.2, 50)
+      if(index != 1) positionX = positionX + block.width
+    });
+
+    //generateBlinkLine(5, 10, 0, 0.2, 50);
     // generateBlinkLine(50, 100, 50, 100, 50);
     // generateBlinkLine(200, 300, 20, 50, 100);
     // generateBlinkLine(200, 300, 80, 100, 100);
     tiempoInicio = millis();
-    tiempoEspera = random(200, 2000);
+    tiempoEspera = random(200, 1500);
   }
-
   moveLine((frameCount*10)%height, 3);
-  moveLine((frameCount+50)%(height+50), 1);
+  moveLine((frameCount+50)%(height+50) , 1);
   moveLine((frameCount*frameCount/10)%(height+50), 10);
 }
 
 
-function generateBlinkLine(h1, h2, a1, a2, blur){
+function generateBlinkLine(width, height, x, y, a1, a2, blur){
   randomAlpha = random(a1, a2);
-  randomHight = blockData.main.blocks[0].height;
   randomY = blockData.main.blocks[0].y;
   drawingContext.shadowColor = color(255);
   drawingContext.shadowBlur = blur;
   fill(255, randomAlpha);
   noStroke();
-  rect(blockData.marquee.width, randomY, width - blockData.marquee.width, randomHight);
+  rect(x, y, width, height);
 }
 
 function moveLine(posY, h){
@@ -659,106 +833,4 @@ function moveLine(posY, h){
 
 
 
-class marquee {
-  constructor({ height = 500, width = 40, speed = 1} = {}){
-    this.width = width;
-    this.height = height;
-    this.speed = speed;
-    this.x = 0; 
-    this.y = 10;
-    this.padding_top = 0;
-    this.mint = {
-      width:0,
-      height:0,
-      x:0,
-      y:0
-    };
-    this.r = {
-      width:0,
-      height:0,
-      x:0,
-      y:0
-    };
-    this.disctionary = {
-      width:0,
-      height:0,
-      x:0,
-      y:0
-    };
-  }
-  draw(){
-    this.mint.width = this.width * 0.7;
-    this.mint.height = this.height * 0.3;
-    this.mint.x = (this.width -  this.mint.width)/2;
-    this.mint.y = (this.width -  this.mint.width)/2 + this.padding_top + this.y;
-    this.r.width = this.width * 0.6;
-    this.r.height = this.height * 0.05;
-    this.r.x = (this.width - this.r.width)/2;
-    this.r.y = this.mint.height + this.mint.y;
-    this.disctionary.width = this.width * 0.7;
-    this.disctionary.height = this.height * 0.6;
-    this.disctionary.x = (this.width - this.disctionary.width)/2;
-    this.disctionary.y = this.r.height + this.r.y;
-    image(imgMint, this.mint.x , this.mint.y, this.mint.width, this.mint.height);
-    image(imgR,this.r.x, this.r.y, this.r.width , this.r.height);
-    image(imgDisctionary, this.disctionary.x, this.disctionary.y, this.disctionary.width, this.disctionary.height);
-  }
-  animate(){
-    let currentY = this.getPositionY();
-    currentY = currentY -= this.speed;
-    this.setPositionY();
-    if(currentY < blockData.marquee.height * -1){
-      this.setPositionY(blockData.marquee.height);
-    }else{
-      this.setPositionY(currentY);
-    }
-  }
-  getPositionY(){
-    return this.y;
-  }
-  setPositionY(num){
-    this.y = num;
-  }
-  setHeight(num){
-    this.height = num;
-  }
-  getHeight(){
-    return this.height;
-  }
-}
 
-class gradient {
-  constructor({startColor = 0,startEndGap = 30,offset = 0, width, height, x, y, speedAnimate } = {}){
-    this.startEndGap = startEndGap;
-    this.startColor = startColor + offset;
-    this.endColor = startColor + startEndGap;
-    this.offset = offset;
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.speedAnimate = speedAnimate;
-  }
-  draw(){
-    if(this.startColor > this.startEndGap || this.startColor < 0) {
-      this.speedAnimate *= -1;
-    } 
-    this.startColor += this.speedAnimate ;
-    let gap = 0;
-    let numRectangles = this.width;
-    let rectWidth = this.width / numRectangles;
-    colorMode(HSB, 360, 100, 100);
-    strokeWeight(0);
-    for (let x = 0; x < this.width; x += gap + rectWidth) {
-      let color = map(x, this.x, this.x + this.width , this.startColor, this.endColor);
-      fill(color,100,100);
-      rect(this.x + x, this.y, this.width, this.height);
-    }
-    colorMode(RGB, 255, 255, 255, 1);
-
-  }
-  reset(startColor){
-    this.startColor = (startColor + random(0, 360)) % 360;
-    this.endColor = this.startColor + this.startEndGap;
-  }
-}
