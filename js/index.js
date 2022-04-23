@@ -108,6 +108,7 @@ let blockData = {
   }
 }
 let notes = '', selectContent = '', selectContent1 = '', synonym =  '';
+let oldLength = 0;
 const marqueeSpeed = 5;
 let sel,sel1;
 
@@ -133,6 +134,10 @@ let textOpen = true;
 let topGradient,mainGradientTop,mainGradientBottom,marqueeGradient,nameGradient, synonymGradient;
 let topFlash, nameFlash, marqueeFlash, mainFlashTop, mainFlashBottom, synonymFlash;
 let marqueeTimer, nameTimer, topTimer, mainTopTimer, mainBottomTimer, synonymTimer;
+
+// blink
+let blinkArr = [];
+
 function preload() {
   const path = '../image/'
   const imageName = cardType ? 'fish' : 'fish';
@@ -262,20 +267,45 @@ function setup() {
       speed:10
     }
   );
+  setBlinkData();
+  setTimeGap();
+}
+function randomColor(h){
+  
+  return (h + random(0, 360)) % 360;
 }
 function notesInputEvent() {
   notes = this.value()
   let notesLength = notes.length;
-  if(!cardType){
+  if(!cardType && notesLength!=0){
     notesLength = sin(notesLength % 360) * 360;
     backgroundColor.h = notesLength;
     backgroundColor.s = 30;
-    topFlash.setColor({h:notesLength,s:80,b:100});
-    nameFlash.setColor({h:notesLength,s:80,b:100});
-    marqueeFlash.setColor({h:notesLength,s:80,b:100});
-    mainFlashTop.setColor({h:notesLength,s:80,b:100});
-    mainFlashBottom.setColor({h:notesLength,s:80,b:100});
-    synonymFlash.setColor({h:notesLength,s:80,b:100});
+
+    let colorNum = randomColor(notesLength)
+    for (var i = 0; i < 5; i++) {
+      let colorNum = random(0,200);
+      let offset = random(20,40);
+      if(i == 0){
+        topFlash.setColor({h:colorNum,s:100,b:100});
+        blockData.top.color = HSVtoRGB(colorNum + offset,100,100);
+      }else if(i == 1){
+        nameFlash.setColor({h:colorNum,s:100,b:100});
+        blockData.name.color = HSVtoRGB(colorNum + offset,100,100);
+      }else if(i == 2){
+        marqueeFlash.setColor({h:colorNum,s:100,b:100});
+        blockData.marquee.color = HSVtoRGB(colorNum + offset,100,100); 
+      }else if(i == 3){
+        mainFlashTop.setColor({h:colorNum,s:100,b:100});
+        mainFlashBottom.setColor({h:colorNum,s:100,b:100});
+        blockData.main.color = HSVtoRGB(colorNum + offset,100,100);
+      }else if(i == 4){
+        synonymFlash.setColor({h:colorNum,s:100,b:100});
+        blockData.synonym.color = HSVtoRGB(colorNum + offset,100,100);
+      }
+
+    }
+
     // topGradient.reset(notesLength);
     // mainGradientTop.reset(notesLength);
     // mainGradientBottom.reset(notesLength);
@@ -283,7 +313,15 @@ function notesInputEvent() {
     // nameGradient.reset(notesLength);
 
     // synonymGradient.reset(notesLength);
+  } else {
+    blockData.top.color = {r:247,g:61,b:11};
+    blockData.name.color = {r:247,g:61,b:11};
+    blockData.marquee.color = {r:247,g:61,b:11};
+    blockData.main.color = {r:247,g:61,b:11};
+    blockData.synonym.color = {r:247,g:61,b:11};
   }
+
+  measureText();
 }
 function synonymInputEvent() {
   synonym = this.value()
@@ -305,34 +343,41 @@ function selectChange1() {
   }
 }
 function draw(){
+    colorMode(HSB);
 
-  colorMode(HSB);
+    drawingContext.shadowBlur = 0;
+    smooth();
+    background(backgroundColor.h,backgroundColor.s,backgroundColor.b);
 
-  drawingContext.shadowBlur = 0;
-  smooth();
-  background(backgroundColor.h,backgroundColor.s,backgroundColor.b);
+    colorMode(RGB, 255, 255, 255, 1);
+    drawBoxBackground();
+    marqueeOne.draw();
+    marqueeTwo.draw();
+    marqueeOne.animate();
+    marqueeTwo.animate();
+    if(cardType)
+      drawBackground();
 
-  colorMode(RGB, 255, 255, 255, 1);
-  drawBoxBackground();
-  marqueeOne.draw();
-  marqueeTwo.draw();
-  marqueeOne.animate();
-  marqueeTwo.animate();
-  if(cardType)
-    drawBlink();
-
-  //drawBackground();
-
+  
 }
 
 function drawBackground() {
-  drawLineStroke();
+  //drawLineStroke();
+  moveLine((frameCount*10)%height, 3);
+  moveLine((frameCount+50)%(height+50) , 1);
+  moveLine((frameCount*frameCount/10)%(height+50), 10);
   drawRect();
 }
 function drawMarqueeBg(){
   const marqueeData = blockData.marquee;
 
   let alpha = 1;
+  
+  fill(marqueeData.color.r,marqueeData.color.g,marqueeData.color.b, alpha);
+  strokeWeight(blockData.stokeWeight);
+  stroke(marqueeData.strokeColor);
+  rect(marqueeData.x, marqueeData.y, marqueeData.width, marqueeData.height);
+
   if(notes.length!=0 && !cardType)
   {
     if(marqueeFlash.getState() == 0){
@@ -349,10 +394,6 @@ function drawMarqueeBg(){
     marqueeFlash.animation();
     alpha = 0;
   }
-  fill(marqueeData.color.r,marqueeData.color.g,marqueeData.color.b, alpha);
-  strokeWeight(blockData.stokeWeight);
-  stroke(marqueeData.strokeColor);
-  rect(marqueeData.x, marqueeData.y, marqueeData.width, marqueeData.height);
 }
 function drawBoxBackground() {
   stroke(255);
@@ -370,8 +411,20 @@ function drawTopBarBg(){
   let blockX = marqueeData.width;
 
   
-  let alpha = 1;
+  let alpha = 0;
   let labelAlpha = 1;
+  
+  topData.blocks.forEach( function(block, index) {
+    fill(topData.color.r,topData.color.g,topData.color.b, alpha);
+    strokeWeight(blockData.stokeWeight);
+    rect(blockX, topData.y, topData.width * block.width, topData.height);
+    if(index == 2){
+      fill(topData.labelColor)
+      rect(blockX, topData.height * 0.7, topData.width * block.width, topData.height * 0.3);
+    }
+    blockData.top.blocks[index].x = blockX;
+    blockX = blockX + topData.width * block.width;
+  });
   if(notes.length!=0 && !cardType)
   {
     //topGradient.draw();
@@ -386,22 +439,9 @@ function drawTopBarBg(){
       }        
     }
     topFlash.animation();
-    alpha = 0;
+    //alpha = 0;
     //labelAlpha = 1;
   }
-  
-  topData.blocks.forEach( function(block, index) {
-    fill(topData.color.r,topData.color.g,topData.color.b, alpha);
-    strokeWeight(blockData.stokeWeight);
-    rect(blockX, topData.y, topData.width * block.width, topData.height);
-    if(index == 2){
-      fill(topData.labelColor)
-      rect(blockX, topData.height * 0.7, topData.width * block.width, topData.height * 0.3);
-    }
-    blockData.top.blocks[index].x = blockX;
-    blockX = blockX + topData.width * block.width;
-  });
-
 
   fill(blockData.textColor);
   strokeWeight(0);
@@ -437,6 +477,18 @@ function drawMainBg(){
   const mainData = blockData.main
 
   let alpha = 1;
+
+
+
+  fill(mainData.color.r,mainData.color.g,mainData.color.b,alpha)
+  stroke(mainData.strokeColor);
+  strokeWeight(blockData.stokeWeight);
+  let marqueeX = blockData.marquee.width;
+  mainData.blocks.forEach( function(block, index) {
+    // statements
+    rect( marqueeX + block.x, block.y, block.width, block.height);
+  });
+
   if(notes.length != 0 && !cardType)
   {
 
@@ -462,18 +514,7 @@ function drawMainBg(){
     }
     mainFlashTop.animation();
     mainFlashBottom.animation();
-    alpha = 0;
   }
-
-
-  fill(mainData.color.r,mainData.color.g,mainData.color.b,alpha)
-  stroke(mainData.strokeColor);
-  strokeWeight(blockData.stokeWeight);
-  let marqueeX = blockData.marquee.width;
-  mainData.blocks.forEach( function(block, index) {
-    // statements
-    rect( marqueeX + block.x, block.y, block.width, block.height);
-  });
 
 
   fill(blockData.textColor);
@@ -488,7 +529,7 @@ function drawMainBg(){
   textAlign(LEFT, TOP);
   textWrap(CHAR);
   textLeading(mainTextSize * 1.1);
-  measureText();
+  
   text(notes, marqueeX + mainData.blocks[2].x + 20, mainData.blocks[2].y + 20, marqueeX + mainData.blocks[2].x  +  mainData.blocks[2].width - 150, mainData.blocks[2].y + mainData.blocks[2].height - 100 )
   textSize(70);
   text('。', bgW - 70, bgH - 70);
@@ -534,11 +575,15 @@ let currentLevel = 0;
 let currnTextWidth = 0;
 
 function measureText(){
+  let length = notes.length;
+  textSize(mainTextSize);
   currnTextWidth = textWidth(notes);
-  if(currnTextWidth > 750*lines[currentLevel] + 400){
+  if(currnTextWidth > 750*lines[currentLevel] + 200 && length > oldLength){
+    oldLength = notes.length
     currentLevel++;
     if(currentLevel>=9) currentLevel = 9;
-  }else if(currnTextWidth < 750*(lines[currentLevel])/2 + 1200){
+  }else if(currnTextWidth < 750*(lines[currentLevel])/2 + 200 && length < oldLength){
+    oldLength = notes.length
     currentLevel--;
     if(currentLevel<=0) currentLevel = 0;
   }
@@ -553,16 +598,25 @@ function drawNameBg() {
   let positionY,positionX;
 
   let alpha = 1;
+
+  fill(nameBlockData.color.r,nameBlockData.color.g,nameBlockData.color.b, alpha)
+  strokeWeight(blockData.stokeWeight);
+  nameBlockData.x = blockData.marquee.width;
+  positionY = mainBlockOne.y + mainBlockOne.height - nameBlockData.height;
+  positionX = nameBlockData.x + nameBlockData.width;
+  rect(nameBlockData.x , positionY, nameBlockData.width, nameBlockData.height);
+  rect(positionX, positionY, 200, nameBlockData.height);
+
   if(notes.length != 0 && !cardType)
   {
-    colorMode(HSB,360,100,100);
-    strokeWeight(blockData.stokeWeight);
-    fill(backgroundColor.h,backgroundColor.s,backgroundColor.b)
-    nameBlockData.x = blockData.marquee.width;
-    positionY = mainBlockOne.y + mainBlockOne.height - nameBlockData.height;
-    positionX = nameBlockData.x + nameBlockData.width;
-    rect(nameBlockData.x , positionY, nameBlockData.width, nameBlockData.height);
-    rect(positionX, positionY, 200, nameBlockData.height);
+    // colorMode(HSB,360,100,100);
+    // strokeWeight(blockData.stokeWeight);
+    // fill(backgroundColor.h,backgroundColor.s,backgroundColor.b)
+    // nameBlockData.x = blockData.marquee.width;
+    // positionY = mainBlockOne.y + mainBlockOne.height - nameBlockData.height;
+    // positionX = nameBlockData.x + nameBlockData.width;
+    // rect(nameBlockData.x , positionY, nameBlockData.width, nameBlockData.height);
+    // rect(positionX, positionY, 200, nameBlockData.height);
 
     if(nameFlash.getState() == 0){
       if(nameTimer.getState()){
@@ -578,14 +632,6 @@ function drawNameBg() {
 
     alpha = 0;
   }
-
-  fill(nameBlockData.color.r,nameBlockData.color.g,nameBlockData.color.b, alpha)
-  strokeWeight(blockData.stokeWeight);
-  nameBlockData.x = blockData.marquee.width;
-  positionY = mainBlockOne.y + mainBlockOne.height - nameBlockData.height;
-  positionX = nameBlockData.x + nameBlockData.width;
-  rect(nameBlockData.x , positionY, nameBlockData.width, nameBlockData.height);
-  rect(positionX, positionY, 200, nameBlockData.height);
 
   fill(blockData.textColor);
   strokeWeight(0);
@@ -604,6 +650,21 @@ function drawSynonymBg() {
   let positionY = blockData.top.height + blockData.main.blocks[0].height;
   let positionX;
   let alpha = 1;
+
+
+  fill(synonymData.color.r,synonymData.color.g,synonymData.color.b, alpha)
+  strokeWeight(blockData.stokeWeight);
+  positionX = blockData.marquee.width;
+  synonymData.blocks.forEach( function(block, index) {
+    // statements
+    let y = positionY;
+    if(index == 2) {y = y + block.height;}
+    synonymData.blocks[index].x = positionX;
+    synonymData.blocks[index].y = y;
+    rect(positionX, y, block.width, block.height);
+    if(index != 1) positionX = positionX + block.width
+  });
+
   if(notes.length != 0 && !cardType)
   {
     if(synonymFlash.getState() == 0){
@@ -619,21 +680,8 @@ function drawSynonymBg() {
       
     }
     synonymFlash.animation();
-    alpha = 0;
   }
 
-  fill(synonymData.color.r,synonymData.color.g,synonymData.color.b, alpha)
-  strokeWeight(blockData.stokeWeight);
-  positionX = blockData.marquee.width;
-  synonymData.blocks.forEach( function(block, index) {
-    // statements
-    let y = positionY;
-    if(index == 2) {y = y + block.height;}
-    synonymData.blocks[index].x = positionX;
-    synonymData.blocks[index].y = y;
-    rect(positionX, y, block.width, block.height);
-    if(index != 1) positionX = positionX + block.width
-  });
 
   fill(blockData.textColor)
   strokeWeight(0);
@@ -703,19 +751,36 @@ let columns;
 let rows;
 let rectList = [];
 function drawRect () {
-  let random_i = Math.floor(Math.random() * columns);
-  let random_j = Math.floor(Math.random() * rows);
-  let random_time = Math.floor(Math.random() * 5) * 150;
-  let newArray = [random_i,random_j]
-  rectList.push(newArray);
-  for(let i = 0; i < rectList.length; i++){
-    fill(255);
-    rect(rectList[i][0] * w, rectList[i][1] * h, w - 1, h - 1);
-  }
+
+    for(let i = 0; i < blinkArr.length; i++){
+      colorMode(RGB);
+      drawingContext.shadowBlur = 50;
+      drawingContext.shadowColor = color(255);
+      fill(255,blinkArr[i][4]);
+      rect(blinkArr[i][0] , blinkArr[i][1], blinkArr[i][2], blinkArr[i][3]);
+    }
+} 
+function setTimeGap(){
+  let time = getRandom(500,600);
+  let num = getRandom(1, 4);
   setTimeout(function () {
-    rectList.shift();
-  },random_time);
+      for(let i = 0; i < num; i++){
+        let index = getRandom(0, 14);
+        let alpha = Math.random(0,1);
+        alpha = alpha > 0.5 ? 0 : 0.3;
+        blinkArr[index][4] = alpha;
+
+        setTimeout(function() {
+          blinkArr[index][4] = 0;
+        },getRandom(500,1000))
+      }
+      setTimeGap();
+  },time);
 }
+
+function getRandom(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+};
 function drawLineStroke (){
   w = 20;
   h = 60;
@@ -734,7 +799,7 @@ function drawLineStroke (){
 function randomRect () {
   let random_i = Math.floor(Math.random() * columns);
   let random_j = Math.floor(Math.random() * rows);
-  let random_time = Math.floor(Math.random() * 5) * 150;
+  let random_time = Math.floor(Math.random() * 5) * 1500;
   setTimeout(function () {
     fill(255);
     rect(random_i * w, random_j * h, w - 1, h - 1);
@@ -743,11 +808,11 @@ function randomRect () {
 function randomFun() {
   let random_i = Math.floor(Math.random() * columns);
   let random_j = Math.floor(Math.random() * rows);
-  let random_time = Math.floor(Math.random() * 5) * 150;
-  fill(255);
-  rect(random_i * w, random_j * h, w - 1, h - 1);
+  let random_time = random(50, 200);
   setTimeout(function () {
-    fill(0);
+    fill(255);
+    drawingContext.shadowBlur = 50;
+    drawingContext.shadowColor = color(255);
     rect(random_i * w, random_j * h, w - 1, h - 1);
   }, random_time);
 }
@@ -808,9 +873,6 @@ function drawBlink() {
     tiempoInicio = millis();
     tiempoEspera = random(200, 1500);
   }
-  moveLine((frameCount*10)%height, 3);
-  moveLine((frameCount+50)%(height+50) , 1);
-  moveLine((frameCount*frameCount/10)%(height+50), 10);
 }
 
 
@@ -831,6 +893,85 @@ function moveLine(posY, h){
   rect(blockData.marquee.width, posY, width, h);
 }
 
+function HSVtoRGB(h, s, v) {
+    var r, g, b, i, f, p, q, t;
+    if (arguments.length === 1) {
+        s = h.s, v = h.v, h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+
+function setBlinkData (){
+    const topData = blockData.top;
+    const marqueeData = blockData.marquee;
+    let blockX = marqueeData.width;
+    const mainData = blockData.main
+    let marqueeX = blockData.marquee.width;
+    // main block blink
+    mainData.blocks.forEach( function(block, index) {
+      blinkArr.push([marqueeX + block.x,block.y,block.width,block.height, 0])
+    });
 
 
+    // top blink
+    topData.blocks.forEach( function(block, index) {
+      blinkArr.push([blockX,topData.y,topData.width * block.width,topData.height, 0]);
+      if(index == 2){
+        blinkArr.push([blockX, topData.height * 0.7, topData.width * block.width, topData.height * 0.3, 0]);
+      }
+      blockData.top.blocks[index].x = blockX;
+      blockX = blockX + topData.width * block.width;
+    });
+
+    // synonym blink
+    let synonymData = blockData.synonym
+    let positionY = blockData.top.height + blockData.main.blocks[0].height;
+    let positionX;
+    positionX = blockData.marquee.width;
+    synonymData.blocks.forEach( function(block, index) {
+      // statements
+      let y = positionY;
+      if(index == 2) {y = y + block.height;}
+      synonymData.blocks[index].x = positionX;
+      synonymData.blocks[index].y = y;
+      blinkArr.push([positionX, y, block.width, block.height, 0] );
+      
+      if(index != 1) positionX = positionX + block.width
+    });
+
+    //
+    let nameBlockData = blockData.name
+    let mainBlockOne = blockData.main.blocks[0]
+    let positionY1,positionX1;
+
+    let alpha = 1;
+
+    fill(nameBlockData.color.r,nameBlockData.color.g,nameBlockData.color.b, alpha)
+    strokeWeight(blockData.stokeWeight);
+    nameBlockData.x = blockData.marquee.width;
+    positionY1 = mainBlockOne.y + mainBlockOne.height - nameBlockData.height;
+    positionX1 = nameBlockData.x + nameBlockData.width;
+    blinkArr.push([ nameBlockData.x, positionY1, nameBlockData.width, nameBlockData.height, 0]);
+    blinkArr.push([ positionX1, positionY1, 200, nameBlockData.height, 0])
+  
+
+    blinkArr.push([ marqueeData.x, marqueeData.y, marqueeData.width, marqueeData.height, 0 ])
+}
 
