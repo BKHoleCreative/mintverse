@@ -1,0 +1,80 @@
+:root {
+  --main-color: #FF4D00;
+}
+
+*{
+	font-family: 'Noto Sans TC', sans-serif;
+	color: #FF4D00;
+}
+
+#app{
+	background-color: black;
+	min-height: 100vh;
+	position: relative;
+	/*overflow: hidden;*/
+}
+
+
+.intro{
+	/*display: flex;*/
+	overflow-y: hidden;
+}
+.intro::after{
+	content: 	clear: both;
+	display: block;
+}
+.intro .marqueeVerical{
+	border-right: 1px solid var(--main-color);
+	padding: 5px;
+	width: 9%;
+	overflow: hidden;
+	box-sizing: border-box;
+	float: left;
+	box-sizing: border-box;
+	max-width: 59px;
+}
+.intro .marqueeVerical img {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.declaration {
+	font-size: 49px;
+	font-weight: bold;
+	padding: 15px 10px 15px 15px;
+	line-height: 1.2;
+	width: 91%;
+	box-sizing: border-box;
+	float: left;
+}
+footer{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+@media (min-width: 768px){
+	.intro{
+		display: flex;
+	}
+	.declaration{
+		font-size: 68px;
+	}
+	footer{
+		position:relative;
+	}
+}
+@media (min-width: 900px){
+	.declaration{
+		font-size: 79px;
+	}
+}
+@media (min-width: 1200px){
+	.declaration{
+		font-size: 92px;
+	}
+}
+@media (min-width: 1400px){
+	.declaration{
+		font-size: 109px;
+	}
+}
