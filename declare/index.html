@@ -18,7 +18,9 @@
 	<div id="app">
 		<header>
 			<div class="logo">
-				<img src="../image/logo.svg" alt="">
+				<img src="../image/mintve.svg" alt="">
+				<img src="../image/r.svg" alt="">
+				<img src="../image/se.svg" alt="">
 			</div>
 			<div class="menu-container">
 				<div class="marquee" data-duplicated='true' data-direction='right'>
@@ -39,11 +41,11 @@
 				</div>
 				<div class="menu">
 					<ul>
-					  <li class="active">宣言</li>
-					  <li>文獻</li>
-					  <li>鑄造</li>
-					  <li>證明</li>
-					  <li>ERC-721A</li>
+					  	<li class="active">宣言</li>
+					 	<li><span>文獻</span></li>
+					  	<li><span>鑄造</span></li>
+					  	<li><span>證明</span></li>
+					  	<li><span>ERC-721A</span></li>
 					</ul>
 				</div>
 			</div>
@@ -111,7 +113,11 @@
 			<div class="arrow">
 				<img src="../image/arrow.png" alt="">
 			</div>
-			<p class="mintDescript" ><span>5/5 免費鑄造</span><span>FREEMINT</span></p>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
 			<div class="mint-container">
 				<div class="mint">
 					<label for="">鑄造</label>
@@ -124,13 +130,13 @@
 			</div>
 			<div class="social-container">
 				<ul>
-					<li>
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
 						<img src="../image/fb.svg" alt="">
 					</li>
-					<li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
 						<img src="../image/ig.svg" alt="">
 					</li>
-					<li>
+					<li data-target="https://discord.gg/rugpullfrens">
 						<img src="../image/dc.svg" alt="">
 					</li>
 					<li>
@@ -146,6 +152,32 @@
 			$('.menu-container .marquee').marquee({
 				duplicated: true,
 				gap:0,
+				delayBeforeStart:1000
+			});
+			setTimeout(function(){
+				$('.menu-container .marquee .container').css('opacity', '1');
+			},1000)
+
+			$('.menu li').click(function(event) {
+				/* Act on the event */
+				if(event.currentTarget.attributes.length!=0){
+					if(event.currentTarget.attributes[0].value != 'active'){
+						location.href = event.currentTarget.attributes[0].value;
+					}
+				}
+			});
+			$('.social-container ul li').click(function(event) {
+				/* Act on the event */
+				if(event.currentTarget.attributes.length!=0){
+					if(event.currentTarget.attributes[0].value != 'active'){
+						location.href = event.currentTarget.attributes[0].value;
+					}
+				}
+			});
+			$('.logo').on('click',function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/';
 			});
 		})
 	</script>

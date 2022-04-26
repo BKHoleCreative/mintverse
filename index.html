@@ -17,10 +17,12 @@
 <body>
 	<div id="app">
 		<header>
-			<div class="logo">
-				<img src="image/logo.svg" alt="">
-			</div>
-			<div class="menu-container">
+				<div class="logo">
+					<img src="../image/mintve.svg" alt="">
+					<img src="../image/r.svg" alt="">
+					<img src="../image/se.svg" alt="">
+				</div>
+				<div class="menu-container">
 				<div class="marquee" data-duplicated='true' data-direction='right'>
 					<div class="container">
 						<div class="item">
@@ -40,10 +42,10 @@
 				<div class="menu">
 					<ul>
 					  <li data-target="/declare">宣言</li>
-					  <li>文獻</li>
-					  <li>鑄造</li>
-					  <li>證明</li>
-					  <li>ERC-721A</li>
+					  <li><span>文獻</span></li>
+					  	<li><span>鑄造</span></li>
+					  	<li><span>證明</span></li>
+					  	<li><span>ERC-721A</span></li>
 					</ul>
 				</div>
 			</div>
@@ -54,16 +56,55 @@
 					<img src="image/logoMarquee.svg" alt=""> 
 					<img src="image/logoMarquee.svg" alt="">
 				</div>	
-				<div class="declaration">
-					每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。
-				</div>
+				<!-- <div class="declarationContainer"> -->
+					<div class="declaration">
+						每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。
+					</div>
+<!-- 					<footer>
+						<div class="arrow">
+							<img src="image/arrow.png" alt="">
+						</div>
+						<p class="mintDescript" ><span>5/5 免費鑄造</span><span>FREEMINT</span></p>
+						<div class="mint-container">
+							<div class="mint">
+								<label for="">鑄造</label>
+								<p>0000</p>
+							</div>
+							<div class="total">
+								<label for="">總量</label>
+								<p>2100</p>
+							</div>
+						</div>
+						<div class="social-container">
+							<ul>
+								<li>
+									<img src="image/fb.svg" alt="">
+								</li>
+								<li>
+									<img src="image/ig.svg" alt="">
+								</li>
+								<li>
+									<img src="image/dc.svg" alt="">
+								</li>
+								<li>
+									<img src="image/os.svg" alt="">
+								</li>
+							</ul>
+						</div>
+						<p class="law">法律聲明</p>
+					</footer> -->
+				<!-- </div> -->
 			</div>
 		</section>
 		<footer>
 			<div class="arrow">
 				<img src="image/arrow.png" alt="">
 			</div>
-			<p class="mintDescript" ><span>5/5 免費鑄造</span><span>FREEMINT</span></p>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
 			<div class="mint-container">
 				<div class="mint">
 					<label for="">鑄造</label>
@@ -76,17 +117,17 @@
 			</div>
 			<div class="social-container">
 				<ul>
-					<li>
-						<img src="image/fb.svg" alt="">
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
+						<img src="../image/fb.svg" alt="">
+					</li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
+						<img src="../image/ig.svg" alt="">
+					</li>
+					<li data-target="https://discord.gg/rugpullfrens">
+						<img src="../image/dc.svg" alt="">
 					</li>
 					<li>
-						<img src="image/ig.svg" alt="">
-					</li>
-					<li>
-						<img src="image/dc.svg" alt="">
-					</li>
-					<li>
-						<img src="image/os.svg" alt="">
+						<img src="../image/os.svg" alt="">
 					</li>
 				</ul>
 			</div>
@@ -95,51 +136,94 @@
 	</div>
 	<script>
 		$(document).ready(function() {
-			setMarqueeInit();
+			let declarationH = 0;
+			let appH = 0;
+			setMarqueeInit('init');
 			$('.menu-container .marquee').marquee({
 				duplicated: true,
 				gap:0,
+				delayBeforeStart:1000
 			});
-			$('.marqueeVerical').marquee({
-				duplicated: true,
-				gap:0,
-				direction: 'down'
-			})
+			setTimeout(function(){
+				setMarqueeInit('init');
+				$('.marqueeVerical').marquee({
+					duplicated: true,
+					gap:0,
+					direction: 'down',
+					delayBeforeStart:500
+				})
+			},500);
+			setTimeout(function(){
+				$('.intro .marqueeVerical img').css('opacity', '1');
+				$('.menu-container .marquee .container').css('opacity', '1');
+			},1000)
 			$( window ).resize(function() {
 				/* Act on the event */
+				console.log('resize')
 				setMarqueeInit();
+			});
+			$('.logo').on('click',function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/';
 			});
 			$('.menu li').click(function(event) {
 				/* Act on the event */
-				
-				if(event.currentTarget.attributes[0].value){
-					location.href = event.currentTarget.attributes[0].value;
+				if(event.currentTarget.attributes.length!=0){
+					if(event.currentTarget.attributes[0].value != 'active'){
+						location.href = event.currentTarget.attributes[0].value;
+					}
 				}
 			});
-			function setMarqueeInit(){
-				let appH = $('#app').height();
+			$('.social-container ul li').click(function(event) {
+				/* Act on the event */
+				console.log(event)
+				if(event.currentTarget.attributes.length!=0){
+					if(event.currentTarget.attributes[0].value != 'active'){
+						location.href = event.currentTarget.attributes[0].value;
+					}
+				}
+			});
+			function setMarqueeInit(status){
+				let newAppH = $('body').height();
 				let appW = $('#app').width();
 				let headerH = $('header').height();
 				let footerH = $('footer').height();
-				let declarationH = $('.declaration').outerHeight();
+				let newDeclarationH = $('.declaration').outerHeight();
 				let marqueeW = $('.marqueeVerical').outerWidth();
 				let offset;
-				if( appH > headerH + footerH + declarationH ) {
-					// if(appW < 768){
-						offset = appH - (headerH + footerH + declarationH);
-					//}
-				} else {
-					offset = 10;
-				}
-				if(appW < 768){
-					$('.marqueeVerical').height(footerH + declarationH + offset);
-					$('.intro').height(footerH + declarationH + offset);
-					$('footer').css({
-						'padding-left':marqueeW - 1 +'px'
-					})
-				}else{
-					$('.marqueeVerical').height( declarationH + offset);
-					$('.intro').height( declarationH + offset);
+				console.log('appH',newAppH);
+				console.log('headerH',headerH);
+				console.log('footerH',footerH);
+				console.log('newDeclarationH',newDeclarationH);
+				console.log('declarationH',declarationH);
+				if(newAppH != appH || newDeclarationH != declarationH || status == 'init'){
+					if( newAppH > headerH + footerH + declarationH ) {
+						offset = newAppH - (headerH + footerH + newDeclarationH);
+					} else {
+
+						if(appW < 768){
+							offset = 20;
+						}else {
+							offset = 150;
+						}
+						
+					}
+					if(appW < 768){
+						$('.marqueeVerical').height(footerH + newDeclarationH + offset);
+						$('.intro').height(footerH + newDeclarationH + offset);
+						$('footer').css({
+							'padding-left':marqueeW - 1 +'px'
+						})
+					}else{
+						$('.marqueeVerical').height( newDeclarationH + offset);
+						$('.intro').height( newDeclarationH + offset);
+						$('footer').css({
+							'padding-left':'0px'
+						})
+					}
+					declarationH = newDeclarationH;
+					appH = newAppH;
 				}
 			}
 		});			
