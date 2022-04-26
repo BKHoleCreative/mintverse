@@ -36,6 +36,7 @@ footer{
 }
 .arrow{
 	display: none;
+	align-items: center;
 }
 .mint-container div{
 	display: flex;
@@ -100,13 +101,13 @@ footer{
 }
 @keyframes runRight{
     0%{
-        transform: translate(0,-50%);
+        transform: translateX(0);
     }
     50%{
-        transform: translate(10%,-50%);
+        transform: translate(10%);
     }
     100%{
-        transform: translate(-1%,-50%);
+        transform: translate(-1%);
     }
 }
 
@@ -126,7 +127,7 @@ footer{
 }
 @media (min-width: 576px) {
 	.arrow{
-		display: block;
+		display: flex;
 		width: 22%;
 		border-top: 1px solid var(--main-color);
 		border-bottom: 1px solid var(--main-color);
@@ -138,6 +139,7 @@ footer{
 		margin: 0 auto;
 		top: 50%;
 		transform: translateY(-50%);
+
 	}
 	.mintDescript{
 		width: 43%;
