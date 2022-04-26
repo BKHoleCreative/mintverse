@@ -36,6 +36,8 @@ footer{
 }
 .arrow{
 	display: none;
+	display: flex;
+	align-items: center;
 }
 .mint-container div{
 	display: flex;
@@ -138,6 +140,7 @@ footer{
 		margin: 0 auto;
 		top: 50%;
 		transform: translateY(-50%);
+
 	}
 	.mintDescript{
 		width: 43%;
