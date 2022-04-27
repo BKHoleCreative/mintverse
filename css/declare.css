@@ -91,10 +91,17 @@
 .crew ul li{
 	font-weight: bold;
 	color: #fff;
-	font-size: 18px;
-	margin-bottom: 30px;
+	font-size: 12px;
+	margin-bottom: 1.5em;
 }
-.crew ul:nth-of-type(2) li:nth-last-of-type(3){
+.crew ul li:nth-of-type(1),.crew ul:nth-of-type(2) li:nth-last-of-type(3){
+	color: var(--main-color);
+	font-size: 16px;
+}
+.crew ul:nth-of-type(2) li:nth-last-of-type(4){
+	margin-bottom: 80px;
+}
+.crew ul:nth-of-type(1){
 	margin-bottom: 80px;
 }
 .crew li:nth-last-of-type(2){
@@ -115,6 +122,12 @@
 	}
 	.crewList{
 		max-width: 576px;
+	}
+	.crew ul li:nth-of-type(1),.crew ul:nth-of-type(2) li:nth-last-of-type(3){
+		font-size: 20px;
+	}
+	.crew ul li{
+		font-size: 16px;
 	}
 }
 @media (min-width: 768px){
@@ -150,8 +163,14 @@
 		.crewList ul{
 			width: 50%;
 		}
+		.crew ul li:nth-of-type(1), .crew ul:nth-of-type(2) li:nth-last-of-type(3){
+			font-size: 18px;
+		}
+		.crewList ul:nth-of-type(2){
+			padding-left: 0;
+		}
 		.crew ul li{
-			font-size:20px; 
+			font-size:15px; 
 		}
 }
 @media (min-width: 1200px){
@@ -183,11 +202,19 @@
 	}
 	.author ul{
 		max-width: 921px;
+		justify-content: space-between;
+		padding: 0;
 	}
 	.crewList{
 		max-width: 921px;
 	}
+	.crew ul{
+		padding-left: 40px;
+	}
 	.crew ul li{
+		font-size: 20px;
+	}
+	.crew ul li:nth-of-type(1), .crew ul:nth-of-type(2) li:nth-last-of-type(3){
 		font-size: 23px;
 	}
 }
@@ -223,5 +250,11 @@
 	}
 	.crewList{
 		max-width: 997px;
+	}
+	.crew ul li{
+		font-size: 23px;
+	}
+	.crew ul li:nth-of-type(1), .crew ul:nth-of-type(2) li:nth-last-of-type(3){
+		font-size: 26px;
 	}
 }
