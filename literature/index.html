@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
+	<title>Mintverse</title>
+	<meta property="og:image" content="../cover.png"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/_reset.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/literature.css">
+	<link rel="stylesheet" href="../css/article.css">
+	<script src="../js/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<header>
+			<div class="logo">
+				<img src="../image/mintve.svg" alt="">
+				<img src="../image/r.svg" alt="">
+				<img src="../image/se.svg" alt="">
+			</div>
+			<div class="menu-container">
+				<div class="marquee" data-duplicated='true' data-direction='right'>
+					<div class="container">
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="menu">
+					<ul>
+					  	<li>宣言</li>
+					 	<li class="active">文獻</li>
+					  	<li><span>鑄造</span></li>
+					  	<li><span>證明</span></li>
+					  	<li><span>ERC-721A</span></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<section class="literature">
+			<div class="cardContainer">
+			</div>
+		</section>
+		<section class="article">
+			<div class="back"><img src="../image/back.svg" alt=""> 返回</div>
+			<h1 class="title"></h1>
+			<h3 class="author"></h3>
+			<button><img src="../image/back_orange.svg" alt="">其他的可能宇宙</button>
+			<div class="content"></div>
+			<div class="goTop"><img src="../image/back.svg" alt="">TOP</div>
+		</section>
+		<footer>
+			<div class="arrow">
+				<img src="../image/arrow.png" alt="">
+			</div>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
+			<div class="mint-container">
+				<div class="mint">
+					<label for="">鑄造</label>
+					<p>0000</p>
+				</div>
+				<div class="total">
+					<label for="">總量</label>
+					<p>2100</p>
+				</div>
+			</div>
+			<div class="social-container">
+				<ul>
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
+						<img src="../image/fb.svg" alt="">
+					</li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
+						<img src="../image/ig.svg" alt="">
+					</li>
+					<li data-target="https://discord.gg/rugpullfrens">
+						<img src="../image/dc.svg" alt="">
+					</li>
+					<li>
+						<img src="../image/os.svg" alt="">
+					</li>
+				</ul>
+			</div>
+			<p class="law">第二宇宙世界觀</p>
+		</footer>
+	</div>
+	<script>
+		$(document).ready(function() {
+			let data = [
+				{
+					title:'垃圾夢',
+					author:'甘耀明',
+					persent:100,
+					article: '男人不知道挖掘了多久，也許半輩子，用時間度量無用。挖掘區是人類垃圾堆，堆積的廢棄物在長年堆積與壓力下，形成堅硬密度的物質層，努力建造的文明與文化在此坍陷濃縮。無數的挖掘客在裡鑽出通道，處處是焦黑、沼氣與死亡，這是地底的陰鬱之城，要活下去得繼續挖，尋找堪用物資。男人不知道自己歲數，時間是無用，也無須擔心死亡。有伴才是好的。他撿到兩個小跟班，一個是小男孩，還有一隻羊駝。如果撿到鯨魚更好，聽說這種大魚很容易遇到，養起來也很容易。這誘惑令他不斷挖掘，如果多幾個伴，人生不再是無聊的悲劇了。時間無用，有用的是貴重金屬或食物。男人隨後挖到一個嗡嗡叫的冰箱，彷彿說「快打開我、快我開我」，打開後傾巢湧出上千隻蟑螂，他們連忙拍死了十幾隻，並燃燒瀝青煮罐頭，放入新鮮蟑螂，摻入豆芽、薤白與紅豆。長久在陰暗隧道工作，非常適合邊挖邊孵豆芽。他今天還在罐頭菜加了換來的芋頭乾。種芋頭要水，那麼珍貴的東西竟然拿來呵護這種植物，他沒看過活生生的芋頭，甚至忘了乾淨的水聲是如何鳴唱。他們的用水取自羊駝尿，牠能吸收空氣水分，製造尿水。萬能製水機。聞燃燒的瀝青有種麻醉效果，一種微微吸毒的恍惚，萌生幸福與和平感，像回到家。燒瀝青的微弱光源，照亮男孩，只有這時候才能看見他稚嫩臉龐上的大腫瘤，將五官撐開成遠距離的廢棄品。',
+					text:'男人'
+				},
+				{
+					title:'島族風聲',
+					author:'朱宥勳',
+					persent:80,
+				},
+				{
+					title:'島族風聲',
+					author:'朱宥勳',
+					persent:50,
+				},
+				{
+					title:'島族風聲',
+					author:'朱宥勳',
+					persent:80,
+				},
+			]
+			let article = null;
+			const SearchURL = new URL(window.location.href);
+			let params = SearchURL.searchParams;
+			if(params.has('article')){
+				$('.literature').hide();
+				$('.article').show();
+				article = params.get('article');
+				$('#app').addClass('articlePage')
+				renderArticle();
+			}else{
+				$('.literature').show();
+				$('.article').hide();
+			}
+			$('.menu-container .marquee').marquee({
+				duplicated: true,
+				gap:0,
+				delayBeforeStart:1000
+			});
+			setTimeout(function(){
+				$('.menu-container .marquee .container').css('opacity', '1');
+			},1000)
+
+			function renderArticle(){
+				$('.article .title').append(data[article].title);
+				$('.article .author').append('作家'+' '+data[article].author);
+				$('.article .content').append(data[article].article);
+			}
+			data.sort(function(a, b) {
+			    return b.persent - a.persent;
+			});
+			data.forEach( function(item, index){
+				let persent = item.persent < 100 ? `${item.persent}%` : '解鎖完成'
+				$('.cardContainer').append(`<div class="card"><div class="info"><h3>${item.title}</h3><p>作家 ${item.author}</p></div><h2>${persent}</h2></div>`)
+				if(persent.includes('%')){
+					$('.card').eq(index) .addClass('lock');
+				}
+			})
+			$('.card').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				let index = $( ".card" ).index( this );
+				if(data[index].persent != 100) return;
+				location.href = location.href + '?article=' + index
+			});
+			$('.back').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/literature'
+			});
+			$('.goTop').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				$('html, body').animate({scrollTop : 0},800);
+				return false;
+			});
+		})
+	</script>
+</body>
+</html>

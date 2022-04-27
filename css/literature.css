@@ -1,0 +1,124 @@
+:root {
+  --main-color: #FF4D00;
+}
+
+*{
+	font-family: 'Noto Sans TC', sans-serif;
+	color: #FF4D00;
+}
+#app{
+	background-color: black;
+	min-height: 100vh;
+	position: relative;
+	font-size: 0;
+	/*overflow: hidden;*/
+}
+
+.literature{
+		min-height: 30vh;
+}
+.cardContainer{
+		padding: 80px 20px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		max-width: 375px;
+		margin: 0 auto;
+}
+.cardContainer .card.lock{
+	opacity: 0.3;
+}
+.cardContainer .card{
+	border: 1px solid var(--main-color);
+	text-align: center;
+	width: 46%;
+	margin-bottom: 30px;
+	background-color: var(--main-color);
+	position: relative;
+}
+.cardContainer .card.lock:before{
+	content: '';
+	background-image: url(../image/lock.svg);
+	background-size: cover;
+	display: inline-block;
+	width: 13px;
+	padding-bottom: 10%;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+.cardContainer .info{
+	color: var(--main-color);
+	padding:20px 0;
+	background-color: black;
+}
+.cardContainer .info h3{
+	font-size: 21px;
+	margin-bottom: 20px;
+	font-weight: bold;
+	color: var(--main-color);
+}
+.cardContainer .info p{
+	font-size: 16px;
+	color: var(--main-color);
+}
+.cardContainer h2{
+	font-size: 30px;
+	text-align: center;
+	background-color: var(--main-color);
+	color: #fff;
+	font-weight: bold;
+	line-height: 72px;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.cardContainer .card.lock h2{
+	font-size: 42px;
+}
+
+@media (min-width: 576px){
+	.cardContainer{
+		max-width: 610px;
+	}
+	.cardContainer .card{
+		width: 158px;
+	}
+}
+@media (min-width: 768px){
+	.cardContainer{
+		max-width: 690px;
+	}
+	footer{
+		position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	}
+	.articlePage footer{
+		position: relative;
+	}
+}
+@media (min-width: 1200px){
+	.cardContainer{
+		max-width: 945px;
+	}
+	.cardContainer .card{
+		width: 171px;
+	}
+	.cardContainer .info{
+		padding: 30px 0; 
+	}
+	.cardContainer .info h3{
+		font-size: 24px;
+	}
+	.cardContainer .info p{
+		font-size: 18px;
+	}
+	.cardContainer .card h2{
+		font-size: 32px;
+		height: 79px;
+	}
+	.cardContainer .card.lock h2{
+		font-size: 46px;
+	}
+}
