@@ -24,6 +24,14 @@ body{
 		margin: 0 auto;
 		flex-grow: 1;
 		flex-grow: 1;
+		padding: 80px 20px;
+}
+.literature h3{
+	font-size: 22px;
+	font-weight: bold;
+	line-height: 1.4em;
+	max-width: 465px;
+	margin: 0 auto;
 }
 .cardContainer{
 		padding: 80px 20px;
@@ -113,6 +121,9 @@ body{
 }
 
 @media (min-width: 768px){
+	.literature h3{
+			max-width: 626px;
+	}
 	.cardContainer{
 		max-width: 586px;
 	}
@@ -154,6 +165,10 @@ body{
 	}
 }
 @media (min-width: 1200px){
+	.literature h3{
+			max-width: 830px;
+			font-size: 24px;
+	}
 	.cardContainer{
 		max-width: 790px;
 	}
@@ -186,6 +201,9 @@ body{
 @media (min-width: 1440px){
 	.cardContainer{
 		max-width: 1020px;
+	}
+	.literature h3{
+		max-width: 1023px;
 	}
 	.cardContainer .card:nth-of-type(2n), .cardContainer .card:nth-of-type(3n), .cardContainer .card:nth-of-type(4n){
 		margin-right: 30px;
