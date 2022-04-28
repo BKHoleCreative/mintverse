@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mintverse</title>
+	<meta name="description" content="每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。"/>
+	<meta property="og:title" content="Mintverse" />
+	<meta property="og:description" content="每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。" />
+	<meta property="og:image" content="../cover.png"/>
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/_reset.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/secondworld.css">
+	<script src="../js/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<header>
+			<div class="logo">
+				<img src="../image/mintve.svg" alt="">
+				<img src="../image/r.svg" alt="">
+				<img src="../image/se.svg" alt="">
+			</div>
+			<div class="menu-container">
+				<div class="marquee" data-duplicated='true' data-direction='right'>
+					<div class="container">
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="menu">
+					<ul>
+					  	<li data-target="/declare">宣言</li>
+					  	<li data-target="/literature">文獻</li>
+					  	<li><span>鑄造</span></li>
+					  	<li><span>證明</span></li>
+					  	<li><span>ERC-721A</span></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<section class="intro">
+			<h1>一開始，是臻於極致的數位科技淘汰了所有紙本文件。接下來，是幻美無邊的虛擬實境取代了一切文字表達。最終，是一場以電磁為武器的戰爭，銷毀了僅存於數位檔案庫當中的一切文學作品。<br><br>戰前的舊世界留給我們的，是一個沒有文學的文明。<br><br>戰後的我們成立了一支研究團隊，本著對文學的信仰，窮盡一切手段，在廢墟的電子殘骸中，復原了這最後僅存的十篇文獻檔案。<br><br>雖然能夠辨識文字，但這些文獻中的詞彙的意義盡皆散佚，為了讀懂人類曾有的文學作品，研究團隊將2100個未知的詞彙條列，並徵召「鑄造小組」，編寫《第二宇宙辭典》，使文明悠然復活——</h1>
+		</section>
+		<h1 class="title">鑄造機制說明</h1>
+		<section class="foundrule">
+			<h3>本小組的成立宗旨：共同鑄造第一本元宇宙辭典，以保存人類多樣性的文學與文明。為了共同達到目標，以下是有關本次計畫的相關機制說明，請各位詳細閱讀：</h3>
+			<h3><span>文獻</span><br>由 10 位造世者（作家）記錄第二宇宙文明的文學作品，由於無法理解其中意涵，需要鑄造小組來解釋每個詞彙。當每篇文獻中的詞彙超過 80% 被定義，該文獻將解鎖，讓人們開啟與解讀。</h3>
+			<h3><span>詞彙</span><br>詞彙以 NFT 的形式存在，總量 2100 個，全數以 FREEMINT 形式邀請大家鑄造定義，詞彙大部分是從 10 位造世者（作家）的 10 篇文獻（極短篇小說）中抽取出來，每個詞彙皆是獨一無二、永不重複。</h3>
+			<h3>詞彙可以定義的內容有四項：「<span>鑄造者、詞性、同義詞、註釋</span>」，鑄造者可以在鑄造專區進行定義，定義後的文字將會永久儲存於以太鏈上，也就是說，任何擁有詞彙者，都將掌握該詞彙的話語權。</h3>
+			<h3>請注意，所有詞彙都需要存檔於以太鏈上，因此每次的定義都需要 gas fee ，請各位務必確認定義後再送出。</h3>
+			<h3>所有詞彙皆可以交易轉手，當你認為有更適合的鑄造人選時，可透過 OpenSea 等平台將詞彙交易給下一位鑄造者。</h3>
+			<h3>可以預料的是，某些詞彙將會成為人們爭奪的標的，然而詞彙真正的價值，取決於各位定義的內容。</h3>
+			<h3><span>灰燼</span><br>為了找尋適合的鑄造人選，新鑄造的詞彙若在 42 小時內沒有被定義鑄造，該詞彙將會「死亡」，失去定義的功能。死亡後，將會出現一個灰燼 NFT，留給各位紀念。同時該詞彙將重生於 FREEMINT 區域，其他人將可以重新鑄造。</h3>
+			<h3>一但經過定義的詞彙，將獲得永生，不論是否有被交易，只要你有更好的想法，皆可以無限次地重複定義鑄造。對鑄造小組而言，隨著時間的流變，鑄造者的輪替，詞彙的定義將沒有「定版」的一天。</h3>
+			<h3>鑄造小組將會保留特定詞彙、辭典給各領域專家，藉由他們的專業進行定義鑄造，來提升整體辭典的品質。</h3>
+			<h3><span>辭典</span><br>辭典以 NFT 的形式存在，總量 210 本，鑄造價格 0.15 Eth。辭典將收錄「10 篇文獻（極短篇小說）＋2100 個詞彙」，當詞彙定義修改時，辭典會自動更新成最新定義。各位也可以從 OpenSea 上直接翻頁、閱讀最新的詞彙進度。</h3>
+			<h3>為了不再犯下當年的錯誤，辭典除了數位 NFT 之外，當 2100 個詞彙被定義完成後，鑄造小組將會將其打造成「實體辭典」，並交由 210 位辭典鑄造者為人類共同保存。</h3>
+		</section>
+		<h1 class="title">鑄造流程說明</h1>
+		<section class="foundprocess">
+			<h3>我們將於 5/5 開放第一波擁有白名單的成員進行鑄造，並於 5/9 隨機配發詞彙，請各位準備好你的鍵盤與想像力，一起鑄造人類文字的歷史。</h3>
+			<h3>鑄造步驟說明：參與本次計畫，你需準備「Metamask狐狸錢包」及 0.03 Eth 以上的以太幣。</h3>
+			<!-- <div class="imgWrap">
+				<img src="../image/process.svg" alt="">
+				<img src="../image/process1.svg" alt="">
+			</div> -->
+			<h3>1.連結狐狸錢包，點擊 FREEMINT</h3>
+			<img src="../image/step1.svg" alt="">
+			<h3>2. 選擇 FREEMINT 外是否加購收藏辭典。</h3>
+			<img src="../image/step2.svg" alt="">
+			<h3>3. 至鑄造頁面看抽到哪個詞彙，並填入「<span>鑄造者、詞性、同義詞、註釋</span>」定義。</h3>
+			<img src="../image/step3.svg" alt="">
+			<h3>4. 點擊 MINT 鑄造定義後，詞彙 NFT 將正式完成定義，你可以在OpenSea上看到所有詞彙最新的定義。</h3>
+			<img src="../image/step4.svg" alt="">
+			<h3>5. 如果想要修改詞彙，將可以回到步驟 3 的鑄造頁面編寫新的定義。</h3>
+		</section>
+		<footer>
+			<div class="arrow">
+				<img src="../image/arrow.png" alt="">
+			</div>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
+			<div class="mint-container">
+				<div class="mint">
+					<label for="">鑄造</label>
+					<p>0000</p>
+				</div>
+				<div class="total">
+					<label for="">總量</label>
+					<p>2100</p>
+				</div>
+			</div>
+			<div class="social-container">
+				<ul>
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
+						<img src="../image/fb.svg" alt="">
+					</li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
+						<img src="../image/ig.svg" alt="">
+					</li>
+					<li data-target="https://discord.gg/rugpullfrens">
+						<img src="../image/dc.svg" alt="">
+					</li>
+					<li>
+						<img src="../image/os.svg" alt="">
+					</li>
+				</ul>
+			</div>
+			<p class="law">第二宇宙世界觀</p>
+		</footer>
+	</div>
+	<script>
+		$(document).ready(function() {
+			initHeaderFooter();
+
+
+			function initHeaderFooter(){
+				$('.menu-container .marquee').marquee({
+					duplicated: true,
+					gap:0,
+					delayBeforeStart:1000
+				});
+				setTimeout(function(){
+					$('.menu-container .marquee .container').css('opacity', '1');
+				},1000)
+
+				$('.menu li').click(function(event) {
+					/* Act on the event */
+					if(event.currentTarget.attributes.length!=0){
+						if(event.currentTarget.attributes[0].value != 'active'){
+							location.href = event.currentTarget.attributes[0].value;
+						}
+					}
+				});
+				$('.social-container ul li').click(function(event) {
+					/* Act on the event */
+					if(event.currentTarget.attributes.length!=0){
+						if(event.currentTarget.attributes[0].value != 'active'){
+							location.href = event.currentTarget.attributes[0].value;
+						}
+					}
+				});
+				$('.logo').on('click',function(event) {
+					event.preventDefault();
+					/* Act on the event */
+					location.href = '/';
+				});
+				$('.law').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/secondworld';
+			});
+			}
+		})
+	</script>
+</body>
+</html>

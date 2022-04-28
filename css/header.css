@@ -98,7 +98,7 @@ label, span, p{
 .menu li span{
 	opacity: 0.3;
 }
-.menu li.active, .menu li:nth-of-type(1):hover {
+.menu li.active, .menu li:nth-of-type(1):hover, .menu li:nth-of-type(2):hover {
 	color: black;
 	background-color: var(--main-color);
 	cursor: pointer;

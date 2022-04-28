@@ -44,7 +44,7 @@
 				</div>
 				<div class="menu">
 					<ul>
-					  	<li>宣言</li>
+					  	<li data-target="/declare">宣言</li>
 					 	<li class="active">文獻</li>
 					  	<li><span>鑄造</span></li>
 					  	<li><span>證明</span></li>
@@ -109,26 +109,57 @@
 				{
 					title:'垃圾夢',
 					author:'甘耀明',
-					persent:100,
+					persent:0,
 					article: '男人不知道挖掘了多久，也許半輩子，用時間度量無用。挖掘區是人類垃圾堆，堆積的廢棄物在長年堆積與壓力下，形成堅硬密度的物質層，努力建造的文明與文化在此坍陷濃縮。無數的挖掘客在裡鑽出通道，處處是焦黑、沼氣與死亡，這是地底的陰鬱之城，要活下去得繼續挖，尋找堪用物資。男人不知道自己歲數，時間是無用，也無須擔心死亡。有伴才是好的。他撿到兩個小跟班，一個是小男孩，還有一隻羊駝。如果撿到鯨魚更好，聽說這種大魚很容易遇到，養起來也很容易。這誘惑令他不斷挖掘，如果多幾個伴，人生不再是無聊的悲劇了。時間無用，有用的是貴重金屬或食物。男人隨後挖到一個嗡嗡叫的冰箱，彷彿說「快打開我、快我開我」，打開後傾巢湧出上千隻蟑螂，他們連忙拍死了十幾隻，並燃燒瀝青煮罐頭，放入新鮮蟑螂，摻入豆芽、薤白與紅豆。長久在陰暗隧道工作，非常適合邊挖邊孵豆芽。他今天還在罐頭菜加了換來的芋頭乾。種芋頭要水，那麼珍貴的東西竟然拿來呵護這種植物，他沒看過活生生的芋頭，甚至忘了乾淨的水聲是如何鳴唱。他們的用水取自羊駝尿，牠能吸收空氣水分，製造尿水。萬能製水機。聞燃燒的瀝青有種麻醉效果，一種微微吸毒的恍惚，萌生幸福與和平感，像回到家。燒瀝青的微弱光源，照亮男孩，只有這時候才能看見他稚嫩臉龐上的大腫瘤，將五官撐開成遠距離的廢棄品。',
 					text:'男人'
 				},
 				{
 					title:'島族風聲',
 					author:'朱宥勳',
-					persent:80,
+					persent:0,
 				},
 				{
-					title:'島族風聲',
-					author:'朱宥勳',
-					persent:50,
+					title:'還沒有名字的貓',
+					author:'李屏瑤',
+					persent:0,
 				},
 				{
-					title:'島族風聲',
-					author:'朱宥勳',
-					persent:80,
+					title:'靈魂加載員',
+					author:'臥斧',
+					persent:0,
+				},
+				{
+					title:'獅王三溫暖',
+					author:'陳信傑',
+					persent:0,
+				},
+				{
+					title:'甜美的果實',
+					author:'張西',
+					persent:0,
+				},
+				{
+					title:'廢船之歌',
+					author:'張亦絢',
+					persent:0,
+				},
+				{
+					title:'地球殘卷選譯／〈疑偽部第七章第十九條目〉・年代不明',
+					author:'黃麗群',
+					persent:0,
+				},
+				{
+					title:'愛情靈藥',
+					author:'楊双子',
+					persent:0,
+				},
+				{
+					title:'失樂園',
+					author:'瀟湘神',
+					persent:0,
 				},
 			]
+
 			let article = null;
 			const SearchURL = new URL(window.location.href);
 			let params = SearchURL.searchParams;
@@ -150,7 +181,32 @@
 			setTimeout(function(){
 				$('.menu-container .marquee .container').css('opacity', '1');
 			},1000)
-
+			$('.menu li').click(function(event) {
+				/* Act on the event */
+				if(event.currentTarget.attributes.length!=0){
+					if(event.currentTarget.attributes[0].value != 'active'){
+						location.href = event.currentTarget.attributes[0].value;
+					}
+				}
+			});
+			$('.social-container ul li').click(function(event) {
+				/* Act on the event */
+				if(event.currentTarget.attributes.length!=0){
+					if(event.currentTarget.attributes[0].value != 'active'){
+						location.href = event.currentTarget.attributes[0].value;
+					}
+				}
+			});
+			$('.law').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/secondworld';
+			});
+			$('.logo').on('click',function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/';
+			});
 			function renderArticle(){
 				$('.article .title').append(data[article].title);
 				$('.article .author').append('作家'+' '+data[article].author);
@@ -161,10 +217,27 @@
 			});
 			data.forEach( function(item, index){
 				let persent = item.persent < 100 ? `${item.persent}%` : '解鎖完成'
-				$('.cardContainer').append(`<div class="card"><div class="info"><h3>${item.title}</h3><p>作家 ${item.author}</p></div><h2>${persent}</h2></div>`)
+				let title = item.title;
+				let author = item.author;
+				if(item.author == '李屏瑤'){
+					title = insertStr(title, 3 , '<br>')
+				}
+				if(item.author == '黃麗群'){
+
+					title = insertStr(title, 7 , '<br>');
+					title = insertStr(title, title.length - 5 , '<br>');
+				}
+				$('.cardContainer').append(`<div class="card"><div class="info"><h3>${title}</h3><p>作家 ${author}</p></div><h2>${persent}</h2></div>`)
 				if(persent.includes('%')){
 					$('.card').eq(index) .addClass('lock');
 				}
+				if(item.author == '李屏瑤'){
+					$('.card').eq(index) .addClass('li');
+				}
+				if(item.author == '黃麗群'){
+					$('.card').eq(index) .addClass('haung');
+				}
+				
 			})
 			$('.card').on('click', function(event) {
 				event.preventDefault();
@@ -184,6 +257,9 @@
 				$('html, body').animate({scrollTop : 0},800);
 				return false;
 			});
+			function insertStr(soure,start, newStr) {
+  				return soure.slice(0, start) + newStr + soure.slice(start)
+			}
 		})
 	</script>
 </body>
