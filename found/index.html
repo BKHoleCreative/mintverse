@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>MINTVERSE</title>
 	<meta property="og:image" content="../cover.png"/>
+
 	<link href="https://cdn.jsdelivr.net/npm/taipei-sans-tc" rel="stylesheet" />
 	<link
 	  href="https://cdn.jsdelivr.net/npm/taipei-sans-tc/dist/Light/TaipeiSansTCBeta-Light.css"
@@ -14,87 +15,308 @@
 	  href="https://cdn.jsdelivr.net/npm/taipei-sans-tc/dist/Bold/TaipeiSansTCBeta-Bold.css"
 	  rel="stylesheet"
 	/>
-	<link rel="preconnect" href="https://fonts.googleapis.com"> 
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-	<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-	<script src="js/jquery-3.6.0.min.js"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/_reset.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/found.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
-	<script  src="./js/marquee.js"></script>
-	<script  src="./js/lightBlink.js"></script>
-	<script  src="./js/gradien.js"></script>
-	<script  src="./js/timer.js"></script>
-	<style>
-
-		@font-face{
-		    font-family: GB18030 Bitmap ;
-		    src: url('./font/NISC18030.ttf');
-		    unicode-range: U+7B2C, U+4E8C, U+5B87, U+5B99, U+8FAD, U+5178, U+5B87, U+5B99, U+98DB, U+8239, U+8239, U+4F5C, U+8005, U+6731, U+5BA5, U+52F3;
-		}
-		*{
-			padding: 0;
-			margin: 0;
-
-		}
-		body{
-	  		background-color: #000000;
-	  		padding: 20px;
-		}
-		canvas{
-			width: 500px !important;
-			height: auto !important;
-		}
-		img{
-		  display:none
-		}
-		input{
-			width: 500px;
-			display: block;
-			background-color: inherit;
-			outline: none;
-			border: 1px solid #fff;
-			font-size: 16px;
-			line-height: 2;
-			color: #fff;
-			margin-bottom: 10px;
-			padding: 5px;
-			box-sizing: border-box;
-		}
-		::placeholder { /* CSS 3 標準 */
-		  color: #fff;
-		  opacity: 0.8;
-		}
-
-		::-webkit-input-placeholder { /* Chrome, Safari */
-		  color: #fff;
-		  opacity: 0.8;
-		}
-
-		:-ms-input-placeholder { /* IE 10+ */
-		  color: #fff;
-		  opacity: 0.8;
-		}
-
-		::-moz-placeholder { /* Firefox 19+ */
-		  color: #fff;
-		  opacity: 0.8;
-		}
-		select{
-			background-color: inherit;
-			color: #fff;
-			padding: 10px;
-			margin-right: 20px;
-		}
-		.static {
-			position: static !important;
-		}
-	</style>
+	<script src="../js/jquery-3.6.0.min.js"></script>
+	<script  src="../js/found/marquee.js"></script>
+	<script  src="../js/found/lightBlink.js"></script>
+	<script  src="../js/found/gradien.js"></script>
+	<script  src="../js/found/timer.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+	<script src="../js/found/index.js"></script>
 </head>
 <body>
-	<script src="js/index.js"></script>
+	<div id="app">
+		<header>
+			<div class="logo">
+				<img src="../image/mintve.svg" alt="">
+				<img src="../image/r.svg" alt="">
+				<img src="../image/se.svg" alt="">
+			</div>
+			<div class="menu-container">
+				<div class="marquee" data-duplicated='true' data-direction='right'>
+					<div class="container">
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+						<div class="item">
+							<img src="../image/arrow.png" alt="">
+							<img src="../image/title.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="menu">
+					<ul>
+					  	<li>宣言</li>
+					 	<li>文獻</li>
+					  	<li class="active">鑄造</li>
+					  	<li><span>證明</span></li>
+					  	<li><span>ERC-721A</span></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<section class="intro" style="display:none;">
+			<h1>
+				歡迎加入<br>《第二宇宙辭典》<br>鑄造小組
+			</h1>
+			<p>在這「文字」已然死滅的時代，你能夠讀懂這串訊息，就代表你有資格加入我們。</p>
+			<p>進入我們的鑄造系統後，你會獲得一個隨機分配的詞彙。那個詞彙，就是你要負責鑄造的詞條。詞條的鑄造原則如下：</p>
+			<ul>
+				<li>請盡量用精要的字數（10 - 100 字），容納最多的意義。</li>
+				<li>面對每一詞彙，請先判斷它的「詞性」，再來編寫「意義」。</li>
+				<li>這些詞彙的確切意義，已經隨著舊人類文明一同消逝了。因此，你沒有任何正確答案可以遵循，只能依靠你的直覺與想像——我們相信，像你這樣特別的人，基因裡必然銘刻了部分的線索。請相信你自己的答案。</li>
+				<li>我們唯一確定的是：<span>「這些詞彙的意義，與現世人們的普遍理解絕對不同。」</span></li>
+				<li>詞彙是有壽命的，請在它耗盡自己的時間以前，盡快完成鑄造。</li>
+				<li>如果你尚無靈感，可以參考鑄造小組的示範註釋。</li>
+			</ul>
+			<p>這些詞彙，是由「第二宇宙辭典」鑄造小組，從舊文明考古遺中，挖掘出來的斷簡殘篇。我們目前不知道這些斷簡殘篇的意義和全貌。但如果有足夠多的人，進行了詞彙的鑄造——</p>
+			<p>也許，我們就能「贖回」那個可能存在的「第二宇宙」</p>
+			<label class="check">我已閱讀並同意參與條款
+			  <input type="checkbox" checked="checked">
+			  <span class="checkmark"></span>
+			</label>
+			<button>確認加入</button>
+		</section>
+		<section class="edit">
+			<h1>唯一鑄造的原則是：「這些詞彙的意義，與現世人們的普遍理解絕對不同。」</h1>
+			<div id="myCanvas">
+				<img src="../image/logo.svg" alt="">
+			</div>
+			<div class="formContainer">
+				<h4>錢包：<span>0x000000000000000000000</span></h4>
+				<div class="select">
+					<select name="" id="selectToken">
+						    <option value="">選擇你所擁有的詞彙 Token ID</option>
+					</select>
+				</div>
+				<div class="rule" style="display:none;">
+					<p class="rule">進入我們的鑄造系統後，你會獲得一個隨機分配的詞彙。那個詞彙，就是你要負責鑄造的詞條。詞條的鑄造原則如下：</p>
+					<ul class="rule">
+						<li>請盡量用精要的字數（10 - 100 字），容納最多的意義。</li>
+						<li>面對每一詞彙，請先判斷它的「詞性」，再來編寫「意義」。</li>
+						<li>這些詞彙的確切意義，已經隨著舊人類文明一同消逝了。因此，你沒有任何正確答案可以遵循，只能依靠你的直覺與想像——我們相信，像你這樣特別的人，基因裡必然銘刻了部分的線索。請相信你自己的答案。</li>
+						<li>我們唯一確定的是：「這些詞彙的意義，與現世人們的普遍理解絕對不同。」</li>
+						<li>詞彙是有壽命的，請在它耗盡自己的時間以前，盡快完成鑄造。</li>
+						<li>如果你尚無靈感，可以參考鑄造小組的示範註釋。</li>
+					</ul>
+					<p class="rule">這些詞彙，是由「第二宇宙辭典」鑄造小組，從舊文明考古遺中，挖掘出來的斷簡殘篇。我們目前不知道這些斷簡殘篇的意義和全貌。但如果有足夠多的人，進行了詞彙的鑄造——</p>
+					<p class="rule">也許，我們就能「贖回」那個可能存在的「第二宇宙」。</p>	
+					<button>MINT 鑄造定義</button>
+				</div>
+				<!-- <div class="form">
+					<p class="deadline">DEADLINE <span>41:59:59</span><br>時限內沒有完成鑄造，詞彙將會永久死亡。</p>
+					<div class="inputWrap">
+						<label for="">鑄造者 (填寫1-10個中文字)</label>
+						<input type="text" id="author">
+					</div>
+					<div class="selectWrap">
+						<label for="">詞性</label>
+						<div class="select">
+							<select name="" id="speech">
+								<option value="">詞性</option>
+								<option value="1">名詞</option>
+								<option value="2">動詞</option>
+								<option value="3">形容詞</option>
+							</select>
+						</div>
+						<div class="select">
+							<select name="" id="speech1">
+								<option value="">詞性</option>
+							</select>
+						</div>
+					</div>
+					<div class="inputWrap synonym">
+						<label for="">同義詞 (填寫1-4個，總字數不超過10個中文字)</label>
+						<input type="text">
+						<input type="text">
+						<input type="text">
+						<input type="text">
+					</div>
+					<div class="inputWrap">
+						<label for="textarea">註釋 (填寫 10-100 個中文字)</label>
+						<textarea name="" id="textarea" rows="6"></textarea>
+						<ul><li>如果你尚無靈感，可以參考鑄造小組的示範註釋。</li></ul>
+					</div>
+				</div> -->
+				<div class="dead">
+					<p>一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話</p>
+				</div>
+			</div>
+			<button>鑄造定義</button>
+		</section>
+		<footer>
+			<div class="arrow">
+				<img src="../image/arrow.png" alt="">
+			</div>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
+			<div class="mint-container">
+				<div class="mint">
+					<label for="">鑄造</label>
+					<p>0000</p>
+				</div>
+				<div class="total">
+					<label for="">總量</label>
+					<p>2100</p>
+				</div>
+			</div>
+			<div class="social-container">
+				<ul>
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
+						<img src="../image/fb.svg" alt="">
+					</li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
+						<img src="../image/ig.svg" alt="">
+					</li>
+					<li data-target="https://discord.gg/rugpullfrens">
+						<img src="../image/dc.svg" alt="">
+					</li>
+					<li>
+						<img src="../image/os.svg" alt="">
+					</li>
+				</ul>
+			</div>
+			<p class="law">第二宇宙世界觀</p>
+		</footer>
+	</div>
 	<script>
 		$(document).ready(function() {
+			nft();
+			let deadP5
+			let wallet_info = {
+				address:'0x000000000000000000000',
+				charIdList:[
+					{
+						token:'0x12345610',
+						status:'Unsolved'
+					},
+					{
+						token:'0x12310555',
+						status:'Solved',
+					},
+					{
+						token:'0x12378988',
+						status:'Dead'
+					}
+					,
+					{
+						token:'0x12378988',
+						status:'Dead'
+					}
+				]
+			}
+			wallet_info.charIdList.forEach( function(item, index) {
+				// statements
+				$("#selectToken").append($("<option></option>").attr("value", item.token).text(item.token));
+			});
+			$('#selectToken').on('change', function() {
+				console.log(this.value)
+			  	if(this.value == '')return;		  	
+			  	let valueIdx = $("#selectToken")[0].selectedIndex - 1;
+			  	//changeView(valueIdx)
+			});
 
-		});
+			function changeView(idx){
+				switch (wallet_info.charIdList[idx].status) {
+					case 'Unsolved':
+						$('.edit .rule').hide();
+						$('.edit button').hide();
+						$('.edit #myCanvas img').show();
+						$('canvas').remove();
+						break;
+					case 'Solved':
+						$('.edit #myCanvas img').show();
+						$('canvas').remove();
+						break;
+					case 'Dead':
+						$('.edit .rule').hide();
+						$('.edit button').hide();
+						$('.edit #myCanvas img').hide();
+						renderDead();
+						break;
+					default:
+						// statements_def
+						break;
+				}
+			}
+			function renderDead(){
+				let text = '鯨魚';
+				let deadP5 = new p5( p => {
+					const parentId = 'myCanvas'
+					let font;
+					let points;
+					let bounds;
+					let num = 1;
+					p.preload = function() {
+  						font = p.loadFont('../font/NotoSerifTC-Bold.otf');
+					}
+					p.setup = function() {
+						p.frameRate(24);
+  						p.pixelDensity(2.0);
+						p.createCanvas(800, 800).parent(parentId);
+						points = font.textToPoints(
+						    text, 0, 0, 300, {
+						      sampleFactor: 1,
+						      simplifyThreshold: 0
+						    });
+
+						 bounds = font.textBounds(
+						    text, 0, 0, 300);
+
+						  p.cursor(p.CROSS);
+						  p.fill(255, 127);
+						  p.noStroke();
+					}
+					p.draw = function() {
+						if(p.sin(num) <= -0.9){
+						    num += 0;
+						    setTimeout(function(){
+						      num += 0.1;
+						    },2000)
+						  } else {
+						    num += 0.1;
+						  }
+
+
+						  p.background(0);
+						  
+						  // p.stroke(51);
+						  // p.line(p.width / 2, 0, p.width / 2, p.height);
+						  // p.line(0, p.height / 2, p.width, p.height / 2);
+						  p.noStroke();
+						  
+						  let centerDist = p.dist(p.mouseX, p.mouseY, p.width / 2, p.height / 2);
+						  centerDist = p.map(p.sin(num),-0.9,0.9,2,20);
+						  let transparency = p.map(centerDist, 0, p.width / 2, 200, 50);
+						  transparency = p.constrain(transparency, 50, 200);
+							p.fill(255, transparency);
+						  let jiggle = p.map(centerDist, 0, p.width, 1, 300);
+						  p.translate((p.width - p.abs(bounds.w)) / 2, 
+						            (p.height + p.abs(bounds.h)) / 2.2);
+						  for (let i = 0; i < points.length; i++) {
+						  	let point = points[i];
+						    p.ellipse(point.x + jiggle * 2 * p.randomGaussian(), 
+						      point.y + jiggle * 2 * p.randomGaussian(), 1, 1);
+						  }
+					}
+				})
+			}
+		})
 	</script>
 </body>
 </html>

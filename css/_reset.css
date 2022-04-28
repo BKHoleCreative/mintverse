@@ -50,7 +50,10 @@ table {
 ::selection {
 	background: inherit;
 }
-
+select{
+	appearance: none;
+  outline: 0;
+}
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;

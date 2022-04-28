@@ -47,7 +47,7 @@
 				<div class="menu">
 					<ul>
 					  	<li class="active">宣言</li>
-					 	<li><span>文獻</span></li>
+					 	<li data-target="/literature">文獻</li>
 					  	<li><span>鑄造</span></li>
 					  	<li><span>證明</span></li>
 					  	<li><span>ERC-721A</span></li>
@@ -195,6 +195,11 @@
 				event.preventDefault();
 				/* Act on the event */
 				location.href = '/';
+			});
+			$('.law').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/secondworld';
 			});
 		})
 	</script>
