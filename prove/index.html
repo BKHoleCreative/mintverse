@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mintverse</title>
+	<meta name="description" content="每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。"/>
+	<meta property="og:title" content="Mintverse" />
+	<meta property="og:description" content="每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。" />
+	<meta property="og:image" content="../cover.png"/>
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/_reset.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/prove.css">
+	<script src="../js/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+	<script src="../js/header.js"></script>
+	<script src="../js/footer.js"></script>
+</head>
+<body>
+	<div id="app">
+		<header>
+		</header>
+		<section class="prove">
+			<h1>有經過第二宇宙認證的詞彙</h1>
+			<p>在這裡，你可以看到所有的認證黑卡詞彙——代表這些鑄造者已被認證。這些合作夥伴都是與我們一起鑄造《MINTVERSE 第二宇宙辭典》的見證者，重新定義我們曾經熟悉的一切。<br><br>列表依照 TOKEN ID 進行排序。如果您持有 MINTVERSE 任何詞彙、且您或您的單位是在 Facebook、Instagram、Twitter 等社群平台上，已經被認證的帳號（除了既有首波合作夥伴，後續認證的必要條件為具有藍勾勾），歡迎來信並附上帳號權限證明，我們非常樂意為您升級為認證黑卡。請注意：如果認證黑卡被重新鑄造，原認證效果也將消失。<br><br>如果任何單位有與 MINTVERSE 的合作想法，歡迎來信洽詢，聯絡信箱：<br>info@humanoid.com.tw</p>
+			<div class="searchInput">
+				<input type="text" placeholder="請輸入詞彙關鍵字">
+			</div>
+			<div class="result">
+				
+			</div>
+		</section>
+		<footer>
+		</footer>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('header').setHeader();
+			$('footer').setFooter();
+			let serchData = ['../image/sample.gif','../image/sample.gif','../image/sample.gif','../image/sample.gif','../image/sample.gif']
+
+			serchData.forEach(function(item){
+				$('.result').append(`<img src=${item}>`)
+			})
+
+		})
+	</script>
+</body>
+</html>

@@ -65,6 +65,9 @@
 	word-wrap: break-word;*/
 	margin-bottom: 90px;
 }
+.article .content span{
+	cursor: pointer;
+}
 .goTop{
 	font-size: 12px;
 	color: #fff;

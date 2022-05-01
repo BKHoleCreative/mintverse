@@ -15,6 +15,7 @@
 	  href="https://cdn.jsdelivr.net/npm/taipei-sans-tc/dist/Bold/TaipeiSansTCBeta-Bold.css"
 	  rel="stylesheet"
 	/>
+
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -29,43 +30,16 @@
 	<script  src="../js/found/gradien.js"></script>
 	<script  src="../js/found/timer.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+	<script src="../js/found/sprite.js"></script>
 	<script src="../js/found/index.js"></script>
+	<script src="../js/found/dead.js"></script>
+	<script src="../js/found/notedit.js"></script>
+	<script src="../js/header.js"></script>
+	<script src="../js/footer.js"></script>
 </head>
 <body>
 	<div id="app">
 		<header>
-			<div class="logo">
-				<img src="../image/mintve.svg" alt="">
-				<img src="../image/r.svg" alt="">
-				<img src="../image/se.svg" alt="">
-			</div>
-			<div class="menu-container">
-				<div class="marquee" data-duplicated='true' data-direction='right'>
-					<div class="container">
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-					</div>
-				</div>
-				<div class="menu">
-					<ul>
-					  	<li>宣言</li>
-					 	<li>文獻</li>
-					  	<li class="active">鑄造</li>
-					  	<li><span>證明</span></li>
-					  	<li><span>ERC-721A</span></li>
-					</ul>
-				</div>
-			</div>
 		</header>
 		<section class="intro" style="display:none;">
 			<h1>
@@ -91,8 +65,28 @@
 		</section>
 		<section class="edit">
 			<h1>唯一鑄造的原則是：「這些詞彙的意義，與現世人們的普遍理解絕對不同。」</h1>
-			<div id="myCanvas">
+			<div id="empty" class="canvasWrap">
 				<img src="../image/logo.svg" alt="">
+			</div>
+			<div id="myCanvas" class="canvasWrap" style="display:none;">
+			</div>
+			<div id="noedit" style="display:none;" class ="canvasWrap" >
+				<div class="info">
+					<h6>MINTVERSE DICTIONARY</h6>
+					<div class="token">
+						<label>TOKEN ID</label>
+						<p class="id">0023</p>
+					</div>
+					<div class="countdown">
+						<label for="">DEADLINE</label>
+						<p></p>
+					</div>
+					<ul>
+						<li>第二宇宙辭典</li>
+						<li>宇宙飛船</li>
+						<li>作者 朱宥勳</li>
+					</ul>
+				</div>
 			</div>
 			<div class="formContainer">
 				<h4>錢包：<span>0x000000000000000000000</span></h4>
@@ -101,7 +95,7 @@
 						    <option value="">選擇你所擁有的詞彙 Token ID</option>
 					</select>
 				</div>
-				<div class="rule" style="display:none;">
+				<div class="rule">
 					<p class="rule">進入我們的鑄造系統後，你會獲得一個隨機分配的詞彙。那個詞彙，就是你要負責鑄造的詞條。詞條的鑄造原則如下：</p>
 					<ul class="rule">
 						<li>請盡量用精要的字數（10 - 100 字），容納最多的意義。</li>
@@ -113,10 +107,9 @@
 					</ul>
 					<p class="rule">這些詞彙，是由「第二宇宙辭典」鑄造小組，從舊文明考古遺中，挖掘出來的斷簡殘篇。我們目前不知道這些斷簡殘篇的意義和全貌。但如果有足夠多的人，進行了詞彙的鑄造——</p>
 					<p class="rule">也許，我們就能「贖回」那個可能存在的「第二宇宙」。</p>	
-					<button>MINT 鑄造定義</button>
 				</div>
-				<!-- <div class="form">
-					<p class="deadline">DEADLINE <span>41:59:59</span><br>時限內沒有完成鑄造，詞彙將會永久死亡。</p>
+				<div class="form" style="display:none;">
+					<p class="deadline">DEADLINE <span>00:00:00</span><br>時限內沒有完成鑄造，詞彙將會永久死亡。</p>
 					<div class="inputWrap">
 						<label for="">鑄造者 (填寫1-10個中文字)</label>
 						<input type="text" id="author">
@@ -128,7 +121,13 @@
 								<option value="">詞性</option>
 								<option value="1">名詞</option>
 								<option value="2">動詞</option>
-								<option value="3">形容詞</option>
+								<option value="3">副詞</option>
+								<option value="4">形容詞</option>
+								<option value="5">介系詞</option>
+								<option value="6">狀聲詞</option>
+								<option value="7">代名詞</option>
+								<option value="8">連結詞</option>
+								<option value="9">感嘆詞</option>
 							</select>
 						</div>
 						<div class="select">
@@ -139,183 +138,189 @@
 					</div>
 					<div class="inputWrap synonym">
 						<label for="">同義詞 (填寫1-4個，總字數不超過10個中文字)</label>
-						<input type="text">
-						<input type="text">
-						<input type="text">
-						<input type="text">
+						<input type="text" id="synonym0">
+						<input type="text" id="synonym1">
+						<input type="text" id="synonym2">
+						<input type="text" id="synonym3">
 					</div>
 					<div class="inputWrap">
 						<label for="textarea">註釋 (填寫 10-100 個中文字)</label>
 						<textarea name="" id="textarea" rows="6"></textarea>
 						<ul><li>如果你尚無靈感，可以參考鑄造小組的示範註釋。</li></ul>
 					</div>
-				</div> -->
-				<div class="dead">
+				</div>
+				<div class="dead" style="display:none;">
 					<p>一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話</p>
 				</div>
 			</div>
 			<button>鑄造定義</button>
 		</section>
 		<footer>
-			<div class="arrow">
-				<img src="../image/arrow.png" alt="">
-			</div>
-			<p class="mintDescript" >
-				<span>
-					<span>5/5 免費鑄造</span><span>FREEMINT</span>
-				</span>
-			</p>
-			<div class="mint-container">
-				<div class="mint">
-					<label for="">鑄造</label>
-					<p>0000</p>
-				</div>
-				<div class="total">
-					<label for="">總量</label>
-					<p>2100</p>
-				</div>
-			</div>
-			<div class="social-container">
-				<ul>
-					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
-						<img src="../image/fb.svg" alt="">
-					</li>
-					<li data-target="https://www.instagram.com/mintverse.world/">
-						<img src="../image/ig.svg" alt="">
-					</li>
-					<li data-target="https://discord.gg/rugpullfrens">
-						<img src="../image/dc.svg" alt="">
-					</li>
-					<li>
-						<img src="../image/os.svg" alt="">
-					</li>
-				</ul>
-			</div>
-			<p class="law">第二宇宙世界觀</p>
+			
 		</footer>
 	</div>
 	<script>
 		$(document).ready(function() {
-			nft();
-			let deadP5
+			let deadP5, nftP5, noteditP5;
+			$('header').setHeader();
+			$('footer').setFooter();
+			//nft();
+			//renderDead();
+			//notedit();
 			let wallet_info = {
 				address:'0x000000000000000000000',
-				charIdList:[
+				nftIdList:[
 					{
-						token:'0x12345610',
-						status:'Unsolved'
+						token:'1',
 					},
 					{
-						token:'0x12310555',
-						status:'Solved',
+						token:'2',
 					},
 					{
-						token:'0x12378988',
-						status:'Dead'
-					}
-					,
-					{
-						token:'0x12378988',
-						status:'Dead'
+						token:'3',
 					}
 				]
 			}
-			wallet_info.charIdList.forEach( function(item, index) {
+			let nftDetail = {};
+			wallet_info.nftIdList.forEach( function(item, index) {
 				// statements
 				$("#selectToken").append($("<option></option>").attr("value", item.token).text(item.token));
 			});
-			$('#selectToken').on('change', function() {
-				console.log(this.value)
-			  	if(this.value == '')return;		  	
-			  	let valueIdx = $("#selectToken")[0].selectedIndex - 1;
-			  	//changeView(valueIdx)
+			$('.intro button').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				$('.intro').hide();
+				$('.edit').show();
 			});
-
-			function changeView(idx){
-				switch (wallet_info.charIdList[idx].status) {
-					case 'Unsolved':
-						$('.edit .rule').hide();
-						$('.edit button').hide();
-						$('.edit #myCanvas img').show();
-						$('canvas').remove();
+			$('#selectToken').on('change', async function() {
+				
+			  	if(this.value == '' || this.value == wallet_info.nftIdList.token) {
+			  		changeView('empty')
+			  		return
+			  	}		
+			  	 const endpoint = `http://54.248.1.203:8080/api/mintverse/token/${this.value}`;
+			  	let data = await $.ajax({
+			  		type: "GET",
+				    url: endpoint,
+				    dataType: "json",
+				    success: function (response) {
+				    	nftDetail = response.token;
+				      	console.log(nftDetail)
+				      	changeView(nftDetail.status);
+				    },
+				    error: function (thrownError) {
+				      	console.log(thrownError);
+				    }
+			  	})
+			  	//let valueIdx = $("#selectToken")[0].selectedIndex - 1;
+			});
+			$('#speech').on('change', function(event) {
+				let selectIndex = $("#speech").find(":selected").index();
+				$('#speech1').empty();
+				$('#speech1').append($("<option></option>").attr("value", "").text("詞性"));
+				if(selectIndex == 0)return;
+				$('#speech option').each(function(index){
+					if(index == selectIndex || index == 0)return;
+					$('#speech1').append($("<option></option>").attr("value", $(this).val()).text($(this).text()));
+				})
+			})
+			// $('#synonym0').change(function(event) {
+			// 	/* Act on the event */
+			// 	let index = $(this).index();
+			// 	let totalText = $('#synonym0').val().replace(/\s/g, '').length + $('#synonym1').val().replace(/\s/g, '').length + $('#synonym2').val().replace(/\s/g, '').length + $('#synonym3').val().replace(/\s/g, '').length;
+			// 	console.log($(this).val())
+			// 	if(	totalText > 10 ){
+			// 		console.log($(this).val())
+			// 		$(this).val($(this).val().slice(0, -1));
+			// 	}
+			// });
+			function changeView(status){
+				console.log(nftDetail)
+				$('.canvasWrap').hide();
+				// "0:尚未被Mint, 1: 尚未開始寫作, 2: 開始寫作"
+				removeCanvas();
+				$('.edit .rule').hide();
+				$('.edit .form').hide();
+				$('.edit .dead').hide();
+				$('.edit #myCanvas').hide();
+				$('canvas').remove();
+				$('.edit #notedit').hide();
+				switch (status) {
+					case 'empty':
+						$('.edit .rule').show();
+						$('.edit #empty').show();
 						break;
-					case 'Solved':
-						$('.edit #myCanvas img').show();
-						$('canvas').remove();
+					case 0:
+						$('.edit #empty').show();
 						break;
-					case 'Dead':
-						$('.edit .rule').hide();
-						$('.edit button').hide();
-						$('.edit #myCanvas img').hide();
-						renderDead();
+					case 1:
+						// if(nftDetail.current_time <= nftDetail.expire_time){
+						// 	$('.edit .form').show();
+						// 	$('.edit button').show();
+						// 	setCountdown(nftDetail.current_time * 1000, nftDetail.expire_time * 1000);
+						// 	$('#noedit').show();
+						// 	$('#noedit .info .id').text(nftDetail.id);
+						// 	$('#noedit .info ul li:nth-of-type(2)').text(nftDetail.article_title);
+						// 	$('#noedit .info ul li:nth-of-type(3)').text('作家 ' + nftDetail.author);
+						// 	noteditP5 = notedit(nftDetail.name);
+						// } else {
+							$('.edit #myCanvas').show();
+							deadP5 = renderDead();
+						//}
+						break;
+					case 2:
+						$('.edit button').show();
+						$('.edit .form').show();
+						$('.edit #myCanvas').show();
+						nftP5 = nft(nftDetail);
 						break;
 					default:
 						// statements_def
 						break;
 				}
 			}
-			function renderDead(){
-				let text = '鯨魚';
-				let deadP5 = new p5( p => {
-					const parentId = 'myCanvas'
-					let font;
-					let points;
-					let bounds;
-					let num = 1;
-					p.preload = function() {
-  						font = p.loadFont('../font/NotoSerifTC-Bold.otf');
-					}
-					p.setup = function() {
-						p.frameRate(24);
-  						p.pixelDensity(2.0);
-						p.createCanvas(800, 800).parent(parentId);
-						points = font.textToPoints(
-						    text, 0, 0, 300, {
-						      sampleFactor: 1,
-						      simplifyThreshold: 0
-						    });
-
-						 bounds = font.textBounds(
-						    text, 0, 0, 300);
-
-						  p.cursor(p.CROSS);
-						  p.fill(255, 127);
-						  p.noStroke();
-					}
-					p.draw = function() {
-						if(p.sin(num) <= -0.9){
-						    num += 0;
-						    setTimeout(function(){
-						      num += 0.1;
-						    },2000)
-						  } else {
-						    num += 0.1;
-						  }
-
-
-						  p.background(0);
-						  
-						  // p.stroke(51);
-						  // p.line(p.width / 2, 0, p.width / 2, p.height);
-						  // p.line(0, p.height / 2, p.width, p.height / 2);
-						  p.noStroke();
-						  
-						  let centerDist = p.dist(p.mouseX, p.mouseY, p.width / 2, p.height / 2);
-						  centerDist = p.map(p.sin(num),-0.9,0.9,2,20);
-						  let transparency = p.map(centerDist, 0, p.width / 2, 200, 50);
-						  transparency = p.constrain(transparency, 50, 200);
-							p.fill(255, transparency);
-						  let jiggle = p.map(centerDist, 0, p.width, 1, 300);
-						  p.translate((p.width - p.abs(bounds.w)) / 2, 
-						            (p.height + p.abs(bounds.h)) / 2.2);
-						  for (let i = 0; i < points.length; i++) {
-						  	let point = points[i];
-						    p.ellipse(point.x + jiggle * 2 * p.randomGaussian(), 
-						      point.y + jiggle * 2 * p.randomGaussian(), 1, 1);
-						  }
-					}
-				})
+			function removeCanvas(){
+				if(nftP5 != undefined)nftP5.remove();
+				if(deadP5 != undefined)deadP5.remove();
+				if(noteditP5 != undefined)noteditP5.remove();		
+				delete nftP5;
+				delete deadP5;
+				delete noteditP5;
 			}
+			function setCountdown(start,end){
+				var countDownDate = new Date(end).getTime();
+
+				// Update the count down every 1 second
+				var x = setInterval(function() {
+
+				  // Get today's date and time
+				  var now = new Date().getTime();
+
+				  // Find the distance between now and the count down date
+				  var distance = countDownDate - now;
+
+				  // Time calculations for days, hours, minutes and seconds
+				  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+				  // Display the result in the element with id="demo"
+				  if(hours < 10)hours = "0" + hours.toString();
+				  if(minutes < 10)minutes = "0" + minutes.toString();
+				  if(seconds < 10)seconds = "0" + seconds.toString();
+				  $('.countdown p').text(hours + " : "
+				  + minutes + " : " + seconds);
+				  $('.deadline span').text(hours + " : "
+				  + minutes + " : " + seconds);
+				  // If the count down is finished, write some text
+				  if (distance < 0) {
+				    clearInterval(x);
+				    $('.countdown p').text("Time Out");
+				  }
+				}, 1000);
+			}
+
 		})
 	</script>
 </body>
