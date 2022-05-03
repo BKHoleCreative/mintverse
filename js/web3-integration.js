@@ -82,6 +82,10 @@ async function onDisconnect() {
         provider = null;
     }
 
+	$('#connectWallect').text('重新連結錢包');
+	$('.mint').hide();
+	$('.connect').show();
+
 }
 
 
