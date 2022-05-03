@@ -184,14 +184,13 @@ async function mint_whitelist_word(wallet_info) {
     // check on valid minting number
     if (mint_num > wallet_info.mint_limit - wallet_info.claimed_Number) {
         $('.popset').openPop({ message: 'Whitelist Mint\n數量超過上限', type: 'failed' });
-        return;
     }
     // check qualification on contract
     const verification = await WordContract.methods.verify(wallet_info.mint_limit,wallet_info.signedSignature).call({from:connectedAddress[0]});
 
     if(!verification){
         $('.popset').openPop({ message: 'Whitelist Mint資格有問題，請聯繫管項目方Admin', type: 'failed' });
-        return;
+        onDisconnect();
     }
 
     // Execute Minting
