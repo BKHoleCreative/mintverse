@@ -111,6 +111,16 @@ footer{
         transform: translate(-1%);
     }
 }
+.mintDescript span span:nth-of-type(1):before{
+	content: '';
+	background-image: url(../image/lock.svg);
+	padding-bottom: 13px;
+	background-size: 100%;
+	display: inline-block;
+	width: 11px;
+	margin-right: 10px;
+	background-repeat: no-repeat;
+}
 
 @media (max-width: 375px) {
 	.mintDescript span span:nth-of-type(1){
@@ -159,6 +169,10 @@ footer{
 		border-left: 1px solid var(--main-color);
 		border-bottom: 1px solid var(--main-color);
 	}
+	.mintDescript span span:nth-of-type(1):before{
+		width: 16px;
+		padding-bottom: 19px;
+	}
 }
 @media (min-width: 768px){
 	.arrow {
@@ -198,12 +212,6 @@ footer{
 		display: flex;
     	align-items: center;
 	}
-	.mintDescript span span:nth-of-type(1):before{
-		content: url(../image/lock.svg);
-		display: inline-block;
-		width: 19px;
-		margin-right: 10px;
-	}
 	.mint-container {
     	width: 17%;
 	}
@@ -232,6 +240,11 @@ footer{
 	}
 	.law{
 		font-size: 20px;
+	}
+
+	.mintDescript span span:nth-of-type(1):before{
+		width: 19px;
+		padding-bottom: 24px;
 	}
 
 }
