@@ -16,119 +16,84 @@
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/footer.css">
 	<link rel="stylesheet" href="../css/mint.css">
-	<link rel="stylesheet" href="../css/pop.css">
 	<script src="../js/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
 	<script src="../js/header.js"></script>
 	<script src="../js/footer.js"></script>
-	<script src="../js/pop.js"></script>
 </head>
 <body>
 	<div id="app">
 		<header>
+			
 		</header>
-		<section class="connect">
-			<div class="connectWrap">
-				<button id="connectWallect">連結錢包</button>
-				<p>尚未連結錢包</p>
-				<!-- <p>錢包地址: <span>0x000000000</span></p> -->
-			</div>
-		</section>
-		<section class="mint">
-			<div>
-				<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
-				<h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
-				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2>
+		<section class="mint ">
+			<div style="max-width:329px;margin:0 auto;">
+				<h4>錢包：<span>0x000000000000000000000</span></h4>
+				<h2>每個錢包限量持有一個詞彙加購辭典可收藏全部詞彙</h2>
+				<h2 class="whiteListContent">每個詞彙皆是獨一無二加購辭典可收藏全部的詞彙</h2>
 				<div class="inputWrap">
-					<img  src="../image/plus.svg" alt="">
-					<p>詞彙 x <span id="mintQuantity">1</span></p>
-					<img  src="../image/minus.svg" alt="">
+					<img class="whiteListContent" src="../image/plus.svg" alt="">
+					<p>詞彙 x <span>1</span></p>
+					<img class="whiteListContent" src="../image/minus.svg" alt="">
 				</div>
 				<div class="mintNum">
 					<h2><span>限購一個：</span>FREE</h4>
-					<p><span id="worldHasMinted">0001</span><span>/</span><span>2100</span></p>
+					<p><span>0001</span><span>/</span><span>2100</span></p>
 				</div>
 				<div class="line"></div>
 				<label class="check">加購辭典 (0.15 ETH)
-				  <input type="checkbox" id="check">
+				  <input type="checkbox" checked="checked">
 				  <span class="checkmark"></span>
 				</label>
 				<div class="dictionaryNum">
-					<p><span id="dictionaryHasMinted">001</span><span>/</span><span>210</span></p>
+					<p><span>001</span><span>/</span><span>210</span></p>
 				</div>
 			</div>
-			<button id="mintBtn">MINT 鑄造</button>
+			<button>MINT 鑄造</button>
 		</section>
-		<div class="popset"></div>
 		<footer>
+			<div class="arrow">
+				<img src="../image/arrow.png" alt="">
+			</div>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
+			<div class="mint-container">
+				<div class="mint">
+					<label for="">鑄造</label>
+					<p>0000</p>
+				</div>
+				<div class="total">
+					<label for="">總量</label>
+					<p>2100</p>
+				</div>
+			</div>
+			<div class="social-container">
+				<ul>
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
+						<img src="../image/fb.svg" alt="">
+					</li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
+						<img src="../image/ig.svg" alt="">
+					</li>
+					<li data-target="https://discord.gg/rugpullfrens">
+						<img src="../image/dc.svg" alt="">
+					</li>
+					<li>
+						<img src="../image/os.svg" alt="">
+					</li>
+				</ul>
+			</div>
+			<p class="law">第二宇宙世界觀</p>
 		</footer>
 	</div>
-    <!-- Web3 Integration -->
-    <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.4/dist/index.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="../js/web3-integration.js"></script>
 	<script>
-		let wallet_info;
-		$(document).ready(async function() {
+		$(document).ready(function() {
 			$('header').setHeader();
 			$('footer').setFooter();
-			$('.popset').setPop();
-
-	  		// failed sample
-			// $('.popset').openPop({message:'連結的地址不符合Write Story資格！',type:'failed'});
-			
-
-			// 連結錢包
-			$('#connectWallect').on('click',async function(event) {
-				event.preventDefault();
-
-				// connect wallet
-	            let connected = await onConnect(); 
-
-
-				if(connected){
-					$('.popset').openPop({message:'連結錢包成功'});
-				}else{
-					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
-					$('#connectWallect').text('重新連結錢包');
-					return
-				}
-
-
-				// 設定已經被 mint 數量
-				let word_minted_num, dictionary_purchase_num = await update_minting_status(); 
-				settingMintData(word_minted_num, dictionary_purchase_num);
-
-				// 決定為白名單或是公售樣式
-				let whiteList = true;
-				if(whiteList){
-					$('.mint').addClass('whiteList');
-
-	        		// get WL mint stauts on address
-		            wallet_info = await get_wallet_info_web3();
-				}else{
-					$('.mint').addClass('publicSale');
-				}
-				
-				$('.mint').show();
-				$('.connect').hide();
-			});
-
-			// Mint
-
-			$('#mintBtn').on('click', function(event) {
-				event.preventDefault();
-
-				$('.popset').openPop({message:'確認要鑄造Metavers Mint?',type:'check',complete:async function(){
-		             let mint_result = await mint_whitelist_word(wallet_info);
-		             $('.popset').hide();
-		  		 }});
-			});
-
-			// 最大限制 mint 數量
-			let maxMint = 1;
+			let maxMint = 5;
 			$('.inputWrap img').on('click', function(event) {
 				event.preventDefault();
 				/* Act on the event */
@@ -143,10 +108,7 @@
 				$('.inputWrap span').text(num.toString());
 			});
 
-			function settingMintData(world, dictionary){
-				$('#dictionaryHasMinted').empty().text(dictionary);
-				$('#worldHasMinted').empty().text(world);
-			}
+			
 		})
 	</script>
 </body>
