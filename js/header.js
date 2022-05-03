@@ -34,6 +34,7 @@
 						  		<!-- <li data-target="/found">鑄造</li>
 						  	<li data-target="/prove">證明</li>
 						  	<li data-target="/erc">ERC-721A</li>-->
+
 						</ul>
 					</div>
 				</div>

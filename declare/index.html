@@ -18,42 +18,12 @@
 	<link rel="stylesheet" href="../css/declare.css">
 	<script src="../js/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+	<script src="../js/header.js"></script>
+	<script src="../js/footer.js"></script>
 </head>
 <body>
 	<div id="app">
 		<header>
-			<div class="logo">
-				<img src="../image/mintve.svg" alt="">
-				<img src="../image/r.svg" alt="">
-				<img src="../image/se.svg" alt="">
-			</div>
-			<div class="menu-container">
-				<div class="marquee" data-duplicated='true' data-direction='right'>
-					<div class="container">
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-					</div>
-				</div>
-				<div class="menu">
-					<ul>
-					  	<li class="active">宣言</li>
-					 	<li data-target="/literature">文獻</li>
-					  	<li><span>鑄造</span></li>
-					  	<li><span>證明</span></li>
-					  	<li><span>ERC-721A</span></li>
-					</ul>
-				</div>
-			</div>
 		</header>
 		<section class="declare">
 			<h1>鑄造宣言</h1>
@@ -116,91 +86,25 @@
 					<li>3D製作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;謝博翰、陳泓宇（三頁文）</li>
 					<li>文案協力&nbsp;&nbsp;&nbsp;黃思齊（我是文案）</li>
 					<li>社群協力&nbsp;&nbsp;&nbsp;張添成（文化銀行）</li>
+					<li>外部顧問&nbsp;&nbsp;&nbsp;果殼 Mr.Shell</li>
 					<li>
 						感謝名單
 					</li>
 					<li>
-						Raimochi、Tefi、Hicy，
+						Raimochi、Tefi、Hicy、蝕鈴，
 					</li>
 					<li>以及每一位 Rug Pull Frens 的支持者</li>
 				</ul>
 			</div>
 		</section>
 		<footer>
-			<div class="arrow">
-				<img src="../image/arrow.png" alt="">
-			</div>
-			<p class="mintDescript" >
-				<span>
-					<span>5/5 免費鑄造</span><span>FREEMINT</span>
-				</span>
-			</p>
-			<div class="mint-container">
-				<div class="mint">
-					<label for="">鑄造</label>
-					<p>0000</p>
-				</div>
-				<div class="total">
-					<label for="">總量</label>
-					<p>2100</p>
-				</div>
-			</div>
-			<div class="social-container">
-				<ul>
-					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
-						<img src="../image/fb.svg" alt="">
-					</li>
-					<li data-target="https://www.instagram.com/mintverse.world/">
-						<img src="../image/ig.svg" alt="">
-					</li>
-					<li data-target="https://discord.gg/rugpullfrens">
-						<img src="../image/dc.svg" alt="">
-					</li>
-					<li>
-						<img src="../image/os.svg" alt="">
-					</li>
-				</ul>
-			</div>
-			<p class="law">第二宇宙世界觀</p>
 		</footer>
 	</div>
 	<script>
 		$(document).ready(function() {
-			$('.menu-container .marquee').marquee({
-				duplicated: true,
-				gap:0,
-				delayBeforeStart:1000
-			});
-			setTimeout(function(){
-				$('.menu-container .marquee .container').css('opacity', '1');
-			},1000)
+			$('header').setHeader();
+			$('footer').setFooter();
 
-			$('.menu li').click(function(event) {
-				/* Act on the event */
-				if(event.currentTarget.attributes.length!=0){
-					if(event.currentTarget.attributes[0].value != 'active'){
-						location.href = event.currentTarget.attributes[0].value;
-					}
-				}
-			});
-			$('.social-container ul li').click(function(event) {
-				/* Act on the event */
-				if(event.currentTarget.attributes.length!=0){
-					if(event.currentTarget.attributes[0].value != 'active'){
-						location.href = event.currentTarget.attributes[0].value;
-					}
-				}
-			});
-			$('.logo').on('click',function(event) {
-				event.preventDefault();
-				/* Act on the event */
-				location.href = '/';
-			});
-			$('.law').on('click', function(event) {
-				event.preventDefault();
-				/* Act on the event */
-				location.href = '/secondworld';
-			});
 		})
 	</script>
 </body>

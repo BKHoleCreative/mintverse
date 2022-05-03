@@ -119,7 +119,51 @@ body{
 .cardContainer .card.lock h2{
 	font-size: 42px;
 }
-
+.message {
+	  position: fixed;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--main-color);
+    height: 85px;
+    width: 95%;
+    box-sizing: border-box;
+    padding: 18px;
+    /*display: flex;*/
+    max-width: 310px;
+    display: none;
+}
+.message .word {
+	  width: 30%;
+    display: flex;
+    align-items: center;
+    border-right: 2px solid black;
+}
+.message .word img{
+	width: 23px;
+  align-self: center;
+  margin-right: 10px;
+}
+.message .word p, .message .context{
+	  color: black;
+    font-size: 15px;
+    font-weight: bold;
+}
+.message .context{
+	padding: 5px 15px;
+}
+@media (min-width: 576px){
+	.message{
+		  max-width: 500px;
+		  height: 105px;
+	}
+	.message .word img{
+		width: 36px;
+	}
+	.message .word p, .message .context{
+		font-size: 17px;
+	}
+}
 @media (min-width: 768px){
 	.literature h3{
 			max-width: 626px;
@@ -162,6 +206,9 @@ body{
 	}
 	.articlePage footer{
 		position: relative;
+	}
+	.message{
+		bottom: 20%;
 	}
 }
 @media (min-width: 1200px){

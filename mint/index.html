@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mintverse</title>
+	<meta name="description" content="每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。"/>
+	<meta property="og:title" content="Mintverse" />
+	<meta property="og:description" content="每一個詞彙，都收藏了世界的一個部分。一群詞彙交織起來，就是一個完整的宇宙。" />
+	<meta property="og:image" content="../cover.png"/>
+	<link rel="icon" type="image/x-icon" href="../favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../css/_reset.css">
+	<link rel="stylesheet" href="../css/header.css">
+	<link rel="stylesheet" href="../css/footer.css">
+	<link rel="stylesheet" href="../css/mint.css">
+	<script src="../js/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+	<script src="../js/header.js"></script>
+	<script src="../js/footer.js"></script>
+</head>
+<body>
+	<div id="app">
+		<header>
+			
+		</header>
+		<section class="mint ">
+			<div style="max-width:329px;margin:0 auto;">
+				<h4>錢包：<span>0x000000000000000000000</span></h4>
+				<h2>每個錢包限量持有一個詞彙加購辭典可收藏全部詞彙</h2>
+				<h2 class="whiteListContent">每個詞彙皆是獨一無二加購辭典可收藏全部的詞彙</h2>
+				<div class="inputWrap">
+					<img class="whiteListContent" src="../image/plus.svg" alt="">
+					<p>詞彙 x <span>1</span></p>
+					<img class="whiteListContent" src="../image/minus.svg" alt="">
+				</div>
+				<div class="mintNum">
+					<h2><span>限購一個：</span>FREE</h4>
+					<p><span>0001</span><span>/</span><span>2100</span></p>
+				</div>
+				<div class="line"></div>
+				<label class="check">加購辭典 (0.15 ETH)
+				  <input type="checkbox" checked="checked">
+				  <span class="checkmark"></span>
+				</label>
+				<div class="dictionaryNum">
+					<p><span>001</span><span>/</span><span>210</span></p>
+				</div>
+			</div>
+			<button>MINT 鑄造</button>
+		</section>
+		<footer>
+			<div class="arrow">
+				<img src="../image/arrow.png" alt="">
+			</div>
+			<p class="mintDescript" >
+				<span>
+					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+				</span>
+			</p>
+			<div class="mint-container">
+				<div class="mint">
+					<label for="">鑄造</label>
+					<p>0000</p>
+				</div>
+				<div class="total">
+					<label for="">總量</label>
+					<p>2100</p>
+				</div>
+			</div>
+			<div class="social-container">
+				<ul>
+					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
+						<img src="../image/fb.svg" alt="">
+					</li>
+					<li data-target="https://www.instagram.com/mintverse.world/">
+						<img src="../image/ig.svg" alt="">
+					</li>
+					<li data-target="https://discord.gg/rugpullfrens">
+						<img src="../image/dc.svg" alt="">
+					</li>
+					<li>
+						<img src="../image/os.svg" alt="">
+					</li>
+				</ul>
+			</div>
+			<p class="law">第二宇宙世界觀</p>
+		</footer>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('header').setHeader();
+			$('footer').setFooter();
+			let maxMint = 5;
+			$('.inputWrap img').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				let num = $('.inputWrap span').text();
+				let index = $( ".inputWrap img" ).index( this );
+				num = parseInt(num);
+				if(index == 0){
+					num = num + 1 <= maxMint ? num + 1 : num;
+				}else{
+					num = num - 1 < 1 ? num  : num - 1;
+				}
+				$('.inputWrap span').text(num.toString());
+			});
+
+			
+		})
+	</script>
+</body>
+</html>

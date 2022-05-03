@@ -16,42 +16,12 @@
 	<link rel="stylesheet" href="../css/article.css">
 	<script src="../js/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
+	<script src="../js/header.js"></script>
+	<script src="../js/footer.js"></script>
 </head>
 <body>
 	<div id="app">
 		<header>
-			<div class="logo">
-				<img src="../image/mintve.svg" alt="">
-				<img src="../image/r.svg" alt="">
-				<img src="../image/se.svg" alt="">
-			</div>
-			<div class="menu-container">
-				<div class="marquee" data-duplicated='true' data-direction='right'>
-					<div class="container">
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-						<div class="item">
-							<img src="../image/arrow.png" alt="">
-							<img src="../image/title.png" alt="">
-						</div>
-					</div>
-				</div>
-				<div class="menu">
-					<ul>
-					  	<li data-target="/declare">宣言</li>
-					 	<li class="active">文獻</li>
-					  	<li><span>鑄造</span></li>
-					  	<li><span>證明</span></li>
-					  	<li><span>ERC-721A</span></li>
-					</ul>
-				</div>
-			</div>
 		</header>
 		<section class="literature">
 			<h3>鑄造小組發現了人類僅存的十篇文獻，然而文獻中的詞彙盡皆散佚，等待各位注入定義後解鎖。</h3>
@@ -66,42 +36,14 @@
 			<div class="content"></div>
 			<div class="goTop"><img src="../image/back.svg" alt="">TOP</div>
 		</section>
+		<div class="message">
+			<div class="word">
+				<a href=""  target="_blank" ><img src="../image/opensea.png" alt=""></a>
+				<p></p>
+			</div>
+			<div class="context"></div>
+		</div>
 		<footer>
-			<div class="arrow">
-				<img src="../image/arrow.png" alt="">
-			</div>
-			<p class="mintDescript" >
-				<span>
-					<span>5/5 免費鑄造</span><span>FREEMINT</span>
-				</span>
-			</p>
-			<div class="mint-container">
-				<div class="mint">
-					<label for="">鑄造</label>
-					<p>0000</p>
-				</div>
-				<div class="total">
-					<label for="">總量</label>
-					<p>2100</p>
-				</div>
-			</div>
-			<div class="social-container">
-				<ul>
-					<li data-target="https://www.facebook.com/Mintverse-第二宇宙辭典-106473608717040">
-						<img src="../image/fb.svg" alt="">
-					</li>
-					<li data-target="https://www.instagram.com/mintverse.world/">
-						<img src="../image/ig.svg" alt="">
-					</li>
-					<li data-target="https://discord.gg/rugpullfrens">
-						<img src="../image/dc.svg" alt="">
-					</li>
-					<li>
-						<img src="../image/os.svg" alt="">
-					</li>
-				</ul>
-			</div>
-			<p class="law">第二宇宙世界觀</p>
 		</footer>
 	</div>
 	<script>
@@ -160,7 +102,25 @@
 					persent:0,
 				},
 			]
-
+			let synonymsList = { "reversed_tokens" : [
+		        {
+		          "id": 1,
+		          "name": "男人",
+		          "image_url": "https://mintverse.s3.ap-northeast-1.amazonaws.com/1.png",
+		          "gif_url": "https://mintverse.s3.ap-northeast-1.amazonaws.com/1.gif",
+		          "caster": "",
+		          "category": 1,
+		          "part_of_speechs": [],
+		          "synonyms": ['女人','小孩'],
+		          "context": "生物特徵為雄性特徵",
+		          "expire_time": 0,
+		          "current_time": 1651314475,
+		          "author": "甘耀明",
+		          "article_title": "垃圾夢",
+		          "status": 0,
+		          "opensea_url": 'https://opensea.io/assets/0x984f7b398d577c0adde08293a53ae9d3b6b7a5c5/3'
+		        }
+		      ]}
 			let article = null;
 			const SearchURL = new URL(window.location.href);
 			let params = SearchURL.searchParams;
@@ -174,44 +134,32 @@
 				$('.literature').show();
 				$('.article').hide();
 			}
-			$('.menu-container .marquee').marquee({
-				duplicated: true,
-				gap:0,
-				delayBeforeStart:1000
-			});
-			setTimeout(function(){
-				$('.menu-container .marquee .container').css('opacity', '1');
-			},1000)
-			$('.menu li').click(function(event) {
-				/* Act on the event */
-				if(event.currentTarget.attributes.length!=0){
-					if(event.currentTarget.attributes[0].value != 'active'){
-						location.href = event.currentTarget.attributes[0].value;
-					}
-				}
-			});
-			$('.social-container ul li').click(function(event) {
-				/* Act on the event */
-				if(event.currentTarget.attributes.length!=0){
-					if(event.currentTarget.attributes[0].value != 'active'){
-						location.href = event.currentTarget.attributes[0].value;
-					}
-				}
-			});
-			$('.law').on('click', function(event) {
+			$('header').setHeader();
+			$('footer').setFooter();
+
+			$('.content span').on('click', function(event) {
 				event.preventDefault();
-				/* Act on the event */
-				location.href = '/secondworld';
-			});
-			$('.logo').on('click',function(event) {
-				event.preventDefault();
-				/* Act on the event */
-				location.href = '/';
+				console.log(event.currentTarget.innerHtml)
+				//event.currentTarget.attributes['data-url'].value
+				$('.message .word p').text(event.currentTarget.innerHTML);
+				$('.message .context').text(event.currentTarget.attributes['data-discript'].value);
+				$('.message .word a').attr("href", event.currentTarget.attributes['data-url'].value);
+				$('.message').show(400);
+				$('.message').css('display', 'flex');
 			});
 			function renderArticle(){
+				data[article].article = replaceKeyWord(data[article].article);
 				$('.article .title').append(data[article].title);
 				$('.article .author').append('作家'+' '+data[article].author);
 				$('.article .content').append(data[article].article);
+			}
+			function replaceKeyWord(article){
+				console.log(article)
+				synonymsList.reversed_tokens.forEach( function(keyword, index) {
+					// statements
+					article = article.replaceAll(keyword.name, `<span data-discript="${keyword.context}" data-url="${keyword.opensea_url}">${keyword.name}</span>`)
+				});
+				return article;
 			}
 			data.sort(function(a, b) {
 			    return b.persent - a.persent;
