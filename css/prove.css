@@ -67,7 +67,7 @@
 }
 
 /* Arrow */
-.searchInput::after {
+.searchInput span {
 	cursor: pointer;
   content: "";
   width: 26px;
@@ -93,20 +93,26 @@
 }
 .result img{
 	width: 100%;
+}
+.result a{
+	width: 100%;
 	margin-bottom: 20px;
+}
+input{
+	color: #fff;
 }
 @media(min-width: 576px){
 	.prove{
 		max-width: 576px;
 		margin: 0 auto;
 	}
-	.result img{
+	.result a{
 		margin-right: 2%;
 		width: 49%;
 		/*max-width: 185px;*/
 		margin-bottom: 2%;
 	}
-	.result img:nth-of-type(2n){
+	.result a:nth-of-type(2n){
 		margin-right: 0;
 	}
 	.searchInput{
@@ -130,13 +136,13 @@
 	.searchInput{
 		margin: 0 auto 3.5em;
 	}
-	.result img{
+	.result a{
 		width: 32%;
 	}
-	.result img:nth-of-type(2n){
+	.result a:nth-of-type(2n){
 		margin-right: 2%;
 	}
-	.result img:nth-of-type(3n){
+	.result a:nth-of-type(3n){
 		margin-right: 0;
 	}
 }
@@ -156,16 +162,16 @@
 	.searchInput{
 		margin: 0 auto 5em;
 	}
-	.result img{
+	.result a{
 		width: 23%;
 	}
-	.result img:nth-of-type(2n){
+	.result a:nth-of-type(2n){
 		margin-right: 2%;
 	}
-	.result img:nth-of-type(3n){
+	.result a:nth-of-type(3n){
 		margin-right: 2%;
 	}
-	.result img:nth-of-type(4n){
+	.result a:nth-of-type(4n){
 		margin-right: 0;
 	}
 }
@@ -186,15 +192,15 @@
 	.searchInput{
 		margin: 0 auto 5em;
 	}
-	.result img{
+	.result a{
 		width: 16.9%;
 		margin-right: 3.85%;
 		margin-bottom: 3.85%;
 	}
-	.result img:nth-of-type(2n),.result img:nth-of-type(3n),.result img:nth-of-type(4n){
+	.result a:nth-of-type(2n),.result img:nth-of-type(3n),.result img:nth-of-type(4n){
 		margin-right: 3.85%;
 	}
-	.result img:nth-of-type(5n){
+	.result a:nth-of-type(5n){
 		margin-right: 0;
 	}
 }

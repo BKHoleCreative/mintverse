@@ -32,7 +32,7 @@
 			<div class="back"><img src="../image/back.svg" alt=""> 返回</div>
 			<h1 class="title"></h1>
 			<h3 class="author"></h3>
-			<button><img src="../image/back_orange.svg" alt="">其他的可能宇宙</button>
+			<button style="cursor:pointer;"><img src="../image/back_orange.svg" alt="">其他的可能宇宙</button>
 			<div class="content"></div>
 			<div class="goTop"><img src="../image/back.svg" alt="">TOP</div>
 		</section>
@@ -147,18 +147,37 @@
 				$('.message').show(400);
 				$('.message').css('display', 'flex');
 			});
+			$('.message').on('click', function(event) {
+				//event.preventDefault();
+				/* Act on the event */
+				console.log(event)
+				$('.message').hide();
+			});
+			$('.article button').on('click', replaceContext);
+			function replaceContext(){
+				let replacArticle;
+				$('.article .content').empty();
+				replacArticle = replaceKeyWord(data[article].article, 1);
+				$('.article .content').append(replacArticle);
+			}
 			function renderArticle(){
-				data[article].article = replaceKeyWord(data[article].article);
+				let replacArticle
+				replacArticle = replaceKeyWord(data[article].article, 0);
 				$('.article .title').append(data[article].title);
 				$('.article .author').append('作家'+' '+data[article].author);
-				$('.article .content').append(data[article].article);
+				$('.article .content').append(replacArticle);
 			}
-			function replaceKeyWord(article){
-				console.log(article)
-				synonymsList.reversed_tokens.forEach( function(keyword, index) {
-					// statements
-					article = article.replaceAll(keyword.name, `<span data-discript="${keyword.context}" data-url="${keyword.opensea_url}">${keyword.name}</span>`)
-				});
+			function replaceKeyWord(article, status){
+				if(status == 0){
+					synonymsList.reversed_tokens.forEach( function(keyword, index) {
+						article = article.replaceAll(keyword.name, `<span data-discript="${keyword.context}" data-url="${keyword.opensea_url}">${keyword.name}</span>`)
+					});
+				}else{
+					synonymsList.reversed_tokens.forEach( function(keyword, index) {
+						let num = getRandom(keyword.synonyms.length)
+						article = article.replaceAll(keyword.name, `<span data-discript="${keyword.context}" data-url="${keyword.opensea_url}">${keyword.synonyms[num]}</span>`)
+					});
+				}
 				return article;
 			}
 			data.sort(function(a, b) {
@@ -209,6 +228,9 @@
 			function insertStr(soure,start, newStr) {
   				return soure.slice(0, start) + newStr + soure.slice(start)
 			}
+			function getRandom(x){
+			    return Math.floor(Math.random()*x);
+			};
 		})
 	</script>
 </body>
