@@ -104,7 +104,7 @@ async function update_minting_status() {
     const dictionary_purchase_num = await WordContract.methods.totalDictionary().call({});
     const word_minted_num = await WordContract.methods.totalSupply().call({});
 
-    return word_minted_num, dictionary_purchase_num
+    return {word_minted_num, dictionary_purchase_num}
 }
 
 
