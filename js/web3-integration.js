@@ -232,8 +232,8 @@ async function mint_whitelist_word(wallet_info) {
                             url: connectionConfig.blockExplorerURI+"/tx/" + tx_hash,
                     		type: 'success' 
                     	});
-                    	await get_wallet_info_web3();
                     }
+                    console.log(receipt);
                 })
                 .on("error", function(error, receipt) {
                     console.log(error);
