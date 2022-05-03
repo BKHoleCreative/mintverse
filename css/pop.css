@@ -64,12 +64,13 @@
 	font-size: 18px;
 	border: none;
 	font-weight: bold;
+	cursor: pointer;
 }
-.pop .failed .close, .pop .check .close, .pop .success .url {
+.pop .failed .close, .pop .check .close, .pop .success .close {
 	background-color: #fff;
 	color: black;
 }
-.pop .success .close, .pop .check .check_btn {
+.pop .success .url, .pop .check .check_btn {
 	background-color: #FF4D00;
 	color: black;
 }
