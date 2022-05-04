@@ -59,7 +59,7 @@ async function onConnect() {
 
         // display wallet address
         const connectedAddress = await web3.eth.getAccounts();
-        $('#address').text(connectedAddress[0]);
+        $('#address').text(short_wallet(connectedAddress[0]));
     } catch (e) {
         console.log("Could not get a wallet connection", e);
         return false;
