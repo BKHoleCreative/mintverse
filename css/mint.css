@@ -153,7 +153,7 @@ section{
 	display: none;
 }
 .mint span{
-	color: #fff;
+	color: var(--main-color);
 }
 .mint h2{
 	font-size: 22px;
@@ -166,7 +166,7 @@ section{
 }
 .mint h4{
 	font-size: 18px;
-	color: #fff;
+	color: var(--main-color);
 	text-align: center;
 	margin-bottom: 40px;
 	letter-spacing: 0.05em;
