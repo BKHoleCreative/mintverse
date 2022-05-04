@@ -123,18 +123,18 @@ async function update_minting_status() {
 async function get_wallet_info_web3() {
     const web3 = new Web3(provider);
     const connectedAddress = await web3.eth.getAccounts();
-    const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
+    // const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
     
-    // get claimed number
-    const claimedNumber = await WordContract.methods.whitelistMintAmount(connectedAddress[0]).call({});
+    // // get claimed number
+    // const claimedNumber = await WordContract.methods.whitelistMintAmount(connectedAddress[0]).call({});
 
 
-    // get Dictionary Purchase status
-    const dictionaryPurchased = await WordContract.methods.purchaseDictionaryCheckByAddress(connectedAddress[0]).call({});
-    if(dictionaryPurchased){
-        $(".check").addClass("disabled");
-        $("#check").attr("disabled", true);
-    }
+    // // get Dictionary Purchase status
+    // const dictionaryPurchased = await WordContract.methods.purchaseDictionaryCheckByAddress(connectedAddress[0]).call({});
+    // if(dictionaryPurchased){
+    //     $(".check").addClass("disabled");
+    //     $("#check").attr("disabled", true);
+    // }
 
     axios
         .get("https://api.mintverse.world/word/whitelist/" + connectedAddress[0])
