@@ -52,11 +52,6 @@
 			/* Act on the event */
 			location.href = '/secondworld';
 		});
-		$(this).find('.mintDescript').on('click', function(event) {
-			event.preventDefault();
-			if(whiteListTimeCheck())
-				location.href = '/mint';
-		});
 		function whiteListTimeCheck() {
 	      let voteStart = new Date(2022, 4, 4, 20, 0, 0, 0);
 	      let voteEnd = new Date(2022, 4, 7, 14, 0, 0, 0);
@@ -70,6 +65,11 @@
 	      	return true;
 	      }
 	    }
+		$(this).find('.mintDescript').on('click', function(event) {
+			event.preventDefault();
+			if(whiteListTimeCheck())
+				location.href = '/mint';
+		});
 	    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
 			$(this).find('.mintDescript').addClass('whiteList');
 			$(this).find('.mintDescript span span:nth-of-type(1)').text('FREEMINT');
