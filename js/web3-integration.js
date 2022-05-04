@@ -153,6 +153,7 @@ async function get_wallet_info_web3() {
 
             	// Discount Wallet
             	onDisconnect();
+                return;
 
             }
 
