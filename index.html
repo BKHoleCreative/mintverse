@@ -163,8 +163,8 @@
 		    }
 			$('.mintDescript').on('click', function(event) {
 				event.preventDefault();
-				if(whiteListTimeCheck())
-					location.href = '/mint';
+				// if(whiteListTimeCheck())
+				location.href = '/mint';
 			});
 		    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
 				$('.mintDescript').addClass('whiteList');
