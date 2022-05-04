@@ -35,8 +35,8 @@
 			</div>
 		</section>
 		<section class="mint">
+			<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
 			<div>
-				<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
 				<h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
 				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2>
 				<div class="inputWrap">
@@ -45,7 +45,7 @@
 					<img  src="../image/minus.svg" alt="">
 				</div>
 				<div class="mintNum">
-					<h2><span>限購一個：</span>FREE</h4>
+					<h2><span>限購<span id="max_mint">1</span>個：</span>FREE</h4>
 					<p><span id="worldHasMinted">0001</span><span>/</span><span>2100</span></p>
 				</div>
 				<div class="line"></div>
@@ -80,7 +80,7 @@
 				let status = true;
 				if(status){
 					$('.popset').openPop({message:'連結錢包成功'});
-					$('#address').text('錢包地址');
+					$('#address').text('0x7cEaD04E4D41eDcd765154add180CD73951D2275');
 				}else{
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');

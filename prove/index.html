@@ -33,7 +33,7 @@
 				<span></span>
 			</div>
 			<div class="result">
-				
+				<h1 style="width:100%;">目前尚未有相關查詢結果喔</h1>
 			</div>
 		</section>
 		<footer>
@@ -71,6 +71,7 @@
 				})
 			}
 			async function search(key){
+				$('.result h1').hide();
 				let endpoint = `http://54.248.1.203:8080/api/mintverse/token/search`;
 				let data = await $.ajax({
 			  		type: "POST",
@@ -88,7 +89,10 @@
 				      	console.log(thrownError);
 				    }
 			  	})
-			  	renderGif();
+			  	if(serchData.length == 0)
+			  		$('.result h1').show();
+			  	else
+			  		renderGif();
 			}
 		})
 	</script>

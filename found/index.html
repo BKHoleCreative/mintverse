@@ -108,7 +108,7 @@
 					<p class="rule">這些詞彙，是由「第二宇宙辭典」鑄造小組，從舊文明考古遺中，挖掘出來的斷簡殘篇。我們目前不知道這些斷簡殘篇的意義和全貌。但如果有足夠多的人，進行了詞彙的鑄造——</p>
 					<p class="rule">也許，我們就能「贖回」那個可能存在的「第二宇宙」。</p>	
 				</div>
-				<div class="form" >
+				<div class="form" style="display: none">
 					<p class="deadline">DEADLINE <span>00:00:00</span><br>時限內沒有完成鑄造，詞彙將會永久死亡。</p>
 					<div class="inputWrap editForm">
 						<label for="">鑄造者 (填寫1-10個中文字)</label>
@@ -171,6 +171,9 @@
 			let wallet_info = {
 				address:'0x000000000000000000000',
 				nftIdList:[
+					{	
+						token:'0',
+					},
 					{
 						token:'1',
 					},
@@ -256,10 +259,11 @@
 							$('#noedit .info ul li:nth-of-type(3)').text('作家 ' + nftDetail.author);
 							$('.editForm').hide();
 							$('.edit button.disable').removeClass('disable');
-							noteditP5 = notedit(nftDetail.name);
+							noteditP5 = notedit(nftDetail.word.word);
 						} else {
 							$('.edit #myCanvas').show();
-							deadP5 = renderDead();
+							$('.dead').show();
+							deadP5 = renderDead(nftDetail.word.word);
 						}
 						break;
 					case 2:
