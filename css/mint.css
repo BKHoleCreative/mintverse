@@ -7,30 +7,50 @@
 	color: #FF4D00;
 }
 
+section{
+	flex-grow: 1;
+	position: relative;
+}
 #app{
 	background-color: black;
 	min-height: 100vh;
 	position: relative;
 	font-size: 0;
 	/*overflow: hidden;*/
+	display: flex; /*使物件依序排列*/
+  flex-direction: column; /*使物件垂直排列*/
 }
 
-.whiteList  h2:nth-of-type(1) {
-	display: none;
+
+.mint > div > h2{
+	color: var(--main-color);
 }
-.whiteListContent{
-	display: none;
+.mint > div > h2 span{
+	margin: 0 10px;
 }
-.whiteList .whiteListContent{
+.mint > p{
+	font-size: 14px;
+	text-align: center;
+}
+/*.whiteList  > div > h2:nth-of-type(1) {
 	display: block;
 }
+.publicSale  > div > h2:nth-of-type(2) {
+	display: block;
+}*/
+
+.mint > div {
+	max-width:329px;
+	margin:0 auto;
+}
+
 .check {
   display: block;
   position: relative;
   padding-left: 35px;
   margin-bottom: 20px;
   cursor: pointer;
-  font-size: 26px;
+  font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -41,6 +61,9 @@
   transform: translateX(-50%);
   font-weight: bold;
   letter-spacing: 0.05em;
+}
+.check.disabled{
+	color: rgba(255, 255, 255, 0.2);
 }
 /* Hide the browser's default checkbox */
 .check input {
@@ -61,11 +84,41 @@
   background-color: #eee;
 }
 
+.check.disabled .checkmark{
+	background-color: rgba(255,255,255,0.2);
+}
+.check.disabled:before{
+	content: '錢包已經加購辭典';
+	font-size: 14px;
+  color: var(--main-color);
+  position: absolute;
+  top: -26px;
+  display: block;
+  text-align: center;
+  width: 100%;
+  left: 0;
+}
+.check.soldout:before{
+	content: '辭典已售完';
+	font-size: 14px;
+  color: var(--main-color);
+  position: absolute;
+  top: -26px;
+  display: block;
+  text-align: center;
+  width: 100%;
+  left: 0;
+}
+.check.disabled
+  cursor: inherit;
+}
 /* On mouse-over, add a grey background color */
 .check:hover input ~ .checkmark {
   background-color: #ccc;
 }
-
+.check.disabled:hover input ~ .checkmark {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 /* When the checkbox is checked, add a blue background */
 .check input:checked ~ .checkmark {
   background-color: var(--main-color);
@@ -97,12 +150,13 @@
 }
 .mint{
 	padding: 80px 20px;
+	display: none;
 }
 .mint span{
-	color: #fff;
+	color: var(--main-color);
 }
 .mint h2{
-	font-size: 26px;
+	font-size: 22px;
 	text-align: center;
 	color: #fff;
 	line-height: 1.5;
@@ -112,15 +166,53 @@
 }
 .mint h4{
 	font-size: 18px;
-	color: #fff;
+	color: var(--main-color);
 	text-align: center;
 	margin-bottom: 40px;
 	letter-spacing: 0.05em;
 	font-weight: bold;
 }
+.connectWrap{
+	padding: 50px 20px;
+}
+.connectWrap h1{
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 30px;	
+	text-align: center;
+	line-height: 1.5;
+}
+.connectWrap p{
+	font-size: 18px;
+	display: block;
+	text-align: left;
+	letter-spacing: 0.05em;
+	line-height: 2;
+	padding: 0 20px;
+	max-width:299px;
+	margin: 0 auto;
+}
+.connectWrap h3{
+	font-size: 28px;
+	font-weight: bold;
+	text-align: left;
+	line-height: 2;
+	padding: 0 20px;
+	max-width:299px;
+	margin: 0 auto;
+}
+.connectWrap h3:nth-last-of-type(1){
+	margin-bottom: 60px;
+}
+.connectWrap span{
+	color: #fff;
+}
 .inputWrap{
 	position: relative;
 	margin-bottom: 40px;
+}
+.whiteList .inputWrap img{
+	display: block;
 }
 .inputWrap img{
 	cursor: pointer;
@@ -135,7 +227,7 @@
 	right:30px;
 }
 .inputWrap p {
-	font-size: 26px;
+	font-size: 22px;
 	color: #fff;
 	text-align: center;
 	letter-spacing: 0.05em;
@@ -148,12 +240,16 @@
 	justify-content: center;
 	letter-spacing: 0.05em;
 }
+
+.dictionaryNum.disabled span{
+	color: rgba(255, 255, 255, 0.2);
+}
 .mintNum h2{
 	margin-bottom: 10px;
 	font-weight: bold;
 }
 .mintNum span, .dictionaryNum span{
-	font-size: 26px;
+	font-size: 22px;
 	margin: 0 10px;
 	letter-spacing: 0.05em;
 }
@@ -166,7 +262,7 @@
 	background-color: #fff;
 	margin: 0 auto 60px;
 }
-.mint button {
+.mint button, .connectWrap button {
 	width: 269px;
 	line-height: 2.5;
 	border-radius: 100px;
@@ -174,12 +270,39 @@
 	font-weight: bold;
 	font-size: 18px;
 	border: none;
-	margin: 0 auto;
+	margin: 0 auto 20px;
 	display: block;
+	cursor: pointer;
+}
+.connectWrap button{
+	margin-bottom: 20px;
 }
 @media(min-width: 1200px){
-	.mint button {
+
+	.mint > div{
+		max-width: 390px;
+	}
+	.mint button , .connectWrap button {
 		width: 419px;
 		height: 73px;
+		font-size: 24px;
+	}
+	.connectWrap button{
+		margin-bottom: 40px;
+	}
+	.connectWrap h1{
+		font-size: 50px;
+	}
+	.connectWrap p{
+		font-size: 25px;
+	}
+	.connectWrap h3{
+	font-size: 50px;
+	}
+	.connectWrap p, .connectWrap h3{
+		max-width: 500px;
+	}
+	.check ,.mint h2, .inputWrap p, .mintNum span, .dictionaryNum span{
+		font-size: 26px;
 	}
 }

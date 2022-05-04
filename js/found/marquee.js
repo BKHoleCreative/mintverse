@@ -35,7 +35,7 @@ class marquee {
     this.r.width = this.width * 0.6;
     this.r.height = this.height * 0.05;
     this.r.x = (this.width - this.r.width)/2;
-    this.r.y = this.mint.height + this.mint.y;
+    this.r.y = this.mint.height + this.mint.y - 10;
     this.spritesheet = new Sprite(this.p5, this.animation, this.r.x, this.r.y, this.r.width , this.r.height, 1);
   }
   draw(){

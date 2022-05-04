@@ -31,7 +31,7 @@
 	<script  src="../js/found/timer.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
 	<script src="../js/found/sprite.js"></script>
-	<script src="../js/found/index.js"></script>
+	<script src="../js/found/sketch.js"></script>
 	<script src="../js/found/dead.js"></script>
 	<script src="../js/found/notedit.js"></script>
 	<script src="../js/header.js"></script>
@@ -66,12 +66,13 @@
 		<section class="edit">
 			<h1>唯一鑄造的原則是：「這些詞彙的意義，與現世人們的普遍理解絕對不同。」</h1>
 			<div id="empty" class="canvasWrap">
-				<img src="../image/logo.svg" alt="">
+				<img class="initImg" src="../image/logo.svg" alt="">
+				<img class="noReveal" style="display:none;width:100%;height:100%;" src="" alt="">
 			</div>
 			<div id="myCanvas" class="canvasWrap" style="display:none;">
 			</div>
 			<div id="noedit" style="display:none;" class ="canvasWrap" >
-				<div class="info">
+				<!-- <div class="info">
 					<h6>MINTVERSE DICTIONARY</h6>
 					<div class="token">
 						<label>TOKEN ID</label>
@@ -86,7 +87,7 @@
 						<li>宇宙飛船</li>
 						<li>作者 朱宥勳</li>
 					</ul>
-				</div>
+				</div> -->
 			</div>
 			<div class="formContainer">
 				<h4>錢包：<span>0x000000000000000000000</span></h4>
@@ -108,52 +109,53 @@
 					<p class="rule">這些詞彙，是由「第二宇宙辭典」鑄造小組，從舊文明考古遺中，挖掘出來的斷簡殘篇。我們目前不知道這些斷簡殘篇的意義和全貌。但如果有足夠多的人，進行了詞彙的鑄造——</p>
 					<p class="rule">也許，我們就能「贖回」那個可能存在的「第二宇宙」。</p>	
 				</div>
-				<div class="form" style="display:none;">
+				<div class="form" style="display: none">
 					<p class="deadline">DEADLINE <span>00:00:00</span><br>時限內沒有完成鑄造，詞彙將會永久死亡。</p>
-					<div class="inputWrap">
+					<div class="inputWrap editForm">
 						<label for="">鑄造者 (填寫1-10個中文字)</label>
 						<input type="text" id="author">
 					</div>
-					<div class="selectWrap">
+					<div class="selectWrap editForm">
 						<label for="">詞性</label>
 						<div class="select">
 							<select name="" id="speech">
-								<option value="">詞性</option>
+								<option value="0">無</option>
 								<option value="1">名詞</option>
 								<option value="2">動詞</option>
-								<option value="3">副詞</option>
-								<option value="4">形容詞</option>
-								<option value="5">介系詞</option>
-								<option value="6">狀聲詞</option>
-								<option value="7">代名詞</option>
-								<option value="8">連結詞</option>
-								<option value="9">感嘆詞</option>
+								<option value="3">形容詞</option>
+								<option value="4">嘆詞</option>
+								<option value="5">狀聲詞</option>
+								<option value="6">代詞</option>
+								<option value="7">介詞</option>
+								<option value="8">量詞</option>
+								<option value="9">助詞</option>
+								<option value="10">副詞</option>
 							</select>
 						</div>
 						<div class="select">
 							<select name="" id="speech1">
-								<option value="">詞性</option>
+								<option value="">無</option>
 							</select>
 						</div>
 					</div>
-					<div class="inputWrap synonym">
+					<div class="inputWrap synonym editForm">
 						<label for="">同義詞 (填寫1-4個，總字數不超過10個中文字)</label>
 						<input type="text" id="synonym0">
 						<input type="text" id="synonym1">
 						<input type="text" id="synonym2">
 						<input type="text" id="synonym3">
 					</div>
-					<div class="inputWrap">
+					<div class="inputWrap editForm">
 						<label for="textarea">註釋 (填寫 10-100 個中文字)</label>
 						<textarea name="" id="textarea" rows="6"></textarea>
 						<ul><li>如果你尚無靈感，可以參考鑄造小組的示範註釋。</li></ul>
 					</div>
 				</div>
 				<div class="dead" style="display:none;">
-					<p>一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話一段話</p>
+					<p></p>
 				</div>
 			</div>
-			<button>鑄造定義</button>
+			<button class="disable">開始鑄造</button>
 		</section>
 		<footer>
 			
@@ -162,6 +164,7 @@
 	<script>
 		$(document).ready(function() {
 			let deadP5, nftP5, noteditP5;
+			let status = 0;
 			$('header').setHeader();
 			$('footer').setFooter();
 			//nft();
@@ -170,6 +173,9 @@
 			let wallet_info = {
 				address:'0x000000000000000000000',
 				nftIdList:[
+					{	
+						token:'0',
+					},
 					{
 						token:'1',
 					},
@@ -198,14 +204,14 @@
 			  		changeView('empty')
 			  		return
 			  	}		
-			  	 const endpoint = `http://54.248.1.203:8080/api/mintverse/token/${this.value}`;
+			  	const endpoint = `http://54.248.1.203:8080/api/mintverse/token/${this.value}`;
 			  	let data = await $.ajax({
 			  		type: "GET",
 				    url: endpoint,
 				    dataType: "json",
 				    success: function (response) {
+				    	removeFormData();
 				    	nftDetail = response.token;
-				      	console.log(nftDetail)
 				      	changeView(nftDetail.status);
 				    },
 				    error: function (thrownError) {
@@ -214,26 +220,23 @@
 			  	})
 			  	//let valueIdx = $("#selectToken")[0].selectedIndex - 1;
 			});
+
 			$('#speech').on('change', function(event) {
-				let selectIndex = $("#speech").find(":selected").index();
-				$('#speech1').empty();
-				$('#speech1').append($("<option></option>").attr("value", "").text("詞性"));
-				if(selectIndex == 0)return;
-				$('#speech option').each(function(index){
-					if(index == selectIndex || index == 0)return;
-					$('#speech1').append($("<option></option>").attr("value", $(this).val()).text($(this).text()));
-				})
+				updateSelect();
 			})
-			// $('#synonym0').change(function(event) {
-			// 	/* Act on the event */
-			// 	let index = $(this).index();
-			// 	let totalText = $('#synonym0').val().replace(/\s/g, '').length + $('#synonym1').val().replace(/\s/g, '').length + $('#synonym2').val().replace(/\s/g, '').length + $('#synonym3').val().replace(/\s/g, '').length;
-			// 	console.log($(this).val())
-			// 	if(	totalText > 10 ){
-			// 		console.log($(this).val())
-			// 		$(this).val($(this).val().slice(0, -1));
-			// 	}
-			// });
+			function updateSelect(){
+				return new Promise((resolve, reject) => {
+					let selectIndex = $("#speech").find(":selected").index();
+					$('#speech1').empty();
+					$('#speech1').append($("<option></option>").attr("value", "0").text("無"));
+					if(selectIndex == 0)return;
+					$('#speech option').each(function(index){
+						if(index == selectIndex || index == 0)return;
+						$('#speech1').append($("<option></option>").attr("value", $(this).val()).text($(this).text()));
+					})
+					resolve();
+				})
+			}
 			function changeView(status){
 				console.log(nftDetail)
 				$('.canvasWrap').hide();
@@ -249,30 +252,90 @@
 					case 'empty':
 						$('.edit .rule').show();
 						$('.edit #empty').show();
-						break;
-					case 0:
-						$('.edit #empty').show();
+						$('.edit #empty .initImg').show();
+						$('.edit #empty .noReveal').hide();
+						$('.edit button').addClass('disable');
 						break;
 					case 1:
-						// if(nftDetail.current_time <= nftDetail.expire_time){
-						// 	$('.edit .form').show();
-						// 	$('.edit button').show();
-						// 	setCountdown(nftDetail.current_time * 1000, nftDetail.expire_time * 1000);
-						// 	$('#noedit').show();
-						// 	$('#noedit .info .id').text(nftDetail.id);
-						// 	$('#noedit .info ul li:nth-of-type(2)').text(nftDetail.article_title);
-						// 	$('#noedit .info ul li:nth-of-type(3)').text('作家 ' + nftDetail.author);
-						// 	noteditP5 = notedit(nftDetail.name);
-						// } else {
+						if(nftDetail.current_time <= nftDetail.expire_time){
+							$('.edit .form').show();
+							$('.edit button').show();
+							setCountdown(nftDetail.current_time * 1000, nftDetail.expire_time * 1000);
+							$('#noedit').show();
+							// $('#noedit .info .id').text(nftDetail.id);
+							// $('#noedit .info ul li:nth-of-type(2)').text(nftDetail.article_title);
+							// $('#noedit .info ul li:nth-of-type(3)').text('作家 ' + nftDetail.author);
+							$('.editForm').hide();
+							$('.edit button.disable').removeClass('disable');
+							let fontId = '0000' + nftDetail.id.toString();
+        					fontId = fontId.substr(-4);
+							let data = {
+								author:nftDetail.word.author,
+								id:fontId,
+								font:nftDetail.word.word
+							}
+							notedit(data).then(success => {
+							    if(success.status == 'finish'){
+							    	noteditP5 = success.p5;
+							    }
+							 }).catch(fail => {
+							    console.log(fail);
+							 });
+						} else {
 							$('.edit #myCanvas').show();
-							deadP5 = renderDead();
-						//}
+							$('.dead p').empty();
+							$('.dead p').text(nftDetail.word.dead_description);
+							$('.dead').show();
+							deadP5 = renderDead(nftDetail.word.word);
+						}
 						break;
 					case 2:
 						$('.edit button').show();
 						$('.edit .form').show();
 						$('.edit #myCanvas').show();
-						nftP5 = nft(nftDetail);
+						$('.edit button').removeClass('disable').text('MINT 鑄造定義');
+						let data = {
+							author:nftDetail.word.author,
+							id:nftDetail.id,
+							//font:nftDetail.word.word,
+							font:'分享',
+							context:nftDetail.word.context,
+							category:nftDetail.word.category,
+							synonyms:nftDetail.word.synonyms,
+							speechs:nftDetail.word.part_of_speechs,
+							//status:nftDetail.status,
+							status:2,
+							definer:nftDetail.definer
+						}
+						nft(data).then(async success => {
+							if(success.status == 'finish'){
+							   	nftP5 = success.p5;
+							   	$('#author').val(data.definer);
+							   	$('#textarea').val(data.context);
+
+							   	data.synonyms.forEach(function(word,index){
+							   		$(`#synonym${index}`).val(word);
+							   	})
+							   	$("#speech").val(data.speechs[0]);
+							   	//$("#speech").val(2);
+							   	if(data.speechs[0] != 0){
+							   		await updateSelect().then(() =>{
+										// console.log(data.speechs[1])
+									 	$("#speech1").val(data.speechs[1]);	
+									   	let selectIndex = $("#speech1").find(":selected").index();
+									});
+								}
+							}
+						}).catch(fail => {
+							console.log(fail);
+						});;
+						break;
+					case 3:
+						//$('.edit #empty img').attr("src", nftDetail.image_url);
+						$('.edit #empty .noReveal').attr("src", '../image/sample.gif');
+						$('.edit #empty .initImg').hide();
+						$('.edit #empty .noReveal').show();
+						$('.edit #empty').show();
 						break;
 					default:
 						// statements_def
@@ -286,6 +349,12 @@
 				delete nftP5;
 				delete deadP5;
 				delete noteditP5;
+			}
+			function removeFormData(){
+				$("#speech").val(0);
+				updateSelect();
+				$('input').val("");
+				$('texture').val("");
 			}
 			function setCountdown(start,end){
 				var countDownDate = new Date(end).getTime();

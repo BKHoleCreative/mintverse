@@ -16,9 +16,9 @@
 	<link rel="stylesheet" href="css/footer.css">
 	<link rel="stylesheet" href="css/header.css">
 	<link rel="stylesheet" href="css/index.css">
-	<script src="js/jquery-3.6.0.min.js"></script>
+	<script src="./js/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
-	<script src="../js/header.js"></script>
+	<script src="./js/header.js"></script>
 </head>
 <body>
 	<div id="app">
@@ -148,6 +148,29 @@
 				/* Act on the event */
 				location.href = '/secondworld';
 			});
+			function whiteListTimeCheck() {
+		      let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
+		      let voteEnd = new Date(2022, 4, 7, 14, 0, 0, 0);
+		      let now = new Date();
+		      // console.log(voteStart+"\n"+voteEnd+"\n"+now);
+		      if (now < voteStart) {
+		     	return false;
+		      } else if (now > voteEnd) {
+		      	return 'whiteListEnd';
+		      } else {
+		      	return true;
+		      }
+		    }
+			$('.mintDescript').on('click', function(event) {
+				event.preventDefault();
+				if(whiteListTimeCheck())
+					location.href = '/mint';
+			});
+		    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
+				$('.mintDescript').addClass('whiteList');
+				$('.mintDescript span span:nth-of-type(1)').text('FREEMINT');
+				$('.mintDescript span span:nth-of-type(2)').text('5/7 14:00截止');
+			}
 			function setMarqueeInit(status){
 				let newAppH = $('body').height();
 				let appW = $('#app').width();

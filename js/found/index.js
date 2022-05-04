@@ -687,7 +687,7 @@ function nft(data){
             p5.strokeWeight(5);
             if( item.y < maskPointY )
               p5.point(item.x * 1.3 + 130, item.y * 1.3 + 100 );
-            maskPointY -= 0.0005;
+            maskPointY += 0.0005;
           }
           messageIndex++;
           messageIndex %= message.length;

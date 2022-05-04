@@ -52,6 +52,29 @@
 			/* Act on the event */
 			location.href = '/secondworld';
 		});
+		function whiteListTimeCheck() {
+	      let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
+	      let voteEnd = new Date(2022, 4, 7, 14, 0, 0, 0);
+	      let now = new Date();
+	      // console.log(voteStart+"\n"+voteEnd+"\n"+now);
+	      if (now < voteStart) {
+	     	return false;
+	      } else if (now > voteEnd) {
+	      	return 'whiteListEnd';
+	      } else {
+	      	return true;
+	      }
+	    }
+		$(this).find('.mintDescript').on('click', function(event) {
+			event.preventDefault();
+			if(whiteListTimeCheck())
+				location.href = '/mint';
+		});
+	    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
+			$(this).find('.mintDescript').addClass('whiteList');
+			$(this).find('.mintDescript span span:nth-of-type(1)').text('FREEMINT');
+			$(this).find('.mintDescript span span:nth-of-type(2)').text('5/7 14:00截止');
+		}
 	}
 
 })(jQuery);

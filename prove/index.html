@@ -30,9 +30,10 @@
 			<p>在這裡，你可以看到所有的認證黑卡詞彙——代表這些鑄造者已被認證。這些合作夥伴都是與我們一起鑄造《MINTVERSE 第二宇宙辭典》的見證者，重新定義我們曾經熟悉的一切。<br><br>列表依照 TOKEN ID 進行排序。如果您持有 MINTVERSE 任何詞彙、且您或您的單位是在 Facebook、Instagram、Twitter 等社群平台上，已經被認證的帳號（除了既有首波合作夥伴，後續認證的必要條件為具有藍勾勾），歡迎來信並附上帳號權限證明，我們非常樂意為您升級為認證黑卡。請注意：如果認證黑卡被重新鑄造，原認證效果也將消失。<br><br>如果任何單位有與 MINTVERSE 的合作想法，歡迎來信洽詢，聯絡信箱：<br>info@humanoid.com.tw</p>
 			<div class="searchInput">
 				<input type="text" placeholder="請輸入詞彙關鍵字">
+				<span></span>
 			</div>
 			<div class="result">
-				
+				<h1 style="width:100%;">目前尚未有相關查詢結果喔</h1>
 			</div>
 		</section>
 		<footer>
@@ -42,12 +43,57 @@
 		$(document).ready(function() {
 			$('header').setHeader();
 			$('footer').setFooter();
-			let serchData = ['../image/sample.gif','../image/sample.gif','../image/sample.gif','../image/sample.gif','../image/sample.gif']
+			search("")
+			let serchData = [];
 
-			serchData.forEach(function(item){
-				$('.result').append(`<img src=${item}>`)
-			})
+			// serchData.forEach(function(item){
+			// 	$('.result').empty();
+			// 	$('.result').append(`<img src=${item}>`)
+			// })
+			$('.searchInput span').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				search($('input').val());
+			});
+			$( "input" ).keypress(function( event ) {
+			  if ( event.which == 13 ) {
+			     event.preventDefault();
+			     search($('input').val());
+			  }
+			});
 
+			function renderGif(){
+				$('.result').empty();
+				serchData.forEach(function(item){
+					let gif = item.gif_url;
+					gif = '../image/sample.gif'
+					$('.result').append(`<a href="${item.link}"><img src='${gif}''></a>`)
+				})
+			}
+			async function search(key){
+				$('.result h1').hide();
+				let endpoint = `http://54.248.1.203:8080/api/mintverse/token/search`;
+				let data = await $.ajax({
+			  		type: "POST",
+				    url: endpoint,
+				    dataType: "json",
+				    contentType:'application/json;charset=utf-8',
+				    data:JSON.stringify({
+					  "keyword": key,
+					  "token_category": 1
+					}),
+				    success: function (response) {
+				      	serchData = response.results;
+				    },
+				    error: function (thrownError) {
+				      	console.log(thrownError);
+				    }
+			  	})
+			  	if(serchData.length == 0)
+			  		$('.result h1').show();
+			  	else
+			  		renderGif();
+			}
 		})
 	</script>
 </body>

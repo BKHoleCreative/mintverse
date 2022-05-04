@@ -31,10 +31,9 @@
 						 	<li><span>鑄造</span></li>
 						  	<li><span>證明</span></li>
 						  	<li><span>ERC-721A</span></li>
-						  		<!-- <li data-target="/found">鑄造</li>
+						  	<!-- <li data-target="/found">鑄造</li>
 						  	<li data-target="/prove">證明</li>
 						  	<li data-target="/erc">ERC-721A</li>-->
-
 						</ul>
 					</div>
 				</div>
