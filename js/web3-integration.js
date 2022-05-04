@@ -104,7 +104,13 @@ async function update_minting_status() {
     const connectedAddress = await web3.eth.getAccounts();
     const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
 
+    // check whether dictionary has been soldout
     const dictionary_purchase_num = await WordContract.methods.totalDictionary().call({});
+    if(dictionary_purchase_num==210){
+        $(".check").addClass("disabled soldout");
+        $("#check").attr("disabled", true);
+    }
+
     const word_minted_num = await WordContract.methods.totalSupply().call({});
 
     return {word_minted_num, dictionary_purchase_num}
@@ -120,6 +126,14 @@ async function get_wallet_info_web3() {
     
     // get claimed number
     const claimedNumber = await WordContract.methods.whitelistMintAmount(connectedAddress[0]).call({});
+
+
+    // get Dictionary Purchase status
+    const dictionaryPurchased = await WordContract.methods.purchaseDictionaryCheckByAddress(connectedAddress[0]).call({});
+    if(dictionaryPurchased){
+        $(".check").addClass("disabled");
+        $("#check").attr("disabled", true);
+    }
 
     axios
         .get("https://api.mintverse.world/word/whitelist/" + connectedAddress[0])
