@@ -55,6 +55,9 @@ section{
   font-weight: bold;
   letter-spacing: 0.05em;
 }
+.check.disabled{
+	color: rgba(255, 255, 255, 0.2);
+}
 /* Hide the browser's default checkbox */
 .check input {
   position: absolute;
@@ -74,11 +77,30 @@ section{
   background-color: #eee;
 }
 
+.check.disabled .checkmark{
+	background-color: rgba(255,255,255,0.2);
+}
+.check.disabled:before{
+	content: '錢包已經加購辭典';
+	font-size: 14px;
+  color: var(--main-color);
+  position: absolute;
+  top: -26px;
+  display: block;
+  text-align: center;
+  width: 100%;
+  left: 0;
+}
+.check.disabled
+  cursor: inherit;
+}
 /* On mouse-over, add a grey background color */
 .check:hover input ~ .checkmark {
   background-color: #ccc;
 }
-
+.check.disabled:hover input ~ .checkmark {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 /* When the checkbox is checked, add a blue background */
 .check input:checked ~ .checkmark {
   background-color: var(--main-color);
@@ -180,6 +202,10 @@ section{
 	display: flex;
 	justify-content: center;
 	letter-spacing: 0.05em;
+}
+
+.dictionaryNum.disabled span{
+	color: rgba(255, 255, 255, 0.2);
 }
 .mintNum h2{
 	margin-bottom: 10px;

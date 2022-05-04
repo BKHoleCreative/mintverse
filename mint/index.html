@@ -35,8 +35,8 @@
 			</div>
 		</section>
 		<section class="mint">
-			<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
 			<div>
+				<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
 				<h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
 				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2>
 				<div class="inputWrap">
@@ -147,6 +147,17 @@
 				$('#dictionaryHasMinted').empty().text(dictionary);
 				$('#worldHasMinted').empty().text(world);
 			}
+
+			// 縮減錢包顯示數量
+			// 5/4 更新
+			//$('#max_mint').text('更新錢包可以mint的數量');
+			function short_wallet(str) {
+		        return str.slice(0, 6) + '...' + str.slice(-4);
+		    }
+		    // 增加字典限制加購樣式
+		    // $('.check, .dictionaryNum').addClass('disabled')
+		    // $('.check input').attr('disabled', true);
+
 		})
 	</script>
 </body>
