@@ -18,7 +18,7 @@
     
 counter-reset: item;
 list-style-position: outside;
-max-width: 93%;
+max-width: 91%;
 }
 .lawRule li {
     position: relative;
@@ -27,6 +27,7 @@ max-width: 93%;
 		list-style-position: outside;
 		color: #fff;
 		line-height: 2;
+		font-size: 16px;
 }
 .lawRule li:before {
 	content: counters(item, ".") ".";
@@ -68,6 +69,8 @@ section h3{
 	line-height: 1.5;
 	color: #fff;
 	margin-bottom: 1.5em;
+	text-align: justify;　/*　Firefox到此即可對齊　*/
+  text-justify: auto;　/*　IE需再加上此行　*/
 }
 
 @media(min-width: 768px){
