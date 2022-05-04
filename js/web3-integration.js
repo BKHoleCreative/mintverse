@@ -156,6 +156,17 @@ async function get_wallet_info_web3() {
             }
 
 
+            // if before minting, pop up qulification
+            let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
+            let now = new Date();
+            if(now < voteStart){
+                $('.popset').openPop({message:'通過驗證！您的地址可鑄造 '+wallet_info.mint_limit+" 個",type:'failed'});
+                $('#connectWallect').text('重新連結錢包');
+                onDisconnect();
+            }else{
+
+            }
+
 			// 最大限制 mint 數量
 			let maxMint = wallet_info.mint_limit - wallet_info.claimed_Number;
 			$('.inputWrap img').on('click', function(event) {
