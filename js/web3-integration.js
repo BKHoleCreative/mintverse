@@ -47,14 +47,14 @@ async function onConnect() {
         provider = await web3Modal.connect();
         const web3 = new Web3(provider);
         web3.eth.net.getNetworkType().then(async (netId) => {
-            if (netId!="rinkeby"){
-                $('.popset').openPop({message:'請切換至Rinkeby測試網以繼續！',type:'failed'});
-                return false;
-            }
-            // if (netId!="main"){
-            //     $('.popset').openPop({message:'請切換至以太主網再繼續！',type:'failed'});
+            // if (netId!="rinkeby"){
+            //     $('.popset').openPop({message:'請切換至Rinkeby測試網以繼續！',type:'failed'});
             //     return false;
-            // }        
+            // }
+            if (netId!="main"){
+                $('.popset').openPop({message:'請切換至以太主網再繼續！',type:'failed'});
+                return false;
+            }        
         });
 
         // display wallet address
