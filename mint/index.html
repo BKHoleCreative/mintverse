@@ -27,7 +27,7 @@
 	<div id="app">
 		<header>
 		</header>
-		<section class="connect" style="display: none;">
+		<section class="connect" style="display: block;">
 			<div class="connectWrap">
 				<!-- <p>錢包地址: <span>0x000000000</span></p> -->
 				<h1>MINTVERSE<br>第二宇宙辭典時程公告</h1>
@@ -40,7 +40,7 @@
 				<button id="connectWallect">連結錢包</button>
 			</div>
 		</section>
-		<section class="mint" style="display: block;">
+		<section class="mint" style="display: none;">
 			<div>
 				<h4>錢包：<span id="address" style="color:var(--main-color)">0x000000000000000000000</span></h4>
 				<h2>您最高可鑄造<span id="max_mint">1</span>個免費詞彙</h2>
@@ -102,13 +102,12 @@
 				}else{
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
-					return
 				}
 
 
 				// 設定已經被 mint 數量
-				let result = await update_minting_status(); 
-				settingMintData(result.word_minted_num, result.dictionary_purchase_num);
+				// let result = await update_minting_status(); 
+				// settingMintData(result.word_minted_num, result.dictionary_purchase_num);
 
 				// 決定為白名單或是公售樣式
 				let whiteList = true;
@@ -117,12 +116,16 @@
 
 	        		// get WL mint stauts on address
 		            wallet_info = await get_wallet_info_web3();
+
 				}else{
 					$('.mint').addClass('publicSale');
+					$('.mint').show();
+					$('.connect').hide();
 				}
-				
-				$('.mint').show();
-				$('.connect').hide();
+
+
+
+
 			});
 
 			// Mint
