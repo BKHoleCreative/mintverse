@@ -1,3 +1,4 @@
+
 :root {
   --main-color: #FF4D00;
 }
@@ -25,26 +26,12 @@ section{
 .mint > div > h2{
 	color: var(--main-color);
 }
-.mint > div > h5{
-	font-size: 20px;
-	margin-bottom: 50px;
-	text-align: center;
-	font-weight: bold;
-	color: #505050;
-}
 .mint > div > h2 span{
 	margin: 0 10px;
 }
-.mint > a{
-	font-size: 16px;
+.mint > p{
+	font-size: 14px;
 	text-align: center;
-	letter-spacing: 0.05em;
-	text-decoration: underline;
-	color: var(--main-color);
-	display: inline-block;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
 }
 /*.whiteList  > div > h2:nth-of-type(1) {
 	display: block;
@@ -167,7 +154,7 @@ section{
 	display: none;
 }
 .mint span{
-	color: #fff;
+	color: var(--main-color);
 }
 .mint h2{
 	font-size: 22px;
