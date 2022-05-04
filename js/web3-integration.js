@@ -127,7 +127,7 @@ async function get_wallet_info_web3() {
     
     // // get claimed number
     // const claimedNumber = await WordContract.methods.whitelistMintAmount(connectedAddress[0]).call({});
-
+    const claimedNumber = 0;
 
     // // get Dictionary Purchase status
     // const dictionaryPurchased = await WordContract.methods.purchaseDictionaryCheckByAddress(connectedAddress[0]).call({});
