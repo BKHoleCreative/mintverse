@@ -52,7 +52,7 @@ async function onConnect() {
                 return false;
             }
             // if (netId!="main"){
-            //     $('.popset').openPop({message:'請切換至已太主網以繼續！',type:'failed'});
+            //     $('.popset').openPop({message:'請切換至以太主網再繼續！',type:'failed'});
             //     return false;
             // }        
         });
@@ -148,7 +148,7 @@ async function get_wallet_info_web3() {
 
             // if free mint not available for connected address
             if(wallet_info.mint_limit==0){
-	    		$('.popset').openPop({message:'連結的地址不符合WhiteList Mint資格！',type:'failed'});
+	    		$('.popset').openPop({message:'連結的地址不符合白名單鑄造資格！',type:'failed'});
 
             	// Discount Wallet
             	onDisconnect();
@@ -197,13 +197,13 @@ async function mint_whitelist_word(wallet_info) {
     // Checks before minting
     // check on valid minting number
     if (mint_num > wallet_info.mint_limit - wallet_info.claimed_Number) {
-        $('.popset').openPop({ message: 'Whitelist Mint\n數量超過上限', type: 'failed' });
+        $('.popset').openPop({ message: '白名單鑄造數量超過上限', type: 'failed' });
     }
     // check qualification on contract
     const verification = await WordContract.methods.verify(wallet_info.mint_limit,wallet_info.signedSignature).call({from:connectedAddress[0]});
 
     if(!verification){
-        $('.popset').openPop({ message: 'Whitelist Mint資格有問題，請聯繫管項目方Admin', type: 'failed' });
+        $('.popset').openPop({ message: '白名單資格有問題，請聯繫Discord或FB/IG。', type: 'failed' });
         onDisconnect();
     }
 
@@ -233,7 +233,7 @@ async function mint_whitelist_word(wallet_info) {
                 .on("transactionHash", function(hash) {
                     tx_hash = hash;
                 	$('.popset').openPop({
-                		message: '您的Free Mint交易已送出，請耐心等候。',
+                		message: '您的 FREEMINT 交易已送出，請耐心等候。',
                         url: connectionConfig.blockExplorerURI+"/tx/" + tx_hash,
                 		type: 'success' 
                 	});
@@ -244,7 +244,7 @@ async function mint_whitelist_word(wallet_info) {
                         is_tx_success = true;
 
                     	$('.popset').openPop({
-                    		message: 'Whitelist Mint成功！。',
+                    		message: '詞彙鑄造成功！',
                             url: connectionConfig.blockExplorerURI+"/tx/" + tx_hash,
                     		type: 'success' 
                     	});
@@ -257,41 +257,41 @@ async function mint_whitelist_word(wallet_info) {
 
                     if (error.message.indexOf("EIP-1559") > -1) {
 	                	$('.popset').openPop({
-	                		message: 'here is a problem with the connection between Hardware Wallet(like Tezor) and Metamask, please use walletconnect instead or follow the official instruction on the bottom of this page.\n\n',
+	                		message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
 	                		type: 'failed' 
 	                	});
                     } else if (error.message.indexOf("Can't mint - WL mint phase hasn't enable") > -1) {
 	                	$('.popset').openPop({
-	                		message: "無法 Mint - 白名單階段尚未啟動",
+	                		message: "無法鑄造 - 白名單階段尚未啟動",
 	                		type: 'failed' 
 	                	});
                         onDisconnect();
                     } else if (error.message.indexOf("Can't mint - WL mint phase hasn't started") > -1) {
 	                	$('.popset').openPop({
-	                		message: "無法 Mint - 目前不是白名單Mint時間",
+	                		message: "無法鑄造 - 目前不是白名單鑄造時間",
 	                		type: 'failed' 
 	                	});
                         onDisconnect();
                     } else if (error.message.indexOf("Can't claim - Not eligible") > -1) {
 	                	$('.popset').openPop({
-	                		message: "無法 Mint - 您所連接的地址不符合白名單資格",
+	                		message: "無法鑄造 - 您所連接的地址不符合白名單資格",
 	                		type: 'failed' 
 	                	});
                         onDisconnect();
                     } else if (error.message.indexOf("Exceed maximum word amount") > -1) {
 	                	$('.popset').openPop({
-	                		message: "無法 Mint - 全數的Word都被Mint光了",
+	                		message: "無法鑄造 - 全數的詞彙都被鑄造光了，請等待42小時後重生的詞彙。",
 	                		type: 'failed' 
 	                	});
                         onDisconnect();
                     } else if (error.message.indexOf("insufficient funds") > -1) {
 	                	$('.popset').openPop({
-	                		message: "很抱歉，您的錢包的ETH餘額不足",
+	                		message: "很抱歉，您的錢包的 ETH 餘額不足",
 	                		type: 'failed' 
 	                	});
                     } else {
 	                	$('.popset').openPop({
-	                		message: "白名單 Mint 失敗！",
+	                		message: "白名單鑄造失敗！",
 	                		type: 'failed' 
 	                	});
                     }
@@ -299,44 +299,44 @@ async function mint_whitelist_word(wallet_info) {
         })
         .catch(function(error) {
             if (error.message.indexOf("EIP-1559") > -1) {
-            	$('.popset').openPop({
-            		message: 'here is a problem with the connection between Hardware Wallet(like Tezor) and Metamask, please use walletconnect instead or follow the official instruction on the bottom of this page.\n\n',
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
+                    type: 'failed' 
+                });
             } else if (error.message.indexOf("Can't mint - WL mint phase hasn't enable") > -1) {
-            	$('.popset').openPop({
-            		message: "無法 Mint - 白名單階段尚未啟動",
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: "無法鑄造 - 白名單階段尚未啟動",
+                    type: 'failed' 
+                });
                 onDisconnect();
             } else if (error.message.indexOf("Can't mint - WL mint phase hasn't started") > -1) {
-            	$('.popset').openPop({
-            		message: "無法 Mint - 目前不是白名單Mint時間",
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: "無法鑄造 - 目前不是白名單鑄造時間",
+                    type: 'failed' 
+                });
                 onDisconnect();
             } else if (error.message.indexOf("Can't claim - Not eligible") > -1) {
-            	$('.popset').openPop({
-            		message: "無法 Mint - 您所連接的地址不符合白名單資格",
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: "無法鑄造 - 您所連接的地址不符合白名單資格",
+                    type: 'failed' 
+                });
                 onDisconnect();
             } else if (error.message.indexOf("Exceed maximum word amount") > -1) {
-            	$('.popset').openPop({
-            		message: "無法 Mint - 全數的Word都被Mint光了",
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: "無法鑄造 - 全數的詞彙都被鑄造光了，請等待42小時後重生的詞彙。",
+                    type: 'failed' 
+                });
                 onDisconnect();
             } else if (error.message.indexOf("insufficient funds") > -1) {
-            	$('.popset').openPop({
-            		message: "很抱歉，您的錢包的ETH餘額不足",
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: "很抱歉，您的錢包的 ETH 餘額不足",
+                    type: 'failed' 
+                });
             } else {
-            	$('.popset').openPop({
-            		message: "白名單 Mint 失敗！",
-            		type: 'failed' 
-            	});
+                $('.popset').openPop({
+                    message: "白名單鑄造失敗！",
+                    type: 'failed' 
+                });
             }
         });
 }
