@@ -58,8 +58,8 @@
 				location.href = '/mint';
 		});
 		function whiteListTimeCheck() {
-	      let voteStart = new Date(2022, 5, 4, 20, 0, 0, 0);
-	      let voteEnd = new Date(2022, 5, 7, 14, 0, 0, 0);
+	      let voteStart = new Date(2022, 4, 4, 20, 0, 0, 0);
+	      let voteEnd = new Date(2022, 4, 7, 14, 0, 0, 0);
 	      let now = new Date();
 	      // console.log(voteStart+"\n"+voteEnd+"\n"+now);
 	      if (now < voteStart) {
