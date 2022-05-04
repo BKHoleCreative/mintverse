@@ -165,6 +165,7 @@ async function get_wallet_info_web3() {
                 $('.popset').openPop({message:'通過驗證！您的地址可鑄造 '+wallet_info.mint_limit+" 個",type:'failed'});
                 $('#connectWallect').text('重新連結錢包');
                 onDisconnect();
+                return;
             }else{
 
             }
