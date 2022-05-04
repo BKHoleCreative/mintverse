@@ -257,6 +257,7 @@ async function mint_whitelist_word(wallet_info) {
                     // ensure confirmation comes in once only.
                     if(!is_tx_success){
                         is_tx_success = true;
+                        console.log(receipt);
 
                     	$('.popset').openPop({
                     		message: '詞彙鑄造成功！',
@@ -264,7 +265,7 @@ async function mint_whitelist_word(wallet_info) {
                     		type: 'success' 
                     	});
                     }
-                    console.log(receipt);
+
                 })
                 .on("error", function(error, receipt) {
                     console.log(error);
