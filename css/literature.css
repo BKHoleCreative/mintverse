@@ -9,6 +9,9 @@
 body{
 	height: 100%;
 }
+a{
+	text-decoration: none;
+}
 #app{
 	background-color: black;
 	min-height: 100vh;
@@ -31,7 +34,8 @@ body{
 	font-weight: bold;
 	line-height: 1.4em;
 	max-width: 465px;
-	margin: 0 auto;
+	margin: 0 auto 50px;
+
 }
 .cardContainer{
 		padding: 80px 20px;
@@ -152,6 +156,24 @@ body{
 .message .context{
 	padding: 5px 15px;
 }
+.literature button{
+	background-color: var(--main-color);
+	width: 80%;
+	margin: 0 auto;
+	border: 2px solid var(--main-color);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	border-radius: 100px;
+	color: black;
+	font-weight: bold;
+	line-height: 1.5;
+	margin-bottom: -10px;
+	max-width: 293px;
+	cursor: pointer;
+}
+
 @media (min-width: 576px){
 	.message{
 		  max-width: 500px;
@@ -162,6 +184,9 @@ body{
 	}
 	.message .word p, .message .context{
 		font-size: 17px;
+	}
+	.literature button{
+		margin-bottom: -10px;
 	}
 }
 @media (min-width: 768px){
@@ -210,6 +235,9 @@ body{
 	.message{
 		bottom: 20%;
 	}
+	.literature button{
+		margin: 0 auto 0px auto;
+	}
 }
 @media (min-width: 1200px){
 	.literature h3{
@@ -243,6 +271,9 @@ body{
 	}
 	.cardContainer .card.lock h2{
 		font-size: 46px;
+	}
+	.literature button{
+		margin: 0 auto -20px auto
 	}
 }
 @media (min-width: 1440px){
