@@ -183,6 +183,10 @@ async function get_wallet_info_web3() {
 				$('.inputWrap span').text(num.toString());
 			});
 
+            // show wallet
+            $('.mint').show();
+            $('.connect').hide();
+
         })
         .catch(function(error) {
             console.log(error);
