@@ -28,6 +28,12 @@ footer{
 	font-size: 31px;
 	font-family: 'Inter';
 }
+.mintDescript.whiteList span span:nth-of-type(1){
+	font-size: 31px;
+}
+.mintDescript.whiteList span span:nth-of-type(2){
+	font-size: 18px;
+}
 .mint-container{
 	width: 44%;
 	border-top: 1px solid var(--main-color);
@@ -121,6 +127,9 @@ footer{
 	margin-right: 10px;
 	background-repeat: no-repeat;
 }
+.mintDescript.whiteList span span:nth-of-type(1):before{
+	display: none;
+}
 
 @media (max-width: 375px) {
 	.mintDescript span span:nth-of-type(1){
@@ -157,6 +166,9 @@ footer{
 	}
 	.mint-container {
 		width: 35%;
+	}
+	.mintDescript.whiteList span span{
+		text-align: left;
 	}
 	.social-container{
 		width: 55.9%;
@@ -232,6 +244,12 @@ footer{
 	.mintDescript span span:nth-of-type(2){
 		font-size: 43px;
 	}
+	.mintDescript.whiteList span span:nth-of-type(1){
+		font-size: 40px;
+	}
+	.mintDescript.whiteList span span:nth-of-type(2){
+		font-size: 23px;
+	}
 	.mint-container div label{
 		font-size: 20px;
 	}
@@ -260,6 +278,12 @@ footer{
 	}
 	.mintDescript span:nth-of-type(2){
 		font-size: 51px;
+	}
+	.mintDescript.whiteList span span:nth-of-type(1){
+		font-size: 50px;
+	}
+	.mintDescript.whiteList span span:nth-of-type(2){
+		font-size: 25px;
 	}
 	.mint-container div p{
 		font-size: 47px;
