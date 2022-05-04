@@ -5,7 +5,6 @@ class Timer {
 		this.delay = delay;
 		this.tiempoInicio = 0;
 		this.state = 0;
-		console.log(p5)
 	}
 	timeCount(time){
 		if (this.p5.millis() - this.tiempoInicio > time) {

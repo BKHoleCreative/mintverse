@@ -23,14 +23,21 @@ section{
 
 
 .mint > div > h2{
-	display: none;
+	color: var(--main-color);
 }
-.whiteList  > div > h2:nth-of-type(1) {
+.mint > div > h2 span{
+	margin: 0 10px;
+}
+.mint > p{
+	font-size: 14px;
+	text-align: center;
+}
+/*.whiteList  > div > h2:nth-of-type(1) {
 	display: block;
 }
 .publicSale  > div > h2:nth-of-type(2) {
 	display: block;
-}
+}*/
 
 .mint > div {
 	max-width:329px;
@@ -82,6 +89,17 @@ section{
 }
 .check.disabled:before{
 	content: '錢包已經加購辭典';
+	font-size: 14px;
+  color: var(--main-color);
+  position: absolute;
+  top: -26px;
+  display: block;
+  text-align: center;
+  width: 100%;
+  left: 0;
+}
+.check.soldout:before{
+	content: '辭典已售完';
 	font-size: 14px;
   color: var(--main-color);
   position: absolute;
@@ -155,17 +173,36 @@ section{
 	font-weight: bold;
 }
 .connectWrap{
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%,-50%);
+	padding: 50px 20px;
+}
+.connectWrap h1{
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 30px;	
+	text-align: center;
+	line-height: 1.5;
 }
 .connectWrap p{
-	color: #fff;
 	font-size: 18px;
 	display: block;
-	text-align: center;
+	text-align: left;
 	letter-spacing: 0.05em;
+	line-height: 2;
+	padding: 0 20px;
+	max-width:299px;
+	margin: 0 auto;
+}
+.connectWrap h3{
+	font-size: 28px;
+	font-weight: bold;
+	text-align: left;
+	line-height: 2;
+	padding: 0 20px;
+	max-width:299px;
+	margin: 0 auto;
+}
+.connectWrap h3:nth-last-of-type(1){
+	margin-bottom: 60px;
 }
 .connectWrap span{
 	color: #fff;
@@ -233,7 +270,7 @@ section{
 	font-weight: bold;
 	font-size: 18px;
 	border: none;
-	margin: 0 auto;
+	margin: 0 auto 20px;
 	display: block;
 	cursor: pointer;
 }
@@ -253,8 +290,17 @@ section{
 	.connectWrap button{
 		margin-bottom: 40px;
 	}
+	.connectWrap h1{
+		font-size: 50px;
+	}
 	.connectWrap p{
-		font-size: 24px;
+		font-size: 25px;
+	}
+	.connectWrap h3{
+	font-size: 50px;
+	}
+	.connectWrap p, .connectWrap h3{
+		max-width: 500px;
 	}
 	.check ,.mint h2, .inputWrap p, .mintNum span, .dictionaryNum span{
 		font-size: 26px;

@@ -1,10 +1,5 @@
-function notedit() {
+function notedit(nftDetail) {
     return new Promise((resolve, reject) => {
-        let nftDetail = {
-            author: '甘耀明',
-            font: '大象',
-            id: '0023'
-        }
         let p5js = new p5((p5) => {
             const parentId = 'noedit'
             let kMax;
@@ -17,8 +12,8 @@ function notedit() {
             let world = nftDetail.name;
             let font, logo, roboto, robotolight;
             let authorImg, novelImg, dictionaryName, checkImg;
+            let authorId = '';
             p5.preload = function() {
-                let authorId = '';
                 switch (nftDetail.author) {
                     case '甘耀明':
                         authorId = '1';
@@ -60,7 +55,10 @@ function notedit() {
                 roboto = p5.loadFont('../font/Roboto/Roboto-Black.ttf');
                 logo = p5.loadImage('../image/logo.png');
                 authorImg = p5.loadImage(`${path}author/author${authorId}.png`);
-                novelImg = p5.loadImage(`${path}novel/novel${authorId}.png`);
+                if(authorId == '3')
+                  novelImg = p5.loadImage(`${path}novel/novel${authorId}_title.png`);
+                else
+                  novelImg = p5.loadImage(`${path}novel/novel${authorId}.png`);
                 dictionaryName = p5.loadImage(`${path}dictionary.png`);
             }
             p5.setup = function() {
@@ -128,7 +126,13 @@ function notedit() {
 
 
                 p5.image(authorImg, 20 + ((p5.width - 40) / 3) * 2.5 - 125.33 * 0.75, p5.height - 97, 125.33 * 1.45, 60.41 * 1.45)
-                p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 / 2, p5.height - 80, 142.7, 60)
+                if(authorId == '4')
+                  p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 * 1.2 / 2, p5.height - ( 60*1.2 + 15), 142.7*1.2, 60*1.2)
+                else if(authorId == '3')
+                  p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 * 1.5 / 2, p5.height - 80, 142.7*1.5, 60)
+                else
+                  p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 / 2, p5.height - 80, 142.7, 60)
+
                 p5.image(dictionaryName, 20 + ((p5.width - 40) / 3) / 2 - 198.1 / 2, p5.height - 80, 198.1, 60)
 
 

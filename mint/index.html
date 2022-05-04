@@ -27,37 +27,45 @@
 	<div id="app">
 		<header>
 		</header>
-		<section class="connect">
+		<section class="connect" style="display: none;">
 			<div class="connectWrap">
-				<button id="connectWallect">連結錢包</button>
-				<p>尚未連結錢包</p>
 				<!-- <p>錢包地址: <span>0x000000000</span></p> -->
+				<h1>MINTVERSE<br>第二宇宙辭典時程公告</h1>
+				<p>第一波白單 FREEMINT</p>
+				<h3>5/5 20:00 - 5/7 14:00 </h3>
+				<p>開詞彙盲盒，撰寫定義</p>
+				<h3>5/9 12:00</h3>
+				<p>第二波公開FREEMINT</p>
+				<h3>5/10 12:00</h3>
+				<button id="connectWallect">連結錢包</button>
 			</div>
 		</section>
-		<section class="mint">
+		<section class="mint" style="display: block;">
 			<div>
 				<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
-				<h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
-				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2>
+				<h2>您最高可鑄造<span id="max_mint">1</span>個免費詞彙</h2>
+				<!-- <h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
+				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2> -->
 				<div class="inputWrap">
 					<img  src="../image/plus.svg" alt="">
-					<p>詞彙 x <span id="mintQuantity">1</span></p>
+					<p><span id="mintQuantity">1</span></p>
 					<img  src="../image/minus.svg" alt="">
 				</div>
 				<div class="mintNum">
-					<h2><span>限購<span id="max_mint">1</span>個：</span>FREE</h4>
-					<p><span id="worldHasMinted">0001</span><span>/</span><span>2100</span></p>
+					<p><span id="worldHasMinted">1</span><span>/</span><span>2100</span></p>
 				</div>
 				<div class="line"></div>
+				<h2>加購辭典可收藏<br>「10篇文獻＋2100個詞彙」<br>辭典會於5/9 00:00 空投至錢包</h2>
 				<label class="check">加購辭典 (0.15 ETH)
 				  <input type="checkbox" id="check">
 				  <span class="checkmark"></span>
 				</label>
 				<div class="dictionaryNum">
-					<p><span id="dictionaryHasMinted">001</span><span>/</span><span>210</span></p>
+					<p><span id="dictionaryHasMinted">1</span><span>/</span><span>210</span></p>
 				</div>
 			</div>
 			<button id="mintBtn">MINT 鑄造</button>
+			<p>如果你按下鑄造，表示你同意本協議</p>
 		</section>
 		<div class="popset"></div>
 		<footer>
@@ -156,6 +164,10 @@
 		    }
 		    // 增加字典限制加購樣式
 		    // $('.check, .dictionaryNum').addClass('disabled')
+		    // $('.check input').attr('disabled', true);
+
+		    // 增加字典賣完
+		    // $('.check, .dictionaryNum').addClass('soldout')
 		    // $('.check input').attr('disabled', true);
 
 		})
