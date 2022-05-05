@@ -58,7 +58,7 @@
 			location.href = '/secondworld';
 		});
 		function whiteListTimeCheck() {
-	      let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
+	      let voteStart = new Date(2022, 4, 1, 20, 0, 0, 0);
 	      let voteEnd = new Date(2022, 4, 7, 14, 0, 0, 0);
 	      let now = new Date();
 	      // console.log(voteStart+"\n"+voteEnd+"\n"+now);
