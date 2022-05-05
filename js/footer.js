@@ -36,7 +36,7 @@
 					</li>
 				</ul>
 			</div>
-			<p class="law">第二宇宙世界觀</p>
+			<p class="fontBtn"><span class="secondWorld">第二宇宙世界觀</span><span class="law">法律聲明</span></p>
 				
 		`)
 		$(this).find('.social-container ul li').click(function(event) {
@@ -48,6 +48,11 @@
 			}
 		});
 		$(this).find('.law').on('click', function(event) {
+			event.preventDefault();
+			/* Act on the event */
+			location.href = '/law';
+		});
+		$(this).find('.secondWorld').on('click', function(event) {
 			event.preventDefault();
 			/* Act on the event */
 			location.href = '/secondworld';

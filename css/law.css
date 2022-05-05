@@ -14,6 +14,38 @@
 	font-size: 0;
 	/*overflow: hidden;*/
 }
+.lawRule ol {
+    
+counter-reset: item;
+list-style-position: outside;
+max-width: 91%;
+}
+.lawRule li {
+    position: relative;
+    left: 2em;
+		display: block;
+		list-style-position: outside;
+		color: #fff;
+		line-height: 2;
+		font-size: 16px;
+}
+.lawRule li:before {
+	content: counters(item, ".") ".";
+	counter-increment: item;
+  position: absolute;
+  left: -2.5em;
+  display: block;
+  width: 2em;
+  text-align: right;
+}
+  
+.lawRule li li:before {
+  left: -2.5em;
+}
+  
+.lawRule li li li:before {
+  left: -3em;
+}
 section{
 	padding: 60px 20px 60px;
 	max-width: 576px;
@@ -37,6 +69,8 @@ section h3{
 	line-height: 1.5;
 	color: #fff;
 	margin-bottom: 1.5em;
+	text-align: justify;　/*　Firefox到此即可對齊　*/
+  text-justify: auto;　/*　IE需再加上此行　*/
 }
 
 @media(min-width: 768px){
@@ -51,7 +85,7 @@ section h3{
 	section h1:nth-of-type(n+2){
 		margin-top: 80px;
 	}
-	section h3{
+	section h3, .lawRule li{
 		font-size: 20px;
 	}
 	
@@ -68,7 +102,7 @@ section h3{
 	section h1:nth-of-type(n+2){
 		margin-top: 120px;
 	}
-	section h3{
+	section h3, .lawRule li{
 		font-size: 28px;
 	}
 	

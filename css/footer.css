@@ -34,6 +34,9 @@ footer{
 .mintDescript.whiteList span span:nth-of-type(2){
 	font-size: 18px;
 }
+.mintDescript.whiteList{
+	cursor: pointer;
+}
 .mint-container{
 	width: 44%;
 	border-top: 1px solid var(--main-color);
@@ -90,7 +93,7 @@ footer{
 .social-container ul li:nth-last-of-type(1) img{
 	opacity: 0.3;
 }
-.law {
+.fontBtn {
 	width: 100%;
 	/*border-left: 1px solid var(--main-color);*/
 	text-align: center;
@@ -99,7 +102,13 @@ footer{
 	font-weight: bold;
 	cursor: pointer;
 }
-
+.law{
+	border-top: 1px solid ;
+}
+.fontBtn span{
+	width: 100%;
+	display: block;
+}
 .arrow img{
 	animation: runRight;
 	animation-duration:2s;
@@ -173,13 +182,30 @@ footer{
 	.social-container{
 		width: 55.9%;
 	}
-	.law{
+	.fontBtn{
 		width: 43.9%;
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-around;
 		border-left: 1px solid var(--main-color);
 		border-bottom: 1px solid var(--main-color);
+		flex-direction: column;
+		position: relative;
+	}
+	.fontBtn:before{
+		content: '';
+		width: 100%;
+		height: 1px;
+		background-color: var(--main-color);
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.law{
+		border-top: none;
+	}
+	.fontBtn span{
+		line-height: 2;
 	}
 	.mintDescript span span:nth-of-type(1):before{
 		width: 16px;
@@ -207,11 +233,12 @@ footer{
 	.social-container ul li:nth-of-type(1){
 		border-left: 1px solid var(--main-color);
 	}
-	.law {
+	.fontBtn {
 		width: 100%;
 		border-bottom: none;
 		border-left: none;
 	}
+	
 }
 @media (min-width: 900px){
 	.mintDescript{
@@ -230,11 +257,14 @@ footer{
 	.social-container {
 	    width: 32.9%;
 	}
-	.law {
+	.fontBtn{
     	width: 13.9%;
     	border-top: 1px solid var(--main-color);
     	border-left: 1px solid var(--main-color);
     	border-bottom: 1px solid var(--main-color)
+	}
+	.law{
+		width: 100%;
 	}
 }
 @media (min-width: 1200px){
@@ -256,7 +286,7 @@ footer{
 	.mint-container div p{
 		font-size: 38px;
 	}
-	.law{
+	.fontBtn{
 		font-size: 20px;
 	}
 

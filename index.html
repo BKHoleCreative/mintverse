@@ -106,7 +106,7 @@
 					</li>
 				</ul>
 			</div>
-			<p class="law">第二宇宙世界觀</p>
+			<p class="fontBtn"><span class="secondWorld">第二宇宙世界觀</span><span class="law">法律聲明</span></p>
 		</footer>
 	</div>
 	<script>
@@ -146,7 +146,12 @@
 			$('.law').on('click', function(event) {
 				event.preventDefault();
 				/* Act on the event */
-				location.href = '/secondworld';
+				location.href = '/law';
+			});
+			$('.secondWorld').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				location.href = '/secondWorld';
 			});
 			function whiteListTimeCheck() {
 		      let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
@@ -163,8 +168,8 @@
 		    }
 			$('.mintDescript').on('click', function(event) {
 				event.preventDefault();
-				if(whiteListTimeCheck())
-					location.href = '/mint';
+				// if(whiteListTimeCheck())
+				location.href = '/mint';
 			});
 		    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
 				$('.mintDescript').addClass('whiteList');

@@ -42,7 +42,7 @@
 		</section>
 		<section class="mint" style="display: none;">
 			<div>
-				<h4>錢包：<span id="address">0x000000000000000000000</span></h4>
+				<h4>錢包：<span id="address" style="color:var(--main-color)">0x000000000000000000000</span></h4>
 				<h2>您最高可鑄造<span id="max_mint">1</span>個免費詞彙</h2>
 				<!-- <h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
 				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2> -->
@@ -55,7 +55,8 @@
 					<p><span id="worldHasMinted">1</span><span>/</span><span>2100</span></p>
 				</div>
 				<div class="line"></div>
-				<h2>加購辭典可收藏<br>「10篇文獻＋2100個詞彙」<br>辭典會於5/9 00:00 空投至錢包</h2>
+				<h2 style="margin-bottom:20px;">加購辭典可收藏<br>「10篇文獻＋2100個詞彙」</h2>
+				<h5>辭典會於 5/9 00:00 空投至錢包</h5>
 				<label class="check">加購辭典 (0.15 ETH)
 				  <input type="checkbox" id="check">
 				  <span class="checkmark"></span>
@@ -65,7 +66,7 @@
 				</div>
 			</div>
 			<button id="mintBtn">MINT 鑄造</button>
-			<p>如果你按下鑄造，表示你同意本協議</p>
+			<a href="/law">如果你按下鑄造，表示你同意本協議</a>
 		</section>
 		<div class="popset"></div>
 		<footer>
@@ -101,13 +102,12 @@
 				}else{
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
-					return
 				}
 
 
 				// 設定已經被 mint 數量
-				let result = await update_minting_status(); 
-				settingMintData(result.word_minted_num, result.dictionary_purchase_num);
+				// let result = await update_minting_status(); 
+				// settingMintData(result.word_minted_num, result.dictionary_purchase_num);
 
 				// 決定為白名單或是公售樣式
 				let whiteList = true;
@@ -116,12 +116,16 @@
 
 	        		// get WL mint stauts on address
 		            wallet_info = await get_wallet_info_web3();
+
 				}else{
 					$('.mint').addClass('publicSale');
+					$('.mint').show();
+					$('.connect').hide();
 				}
-				
-				$('.mint').show();
-				$('.connect').hide();
+
+
+
+
 			});
 
 			// Mint

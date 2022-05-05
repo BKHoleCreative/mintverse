@@ -16,6 +16,10 @@ a{
 .pointer{
 	cursor: pointer;
 }
+a{
+	text-decoration: none;
+}
+
 #app{
 	background-color: black;
 	min-height: 100vh;
@@ -39,7 +43,10 @@ a{
 	line-height: 1.4em;
 	max-width: 465px;
 	margin: 0 auto 50px;
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 }
 .cardContainer{
 		padding: 80px 0px;
@@ -119,7 +126,7 @@ a{
 	color: var(--main-color);
 }
 .cardContainer h2{
-	font-size: 30px;
+	font-size: 40px;
 	text-align: center;
 	background-color: var(--main-color);
 	color: #fff;
@@ -130,6 +137,7 @@ a{
   justify-content: center;
   flex-wrap: wrap;
   padding: 5px 0 8px;
+  line-height: 1.5;
 }
 .cardContainer span{
 	font-size: 30px;
@@ -320,4 +328,8 @@ a{
 	.cardContainer .card.lock h2{
 		font-size: 46px;
 	}
+	.literature button{
+		margin: 0 auto -20px auto
+	}
+
 }
