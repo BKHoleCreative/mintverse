@@ -159,7 +159,7 @@ async function get_wallet_info_web3() {
 
 
             // if before minting, pop up qulification
-            let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
+            let voteStart = new Date(2022, 4, 1, 20, 0, 0, 0);
             let now = new Date();
             if(now < voteStart){
                 $('.popset').openPop({message:'通過驗證！您的地址可鑄造 '+wallet_info.mint_limit+" 個",type:'failed'});
