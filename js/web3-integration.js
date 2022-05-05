@@ -171,6 +171,7 @@ async function get_wallet_info_web3() {
 				}
 				$('.inputWrap span').text(num.toString());
 			});
+			$('#max_mint').text(maxMint);
 
             // show wallet
             $('.mint').show();
