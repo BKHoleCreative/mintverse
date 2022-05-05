@@ -31,7 +31,7 @@
 					<li data-target="https://discord.gg/rugpullfrens">
 						<img src="../image/dc.svg" alt="">
 					</li>
-					<li>
+					<li data-target="https://opensea.io/collection/mintverseword">
 						<img src="../image/os.svg" alt="">
 					</li>
 				</ul>
