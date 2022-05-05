@@ -5,7 +5,7 @@
 			<div class="arrow">
 				<img src="../image/arrow.png" alt="">
 			</div>
-			<p class="mintDescript" >
+			<p class="mintDescript" style="cursor:pointer;" >
 				<span>
 					<span>5/5 免費鑄造</span><span>FREEMINT</span>
 				</span>
@@ -72,8 +72,8 @@
 	    }
 		$(this).find('.mintDescript').on('click', function(event) {
 			event.preventDefault();
-			if(whiteListTimeCheck())
-				location.href = '/mint';
+			// if(whiteListTimeCheck())
+			location.href = '/mint';
 		});
 	    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
 			$(this).find('.mintDescript').addClass('whiteList');
