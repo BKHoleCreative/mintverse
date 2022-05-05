@@ -13,6 +13,11 @@ footer{
 	padding: 10px 16px 6px;
 	box-sizing: border-box;
 }
+.mintDescript span{
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .mintDescript span span{
 	color: black;
 	font-weight: 900;
@@ -29,7 +34,7 @@ footer{
 	font-family: 'Inter';
 }
 .mintDescript.whiteList span span:nth-of-type(1){
-	font-size: 31px;
+	font-size: 18px;
 }
 .mintDescript.whiteList span span:nth-of-type(2){
 	font-size: 18px;
@@ -175,6 +180,9 @@ footer{
 	.mintDescript.whiteList span span{
 		text-align: left;
 	}
+	.mintDescript.whiteList span span:nth-of-type(1){
+		font-size: 23px;
+	}
 	.social-container{
 		width: 55.9%;
 	}
@@ -234,7 +242,12 @@ footer{
 		border-bottom: none;
 		border-left: none;
 	}
-	
+	.mintDescript.whiteList span span:nth-of-type(1){
+		font-size: 23px;
+	}
+	.mintDescript.whiteList span span:nth-of-type(2){
+		font-size: 21px;
+	}
 }
 @media (min-width: 900px){
 	.mintDescript{
@@ -271,7 +284,7 @@ footer{
 		font-size: 43px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(1){
-		font-size: 40px;
+		font-size: 30px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(2){
 		font-size: 23px;
@@ -306,7 +319,7 @@ footer{
 		font-size: 51px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(1){
-		font-size: 50px;
+		font-size: 37px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(2){
 		font-size: 25px;

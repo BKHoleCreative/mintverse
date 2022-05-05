@@ -77,7 +77,7 @@
 		});
 	    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
 			$(this).find('.mintDescript').addClass('whiteList');
-			$(this).find('.mintDescript span span:nth-of-type(1)').text('FREEMINT');
+			$(this).find('.mintDescript span span:nth-of-type(1)').text('FREEMINT 鑄造');
 			$(this).find('.mintDescript span span:nth-of-type(2)').text('5/7 14:00截止');
 		}
 	}
