@@ -71,6 +71,7 @@ async function onDisconnect() {
 
 	$('#connectWallect').text('重新連結錢包');
 	$('.mint').hide();
+	$('.mint-container .mint').show();
 	$('.connect').show();
 
 }
