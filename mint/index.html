@@ -99,6 +99,15 @@
 
 				if(connected){
 					$('.popset').openPop({message:'連結錢包成功'});
+
+
+		            // if before minting, pop up qulification
+		            let voteStart = new Date(2022, 4, 5, 20, 0, 0, 0);
+		            let now = new Date();
+		            if(now < voteStart){
+		                $('.popset').openPop({message:'白名單資格檢查中.....'});
+		            }
+
 				}else{
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
