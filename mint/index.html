@@ -155,17 +155,14 @@
 			});
 
 			// Mint
-			let minting =false;
 			$('#mintBtn').on('click', function(event) {
 				event.preventDefault();
-				if(!minting){
-					minting = true;
-					$('.popset').openPop({message:'確認要白名單 Mint?',type:'check',complete:async function(){
-			             let mint_result = await mint_whitelist_word(wallet_info);
-			             $('.popset').hide();
-			  		}});
-			  		minting = false;
-				}
+
+				$('.popset').openPop({message:'確認要白名單 Mint?',type:'check',complete:async function(){
+					$('.popset').openPop({message:'等待智能合約回應中.....'});
+		            let mint_result = await mint_whitelist_word(wallet_info);
+		            $('.popset').hide();
+		  		}});
 
 			});
 
