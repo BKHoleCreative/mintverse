@@ -141,7 +141,6 @@ async function get_wallet_info_web3() {
             	// Discount Wallet
             	onDisconnect();
                 return;
-
             }
 
 
@@ -157,6 +156,10 @@ async function get_wallet_info_web3() {
 
 			// 最大限制 mint 數量
 			let maxMint = wallet_info.mint_limit - wallet_info.claimed_Number;
+            if(maxMint==0){
+                $('.popset').openPop({message:'您已經超過鑄造上限的數量了'});
+                onDisconnect();
+            }
 			$('.inputWrap img').on('click', function(event) {
 				event.preventDefault();
 				/* Act on the event */
@@ -202,6 +205,7 @@ async function mint_whitelist_word(wallet_info) {
     // check on valid minting number
     if (mint_num > wallet_info.mint_limit - wallet_info.claimed_Number) {
         $('.popset').openPop({ message: '白名單鑄造數量超過上限', type: 'failed' });
+        onDisconnect();
     }
     // check qualification on contract
     const verification = await WordContract.methods.verify(wallet_info.mint_limit,wallet_info.signedSignature).call({from:connectedAddress[0]});
@@ -265,6 +269,7 @@ async function mint_whitelist_word(wallet_info) {
 	                		message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
 	                		type: 'failed' 
 	                	});
+                        onDisconnect();
                     } else if (error.message.indexOf("Can't mint - WL mint phase hasn't enable") > -1) {
 	                	$('.popset').openPop({
 	                		message: "無法鑄造 - 白名單階段尚未啟動",
@@ -300,11 +305,13 @@ async function mint_whitelist_word(wallet_info) {
 	                		message: "很抱歉，您的錢包的 ETH 餘額不足",
 	                		type: 'failed' 
 	                	});
+                        onDisconnect();
                     } else {
 	                	$('.popset').openPop({
 	                		message: "白名單鑄造失敗！",
 	                		type: 'failed' 
 	                	});
+                        onDisconnect();
                     }
                 });
         })
@@ -314,6 +321,7 @@ async function mint_whitelist_word(wallet_info) {
 	        		message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
 	        		type: 'failed' 
 	        	});
+                onDisconnect();
 	        } else if (error.message.indexOf("Can't mint - WL mint phase hasn't enable") > -1) {
 	        	$('.popset').openPop({
 	        		message: "無法鑄造 - 白名單階段尚未啟動",
@@ -349,11 +357,13 @@ async function mint_whitelist_word(wallet_info) {
 	        		message: "很抱歉，您的錢包的 ETH 餘額不足",
 	        		type: 'failed' 
 	        	});
+                onDisconnect();
 	        } else {
 	        	$('.popset').openPop({
 	        		message: "白名單鑄造失敗！",
 	        		type: 'failed' 
 	        	});
+                onDisconnect();
 	        }
         });
 }

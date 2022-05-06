@@ -127,6 +127,23 @@
 		            wallet_info = await get_wallet_info_web3();
 
 				}else{
+
+					// 最大限制 mint 數量
+					let maxMint = 1;
+					$('.inputWrap img').on('click', function(event) {
+						event.preventDefault();
+						/* Act on the event */
+						let num = $('.inputWrap span').text();
+						let index = $( ".inputWrap img" ).index( this );
+						num = parseInt(num);
+						if(index == 0){
+							num = num + 1 <= maxMint ? num + 1 : num;
+						}else{
+							num = num - 1 < 1 ? num  : num - 1;
+						}
+						$('.inputWrap span').text(num.toString());
+					});
+
 					$('.mint').addClass('publicSale');
 					$('.mint').show();
 					$('.connect').hide();
@@ -138,31 +155,18 @@
 			});
 
 			// Mint
-
 			$('#mintBtn').on('click', function(event) {
 				event.preventDefault();
 
 				$('.popset').openPop({message:'確認要白名單 Mint?',type:'check',complete:async function(){
-		             let mint_result = await mint_whitelist_word(wallet_info);
-		             $('.popset').hide();
-		  		 }});
+					$('.popset').openPop({message:'等待智能合約回應中.....'});
+		            let mint_result = await mint_whitelist_word(wallet_info);
+		            $('.popset').hide();
+		  		}});
+
 			});
 
-			// 最大限制 mint 數量
-			let maxMint = 1;
-			$('.inputWrap img').on('click', function(event) {
-				event.preventDefault();
-				/* Act on the event */
-				let num = $('.inputWrap span').text();
-				let index = $( ".inputWrap img" ).index( this );
-				num = parseInt(num);
-				if(index == 0){
-					num = num + 1 <= maxMint ? num + 1 : num;
-				}else{
-					num = num - 1 < 1 ? num  : num - 1;
-				}
-				$('.inputWrap span').text(num.toString());
-			});
+
 
 			function settingMintData(world, dictionary){
 				$('#dictionaryHasMinted').empty().text(dictionary);
