@@ -269,6 +269,7 @@ async function mint_whitelist_word(wallet_info) {
 	                		message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
 	                		type: 'failed' 
 	                	});
+                        onDisconnect();
                     } else if (error.message.indexOf("Can't mint - WL mint phase hasn't enable") > -1) {
 	                	$('.popset').openPop({
 	                		message: "無法鑄造 - 白名單階段尚未啟動",
@@ -304,11 +305,13 @@ async function mint_whitelist_word(wallet_info) {
 	                		message: "很抱歉，您的錢包的 ETH 餘額不足",
 	                		type: 'failed' 
 	                	});
+                        onDisconnect();
                     } else {
 	                	$('.popset').openPop({
 	                		message: "白名單鑄造失敗！",
 	                		type: 'failed' 
 	                	});
+                        onDisconnect();
                     }
                 });
         })
@@ -318,6 +321,7 @@ async function mint_whitelist_word(wallet_info) {
 	        		message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
 	        		type: 'failed' 
 	        	});
+                onDisconnect();
 	        } else if (error.message.indexOf("Can't mint - WL mint phase hasn't enable") > -1) {
 	        	$('.popset').openPop({
 	        		message: "無法鑄造 - 白名單階段尚未啟動",
@@ -353,11 +357,13 @@ async function mint_whitelist_word(wallet_info) {
 	        		message: "很抱歉，您的錢包的 ETH 餘額不足",
 	        		type: 'failed' 
 	        	});
+                onDisconnect();
 	        } else {
 	        	$('.popset').openPop({
 	        		message: "白名單鑄造失敗！",
 	        		type: 'failed' 
 	        	});
+                onDisconnect();
 	        }
         });
 }
