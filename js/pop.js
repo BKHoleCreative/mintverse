@@ -36,7 +36,7 @@
             }
         }
         let opts = $.extend(defaults, options);
-
+        $(this).find('.check_btn').off();
         $(this).find('.content').attr('class', 'content').addClass(opts.type);
         if(opts.type == 'check')
         {
