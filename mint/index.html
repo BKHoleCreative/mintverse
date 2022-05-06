@@ -127,6 +127,23 @@
 		            wallet_info = await get_wallet_info_web3();
 
 				}else{
+
+					// 最大限制 mint 數量
+					let maxMint = 1;
+					$('.inputWrap img').on('click', function(event) {
+						event.preventDefault();
+						/* Act on the event */
+						let num = $('.inputWrap span').text();
+						let index = $( ".inputWrap img" ).index( this );
+						num = parseInt(num);
+						if(index == 0){
+							num = num + 1 <= maxMint ? num + 1 : num;
+						}else{
+							num = num - 1 < 1 ? num  : num - 1;
+						}
+						$('.inputWrap span').text(num.toString());
+					});
+
 					$('.mint').addClass('publicSale');
 					$('.mint').show();
 					$('.connect').hide();
@@ -148,21 +165,7 @@
 		  		 }});
 			});
 
-			// 最大限制 mint 數量
-			let maxMint = 1;
-			$('.inputWrap img').on('click', function(event) {
-				event.preventDefault();
-				/* Act on the event */
-				let num = $('.inputWrap span').text();
-				let index = $( ".inputWrap img" ).index( this );
-				num = parseInt(num);
-				if(index == 0){
-					num = num + 1 <= maxMint ? num + 1 : num;
-				}else{
-					num = num - 1 < 1 ? num  : num - 1;
-				}
-				$('.inputWrap span').text(num.toString());
-			});
+
 
 			function settingMintData(world, dictionary){
 				$('#dictionaryHasMinted').empty().text(dictionary);
