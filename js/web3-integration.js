@@ -141,6 +141,8 @@ async function get_wallet_info_web3() {
             	// Discount Wallet
             	onDisconnect();
                 return;
+            }else{
+                $('.popset').openPop({message:'白名單資格確認！您的地址至多可鑄造 '+wallet_info.mint_limit+" 個"});
             }
 
 
