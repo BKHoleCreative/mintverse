@@ -78,7 +78,9 @@ async function onDisconnect() {
     }else{
         
         // on define page
-        removeFormData();
+        $("#speech").val(0);
+        $('input').val("");
+        $('texture').val("");
 
         $('.intro').show();
         $('.edit').hide();
