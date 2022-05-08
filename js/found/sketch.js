@@ -411,6 +411,9 @@ function nft(data){
           return (h + p5.random(0, 360)) % 360;
         }
         function authorInputEvent() {
+          if(totalText.replace(/\s/g, '').length > 10){
+            this.value(this.value().slice(0, -1));
+          }
           author = this.value();
           p5.textSize(50);
           p5.textFont('Noto Sans TC');
