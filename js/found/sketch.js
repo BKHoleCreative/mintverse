@@ -239,7 +239,7 @@ function nft(data){
             if(cardType)
               textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿白.png`));
             else
-              textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿黑.png`));
+              textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_b/${data.font}_黑.png`));
             let maskImg = p5.createImage(300, 150);
             maskImageGroup.push(maskImg);
           }
