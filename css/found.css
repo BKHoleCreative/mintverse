@@ -29,12 +29,11 @@ canvas{
 	position: absolute;
 	width: 100% !important;
 	height: 100% !important;
-	top: 0;
 }
 .canvasWrap{
 	position: relative;
 }
-#noedit {
+#noedit .info{
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -42,21 +41,21 @@ canvas{
 	box-sizing: border-box;
 	z-index: 2;
 }
-#noedit  > h6{
+#noedit .info > h6{
 	font-size: 12px;
 	letter-spacing: 0.1em;
 	color: #fff;
 	text-align: center;
 	margin-bottom: 20px;
 }
-#noedit  .token{
+#noedit .info .token{
 	border: 1px solid #fff;
 	display: inline-block;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%) scale(0.6);
 }
-#noedit  .token label{
+#noedit .info .token label{
 	color: #fff;
 	font-size: 12px;
 	line-height: 1.8;
@@ -65,7 +64,7 @@ canvas{
 	padding: 0 5px;
 	display: block;
 }
-#noedit  .token p{
+#noedit .info .token p{
 	font-family: "Monotype";
 	letter-spacing: 0.1em;
 	font-size: 18px;
@@ -81,7 +80,6 @@ canvas{
     transform: translateX(-50%);
     bottom: 13%;
     text-align: center;
-    z-index: 2;
 }
 #noedit .countdown label{
 	font-size: 12px;
@@ -90,12 +88,12 @@ canvas{
   display: block;
   letter-spacing: 0.1em;
 }
-#noedit  .countdown p{
+#noedit .countdown p{
     font-family: "Monotype";
     font-size: 23px;
     margin-bottom: 0;
 }
-#noedit  ul{
+#noedit .info ul{
 	position: absolute;
 	bottom: 0;
 	list-style: none;
@@ -105,14 +103,14 @@ canvas{
 	box-sizing: border-box;
 	padding: 1em 0;
 }
-#noedit  ul li{
+#noedit .info ul li{
 	font-size: 14px;
 	line-height: 1;
 	margin-bottom: 0;
 	width: 33.3%;
 	text-align: center;
 }
-#noedit  ul li:nth-of-type(2){
+#noedit .info ul li:nth-of-type(2){
 	border-right: 1px solid #fff;
 	border-left: 1px solid #fff;
 }
@@ -362,17 +360,17 @@ section ul li{
 	.form textarea{
 		height: 100px;
 	}
-	#noedit  > h6{
+	#noedit .info > h6{
 		font-size: 13px;
 		margin-bottom: 40px;
 	}
-	#noedit  .token{
+	#noedit .info .token{
 		transform: translateX(-50%) scale(0.8);
 	}
 	#noedit  .countdown{
 		bottom: 17%;
 	}
-	#noedit  ul li{
+	#noedit .info ul li{
 		font-size: 16px;
 	}
 	#noedit  .countdown label{
@@ -403,21 +401,21 @@ section ul li{
 	.form .synonym input:nth-last-of-type(1){
 		margin: 0;
 	}
-	#noedit {
+	#noedit .info{
 		padding-top: 30px;
 	}
-	#noedit  > h6{
+	#noedit .info > h6{
 		font-size: 19px;
 		margin-bottom: 65px;
 	}
-	#noedit  .token{
+	#noedit .info .token{
 		transform: translateX(-50%) scale(1);
 	}
 
-	#noedit  ul li{
+	#noedit .info ul li{
 		font-size: 22px;
 	}
-	#noedit  .countdown label{
+	#noedit .countdown label{
 		  transform: scale(1);
 		  font-size: 18px;
 	}
