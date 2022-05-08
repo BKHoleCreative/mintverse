@@ -69,10 +69,21 @@ async function onDisconnect() {
         provider = null;
     }
 
-	$('#connectWallect').text('重新連結錢包');
-	$('.mint').hide();
-	$('.mint-container .mint').show();
-	$('.connect').show();
+    if(location.pathname=='/mint/'){
+        // on minting page
+        $('#connectWallect').text('重新連結錢包');
+        $('.mint').hide();
+        $('.mint-container .mint').show();
+        $('.connect').show();
+    }else{
+        
+        // on define page
+        removeFormData();
+
+        $('.intro').show();
+        $('.edit').hide();
+    }
+
 
 }
 
@@ -519,6 +530,171 @@ async function mint_public_word(wallet_info){
                     type: 'failed' 
                 });
                 onDisconnect();
+            }
+        });
+}
+
+
+
+
+// Define Word Part
+
+// tokensOfOwner
+async function tokens_of_owner(define_data){
+    const web3 = new Web3(provider);
+    const connectedAddress = await web3.eth.getAccounts();
+    const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
+
+    const tokensOfOwner_result = await WordContract.methods.tokensOfOwner(connectedAddress[0]).call({});
+
+    let nftIdList = [];
+    for(i=0;i<result.length;i++){
+        nftIdList.push({
+            token:result[i]
+        })
+    }
+
+    let wallet_info = {
+        address:connectedAddress[0],
+        nftIdList
+    };
+
+    return wallet_info;
+}
+
+
+// define function
+async function define_word(define_data){
+    const web3 = new Web3(provider);
+    const connectedAddress = await web3.eth.getAccounts();
+    const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
+    let tx_hash;
+    let is_tx_success = false;
+
+
+    // Execute Minting
+    WordContract.methods.defineWord(
+            define_data.tokenId,
+            define_data.definer,
+            define_data.partOfSpeech1,
+            define_data.partOfSpeech2,
+            define_data.relatedWord,
+            define_data.description
+        )
+        .estimateGas({
+            from: connectedAddress[0],
+        })
+        .then(function(gasAmount) {
+            WordContract.methods.defineWord(
+                    define_data.tokenId,
+                    define_data.definer,
+                    define_data.partOfSpeech1,
+                    define_data.partOfSpeech2,
+                    define_data.relatedWord,
+                    define_data.description
+                )
+                .send({
+                    from: connectedAddress[0],
+                    gas: Math.floor(gasAmount * 1.5),
+                })
+                .on("transactionHash", function(hash) {
+                    tx_hash = hash;
+                    $('.popset').openPop({
+                        message: '您的 FREEMINT 交易已送出，請耐心等候。',
+                        url: connectionConfig.blockExplorerURI+"/tx/" + tx_hash,
+                        type: 'success' 
+                    });
+                })
+                .on('confirmation', async function(confirmationNumber, receipt) {
+                    // ensure confirmation comes in once only.
+                    if(!is_tx_success){
+                        is_tx_success = true;
+                        console.log(receipt);
+
+                        $('.popset').openPop({
+                            message: '詞彙定義成功！',
+                            url: connectionConfig.blockExplorerURI+"/tx/" + tx_hash,
+                            type: 'success' 
+                        });
+                    }
+
+                })
+                .on("error", function(error, receipt) {
+                    console.log(error);
+                    console.log(receipt);
+
+                    if (error.message.indexOf("EIP-1559") > -1) {
+                        $('.popset').openPop({
+                            message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
+                            type: 'failed' 
+                        });
+                        onDisconnect();
+                    } else if (error.message.indexOf("Can't define - Not the word owner") > -1) {
+                        $('.popset').openPop({
+                            message: "無法定義 - 你不是詞彙有者",
+                            type: 'failed' 
+                        });
+                        onDisconnect();
+                    } else if (error.message.indexOf("Invalid Block Time - Mint time shouldn't be larger than current time") > -1) {
+                        $('.popset').openPop({
+                            message: "無法定義 - Mint time shouldn't be larger than current time",
+                            type: 'failed' 
+                        });
+                        onDisconnect();
+                    } else if (error.message.indexOf("Invalid Block Time - This token is expired") > -1) {
+                        $('.popset').openPop({
+                            message: "無法定義 - 詞彙已死亡",
+                            type: 'failed' 
+                        });
+                        onDisconnect();
+                    } else if (error.message.indexOf("insufficient funds") > -1) {
+                        $('.popset').openPop({
+                            message: "很抱歉，您的錢包的 ETH 餘額不足",
+                            type: 'failed' 
+                        });
+                    } else {
+                        $('.popset').openPop({
+                            message: "詞彙定義失敗！",
+                            type: 'failed' 
+                        });
+                    }
+                });
+        })
+        .catch(function(error) {
+            if (error.message.indexOf("EIP-1559") > -1) {
+                $('.popset').openPop({
+                    message: '疑似冷錢包與小狐狸（Metamask）傳輸中出現問題，請嘗試使用WalletConnect重試。',
+                    type: 'failed' 
+                });
+                onDisconnect();
+            } else if (error.message.indexOf("Can't define - Not the word owner") > -1) {
+                $('.popset').openPop({
+                    message: "無法定義 - 你不是詞彙有者",
+                    type: 'failed' 
+                });
+                onDisconnect();
+            } else if (error.message.indexOf("Invalid Block Time - Mint time shouldn't be larger than current time") > -1) {
+                $('.popset').openPop({
+                    message: "無法定義 - Mint time shouldn't be larger than current time",
+                    type: 'failed' 
+                });
+                onDisconnect();
+            } else if (error.message.indexOf("Invalid Block Time - This token is expired") > -1) {
+                $('.popset').openPop({
+                    message: "無法定義 - 詞彙已死亡",
+                    type: 'failed' 
+                });
+                onDisconnect();
+            } else if (error.message.indexOf("insufficient funds") > -1) {
+                $('.popset').openPop({
+                    message: "很抱歉，您的錢包的 ETH 餘額不足",
+                    type: 'failed' 
+                });
+            } else {
+                $('.popset').openPop({
+                    message: "詞彙定義失敗！",
+                    type: 'failed' 
+                });
             }
         });
 }

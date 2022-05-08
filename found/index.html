@@ -172,33 +172,43 @@
 			//nft();
 			//renderDead();
 			//notedit();
-			let wallet_info = {
-				address:'0x000000000000000000000',
-				nftIdList:[
-					{	
-						token:'0',
-					},
-					{
-						token:'1',
-					},
-					{
-						token:'2',
-					},
-					{
-						token:'3',
-					}
-				]
-			}
+
 			let nftDetail = {};
-			wallet_info.nftIdList.forEach( function(item, index) {
-				// statements
-				$("#selectToken").append($("<option></option>").attr("value", item.token).text(item.token));
-			});
-			$('.intro button').on('click', function(event) {
+
+			$('.intro button').on('click', async function(event) {
 				event.preventDefault();
 				/* Act on the event */
-				$('.intro').hide();
-				$('.edit').show();
+
+				// connect wallet
+	            let connected = await onConnect(); 
+
+				if(connected){
+					$('.popset').openPop({message:'連結錢包成功'});
+
+		            // get wallet_info
+		            let wallet_info = await tokensOfOwner();
+
+		            if(wallet_info.nftIdList.length==0){
+		            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
+		            	onDisconnect();
+		            	return;
+		            }
+
+		            // create options for defining
+					wallet_info.nftIdList.forEach( function(item, index) {
+						// statements
+						$("#selectToken").append($("<option></option>").attr("value", item.token).text(item.token));
+					});
+
+					// display define page
+					$('.intro').hide();
+					$('.edit').show();
+
+				}else{
+					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
+				}
+
+
 			});
 			$('.edit button').on('click',function(event) {
 				event.preventDefault();
@@ -429,7 +439,29 @@
 			        },
 			      })
 			      .then((res) => {
-			        console.log(res);
+			        console.log(res.status);
+			        if(status==200){
+			        	// Upload GIF Successfully, send tx to contract
+			        	console.log(res.data.gif_url);
+			        	$('.popset').openPop({message:'鑄造準備完成，詞彙上鏈中....'});
+
+			        	// get defined data
+			        	let define_data = {
+			        		"tokenId":$("#selectToken").val(),
+							"definer":$("#author").val(),
+							"partOfSpeech1":$("#speech").val(),
+							"partOfSpeech2":$("#speech1").val(),
+							"relatedWord":$("#synonym0").val()+"_"+$("#synonym1").val()+"_"+$("#synonym2").val()+"_"+$("#synonym3").val(),
+							"description":$("#textarea").val()
+			        	}
+
+			        	// Start Define Word on contract
+			        	let define_result = await define_word(define_data);
+			        }else{
+			        	// Upload failed
+			        	console.log(res.data);
+			        	$('.popset').openPop({message:'鑄造時上傳失敗，請再重新嘗試一次'});
+			        }
 			      })
 			      .catch((err) => {
 			        console.log(err);
