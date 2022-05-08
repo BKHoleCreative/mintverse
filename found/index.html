@@ -539,8 +539,8 @@
 					let timer = null;
 					let canvas = canvasDom;
 					var gif = new GIF({
-					  workers: 2,
-					  quality: 5,
+					  workers: 8,
+					  quality: 3,
 					  workerScript:'../js/gifjs/gif.worker.js',
 					  repeat:0
 					});
@@ -562,9 +562,9 @@
 
 					function addFrame(canvas) {
 				        if (renderFinished) return;
-				        if (gif.frames.length < 10) {
+				        if (gif.frames.length < 150) {
 				        	console.log('addframe')
-				          	gif.addFrame(canvas, {delay: 200});
+				          	gif.addFrame(canvas, {delay: 30});
 				        } else {
 				        	clearInterval(timer);
 				        	console.log('render')
@@ -575,7 +575,7 @@
 				    }
 				    timer = setInterval(function(){
 				    	addFrame(canvas);
-				    },200);
+				    },100);
 			}
 
 		})
