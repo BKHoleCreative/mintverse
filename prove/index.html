@@ -72,7 +72,7 @@
 			}
 			async function search(key){
 				$('.result h1').hide();
-				let endpoint = `http://54.248.1.203:8080/api/mintverse/token/search`;
+				let endpoint = `https://54.248.1.203/api/mintverse/token/search`;
 				let data = await $.ajax({
 			  		type: "POST",
 				    url: endpoint,
