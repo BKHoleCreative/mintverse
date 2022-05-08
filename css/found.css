@@ -29,11 +29,12 @@ canvas{
 	position: absolute;
 	width: 100% !important;
 	height: 100% !important;
+	top: 0;
 }
 .canvasWrap{
 	position: relative;
 }
-#noedit .info{
+#noedit {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -41,21 +42,21 @@ canvas{
 	box-sizing: border-box;
 	z-index: 2;
 }
-#noedit .info > h6{
+#noedit  > h6{
 	font-size: 12px;
 	letter-spacing: 0.1em;
 	color: #fff;
 	text-align: center;
 	margin-bottom: 20px;
 }
-#noedit .info .token{
+#noedit  .token{
 	border: 1px solid #fff;
 	display: inline-block;
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%) scale(0.6);
 }
-#noedit .info .token label{
+#noedit  .token label{
 	color: #fff;
 	font-size: 12px;
 	line-height: 1.8;
@@ -64,7 +65,7 @@ canvas{
 	padding: 0 5px;
 	display: block;
 }
-#noedit .info .token p{
+#noedit  .token p{
 	font-family: "Monotype";
 	letter-spacing: 0.1em;
 	font-size: 18px;
@@ -74,26 +75,27 @@ canvas{
 	display: block;
 	text-align: center;
 }
-#noedit .info .countdown {
+#noedit .countdown {
 	  position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 20%;
+    bottom: 13%;
     text-align: center;
+    z-index: 2;
 }
-#noedit .info .countdown label{
+#noedit .countdown label{
 	font-size: 12px;
 	color: #fff;
   transform: scale(0.8);
   display: block;
   letter-spacing: 0.1em;
 }
-#noedit .info .countdown p{
+#noedit  .countdown p{
     font-family: "Monotype";
     font-size: 23px;
     margin-bottom: 0;
 }
-#noedit .info ul{
+#noedit  ul{
 	position: absolute;
 	bottom: 0;
 	list-style: none;
@@ -103,14 +105,14 @@ canvas{
 	box-sizing: border-box;
 	padding: 1em 0;
 }
-#noedit .info ul li{
+#noedit  ul li{
 	font-size: 14px;
 	line-height: 1;
 	margin-bottom: 0;
 	width: 33.3%;
 	text-align: center;
 }
-#noedit .info ul li:nth-of-type(2){
+#noedit  ul li:nth-of-type(2){
 	border-right: 1px solid #fff;
 	border-left: 1px solid #fff;
 }
@@ -360,23 +362,23 @@ section ul li{
 	.form textarea{
 		height: 100px;
 	}
-	#noedit .info > h6{
+	#noedit  > h6{
 		font-size: 13px;
 		margin-bottom: 40px;
 	}
-	#noedit .info .token{
+	#noedit  .token{
 		transform: translateX(-50%) scale(0.8);
 	}
-	#noedit .info .countdown{
+	#noedit  .countdown{
 		bottom: 17%;
 	}
-	#noedit .info ul li{
+	#noedit  ul li{
 		font-size: 16px;
 	}
-	#noedit .info .countdown label{
+	#noedit  .countdown label{
 		  transform: scale(1);
 	}
-	#noedit .info .countdown p{
+	#noedit  .countdown p{
 		font-size: 32px;
 	}
 }
@@ -401,25 +403,25 @@ section ul li{
 	.form .synonym input:nth-last-of-type(1){
 		margin: 0;
 	}
-	#noedit .info{
+	#noedit {
 		padding-top: 30px;
 	}
-	#noedit .info > h6{
+	#noedit  > h6{
 		font-size: 19px;
 		margin-bottom: 65px;
 	}
-	#noedit .info .token{
+	#noedit  .token{
 		transform: translateX(-50%) scale(1);
 	}
 
-	#noedit .info ul li{
+	#noedit  ul li{
 		font-size: 22px;
 	}
-	#noedit .info .countdown label{
+	#noedit  .countdown label{
 		  transform: scale(1);
 		  font-size: 18px;
 	}
-	#noedit .info .countdown p{
+	#noedit  .countdown p{
 		font-size: 46px;
 	}
 }
