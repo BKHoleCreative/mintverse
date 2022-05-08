@@ -80,6 +80,7 @@ canvas{
     transform: translateX(-50%);
     bottom: 13%;
     text-align: center;
+    z-index: 2;
 }
 #noedit .countdown label{
 	font-size: 12px;
