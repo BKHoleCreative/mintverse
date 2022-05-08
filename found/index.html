@@ -237,7 +237,7 @@
 
 			            // get wallet_info
 			            wallet_info = await tokens_of_owner();
-			            $(".formContainer >h4 >span").text(wallet_info.address);
+			            $(".formContainer >h4 >span").text(short_wallet(wallet_info.address));
 
 			            if(wallet_info.nftIdList.length==0){
 			            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
