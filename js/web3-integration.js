@@ -652,7 +652,7 @@ async function define_word(define_data){
                         onDisconnect();
                     } else if (error.message.indexOf("Invalid Block Time - Mint time shouldn't be larger than current time") > -1) {
                         $('.popset').openPop({
-                            message: "無法定義 - Mint time shouldn't be larger than current time",
+                            message: "無法定義 - 尚未到底詞彙定義時間",
                             type: 'failed' 
                         });
                         onDisconnect();
