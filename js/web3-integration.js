@@ -147,7 +147,7 @@ async function get_wallet_info_web3() {
             }
 
             // check whether public mint of whitelist mint
-            if(wallet_info.mint_limit==0 & wallet_info.claimed_Number==0){
+            if(wallet_info.mint_limit==0 && wallet_info.claimed_Number==0){
                 // validate public mint status
 	    		$('.popset').openPop({message:'您的地址至多可鑄造 1 個'});
                 wallet_info.is_whitelist_mint = false;
