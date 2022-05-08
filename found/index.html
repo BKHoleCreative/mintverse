@@ -214,6 +214,7 @@
 		$(document).ready(function() {
 			let deadP5, nftP5, noteditP5;
 			let status = 0;
+			let wallet_info;
 			$('header').setHeader();
 			$('footer').setFooter();
 			console.log('header')
@@ -235,7 +236,8 @@
 						$('.popset').openPop({message:'連結錢包成功'});
 
 			            // get wallet_info
-			            let wallet_info = await tokens_of_owner();
+			            wallet_info = await tokens_of_owner();
+			            $(".formContainer >h4 >span").text(wallet_info.address);
 
 			            if(wallet_info.nftIdList.length==0){
 			            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
@@ -444,7 +446,7 @@
 
 				  // Get today's date and time
 				  //var now = new Date().getTime();
-				  var now = new Data(startTime).getTime();
+				  var now = new Date(startTime).getTime();
 				  // Find the distance between now and the count down date
 				  var distance = countDownDate - startTime;
 
