@@ -108,7 +108,6 @@ function nft(data){
             width: bgW * 0.054,
             x: 0,
             y: 0,
-            inputData:'蛋餅人' 
           }
         }
         let notes = '', selectContent = '', selectContent1 = '', synonym =  '', author = '', synonymArr = ["", "", "", ""];
@@ -210,7 +209,7 @@ function nft(data){
           const imageMintName = cardType ? 'mint' : 'mint_black';
           const imageRName = cardType ? 'r' : 'r_black';
           const imgDisctionaryName = cardType ? 'disctionary' : 'disctionary_black';
-          img = p5.loadImage(`${path}word/單詞_${data.font}.png`);
+          img = p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿白.png`);
           imgMint = p5.loadImage(`${path}${imageMintName}.png`);
           imgR = p5.loadImage(`${path}${imageRName}.png`);
           imgDisctionary = p5.loadImage(`${path}${imgDisctionaryName}.png`);
@@ -219,7 +218,6 @@ function nft(data){
           pressStart = p5.loadFont('../font/PressStart2P-Regular.ttf')
           spritedata = p5.loadJSON('../js/found/rSpritesheet.json');
           Roboto = p5.loadFont('../font/Roboto/Roboto-Black.ttf');
-
           if(cardType){
             spritesheet = p5.loadImage(`${path}spritesheet.png`);
             authorImg = p5.loadImage(`${path}author/noto/author${authorId}.png`);
@@ -238,7 +236,10 @@ function nft(data){
             }
           }
           for(let i=0; i< maskStep*2; i++){
-            textImgAnimation.push(p5.loadImage(`../image/found/word/單詞_${data.font}.png`));
+            if(cardType)
+              textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿白.png`));
+            else
+              textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿黑.png`));
             let maskImg = p5.createImage(300, 150);
             maskImageGroup.push(maskImg);
           }
