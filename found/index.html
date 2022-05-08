@@ -36,6 +36,8 @@
 	<script src="../js/found/notedit.js"></script>
 	<script src="../js/header.js"></script>
 	<script src="../js/footer.js"></script>
+	<script src="../js/gifjs/gif.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 </head>
 <body>
 	<div id="app">
@@ -78,16 +80,16 @@
 						<label>TOKEN ID</label>
 						<p class="id">0023</p>
 					</div>
-					<div class="countdown">
-						<label for="">DEADLINE</label>
-						<p></p>
-					</div>
 					<ul>
 						<li>第二宇宙辭典</li>
 						<li>宇宙飛船</li>
 						<li>作者 朱宥勳</li>
 					</ul>
 				</div> -->
+				<div class="countdown">
+					<label for="">DEADLINE</label>
+					<p></p>
+				</div>
 			</div>
 			<div class="formContainer">
 				<h4>錢包：<span>0x000000000000000000000</span></h4>
@@ -119,17 +121,17 @@
 						<label for="">詞性</label>
 						<div class="select">
 							<select name="" id="speech">
-								<option value="0">無</option>
-								<option value="1">名詞</option>
-								<option value="2">動詞</option>
-								<option value="3">形容詞</option>
-								<option value="4">嘆詞</option>
-								<option value="5">狀聲詞</option>
-								<option value="6">代詞</option>
-								<option value="7">介詞</option>
-								<option value="8">量詞</option>
-								<option value="9">助詞</option>
-								<option value="10">副詞</option>
+								<option value="1">無</option>
+								<option value="2">名詞</option>
+								<option value="3">動詞</option>
+								<option value="4">形容詞</option>
+								<option value="5">嘆詞</option>
+								<option value="6">狀聲詞</option>
+								<option value="7">代詞</option>
+								<option value="8">連接詞</option>
+								<option value="9">量詞</option>
+								<option value="10">助詞</option>
+								<option value="11">副詞</option>
 							</select>
 						</div>
 						<div class="select">
@@ -198,6 +200,16 @@
 				$('.intro').hide();
 				$('.edit').show();
 			});
+			$('.edit button').on('click',function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				if($(this).hasClass('disable'))return;
+				if($(this).hasClass('submit')){
+					renderGif($('#myCanvas canvas')[0]);
+				}else{
+					changeView(2);
+				}
+			});
 			$('#selectToken').on('change', async function() {
 				
 			  	if(this.value == '' || this.value == wallet_info.nftIdList.token) {
@@ -212,7 +224,8 @@
 				    success: function (response) {
 				    	removeFormData();
 				    	nftDetail = response.token;
-				      	changeView(nftDetail.status);
+				      	//changeView(nftDetail.status);
+				      	changeView(2);
 				    },
 				    error: function (thrownError) {
 				      	console.log(thrownError);
@@ -274,6 +287,7 @@
 								id:fontId,
 								font:nftDetail.word.word
 							}
+							$('.edit button').removeClass('submit');
 							notedit(data).then(success => {
 							    if(success.status == 'finish'){
 							    	noteditP5 = success.p5;
@@ -293,7 +307,7 @@
 						$('.edit button').show();
 						$('.edit .form').show();
 						$('.edit #myCanvas').show();
-						$('.edit button').removeClass('disable').text('MINT 鑄造定義');
+						$('.edit button').removeClass('disable').addClass('submit').text('MINT 鑄造定義');
 						let data = {
 							author:nftDetail.word.author,
 							id:nftDetail.id,
@@ -358,15 +372,15 @@
 			}
 			function setCountdown(start,end){
 				var countDownDate = new Date(end).getTime();
-
+				let startTime = start;
 				// Update the count down every 1 second
 				var x = setInterval(function() {
 
 				  // Get today's date and time
-				  var now = new Date().getTime();
-
+				  //var now = new Date().getTime();
+				  var now = new Data(startTime).getTime();
 				  // Find the distance between now and the count down date
-				  var distance = countDownDate - now;
+				  var distance = countDownDate - startTime;
 
 				  // Time calculations for days, hours, minutes and seconds
 				  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -387,7 +401,83 @@
 				    clearInterval(x);
 				    $('.countdown p').text("Time Out");
 				  }
+				  startTime -= 1000;
 				}, 1000);
+			}
+			async function submitGif(blob){
+				console.log(blob)
+				let endpoint = `http://54.248.1.203:8080/api/mintverse/word/definition/${nftDetail.id}`;
+				let binary = '';
+				const blobToBinary = async (blob) => {
+				  const buffer = await blob.arrayBuffer();
+				  
+				  const view = new Int8Array(buffer);
+				  
+				  return [...view].map((n) => n.toString(2)).join(' ');
+				};
+				blobToBinary(blob).then( success =>{
+					binary = success;
+				});
+
+				let formData = new FormData();
+				formData.enctype = "multipart/form-data";
+				formData.append('file', blob); 
+
+				axios.post(endpoint, formData, {
+			        headers: {
+			          "Content-Type": "multipart/form-data",
+			        },
+			      })
+			      .then((res) => {
+			        console.log(res);
+			      })
+			      .catch((err) => {
+			        console.log(err);
+			      });
+			}
+
+			function renderGif(canvasDom){
+					let renderFinished = 0;
+					let timer = null;
+					let canvas = canvasDom;
+					var gif = new GIF({
+					  workers: 2,
+					  quality: 5,
+					  workerScript:'../js/gifjs/gif.worker.js',
+					  repeat:0
+					});
+					gif.on('finished', function(blob) {
+						const url = window.URL.createObjectURL(new Blob([blob]));
+				        //const link = document.createElement('a');
+				        //link.href = url;
+				        //link.setAttribute('download', `gif_dead_${idName}.gif`);
+				        //link.setAttribute('download', `giffile.gif`);
+				        // Append to html link element page
+				        //document.body.appendChild(link);
+				        // Start download
+				        //link.click(); 
+				        // Clean up and remove the link
+				        //link.parentNode.removeChild(link);
+				        submitGif(blob)
+					  	window.open(URL.createObjectURL(blob));
+					});
+
+					function addFrame(canvas) {
+				        if (renderFinished) return;
+				        if (gif.frames.length < 5) {
+				        	console.log('addframe')
+				          	gif.addFrame(canvas, {delay: 200});
+				        } else {
+				        	clearInterval(timer);
+				        	console.log('render')
+					          gif.render();
+					          renderFinished = true
+					          addFrame = null
+				        }
+				    }
+				    timer = setInterval(function(){
+				    	addFrame(canvas);
+				    },200);
 			}
 
 		})
