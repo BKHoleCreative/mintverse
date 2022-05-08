@@ -501,7 +501,7 @@
 			      })
 			      .then(async(res) => {
 			        console.log(res.status);
-			        if(status==200){
+			        if(res.status==200){
 			        	// Upload GIF Successfully, send tx to contract
 			        	console.log(res.data.gif_url);
 			        	$('.popset').openPop({message:'鑄造準備完成，詞彙上鏈中....'});
