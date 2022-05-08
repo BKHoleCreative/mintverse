@@ -200,6 +200,7 @@
 			</div>
 			<button class="disable">開始鑄造</button>
 		</section>
+		<div class="popset"></div>
 		<footer>
 		</footer>
 	</div>
@@ -210,6 +211,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="../js/web3-integration.js"></script>
 	<script src="../js/pop.js"></script>
+	<link rel="stylesheet" href="../css/pop.css">
 	<script>
 		$(document).ready(function() {
 			let deadP5, nftP5, noteditP5;
@@ -217,7 +219,8 @@
 			let wallet_info;
 			$('header').setHeader();
 			$('footer').setFooter();
-			console.log('header')
+			$('.popset').setPop();
+			console.log('header');
 			//nft();
 			//renderDead();
 			//notedit();
@@ -267,6 +270,7 @@
 				/* Act on the event */
 				if($(this).hasClass('disable'))return;
 				if($(this).hasClass('submit')){
+					$('.popset').openPop({message:'請稍候，詞彙定義準備中！請勿關閉視窗'});
 					renderGif($('#myCanvas canvas')[0]);
 				}else{
 					changeView(2);
