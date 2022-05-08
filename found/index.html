@@ -562,9 +562,9 @@
 
 					function addFrame(canvas) {
 				        if (renderFinished) return;
-				        if (gif.frames.length < 200) {
+				        if (gif.frames.length < 150) {
 				        	console.log('addframe')
-				          	gif.addFrame(canvas, {delay: 50});
+				          	gif.addFrame(canvas, {delay: 75});
 				        } else {
 				        	clearInterval(timer);
 				        	console.log('render')
@@ -575,7 +575,7 @@
 				    }
 				    timer = setInterval(function(){
 				    	addFrame(canvas);
-				    },50);
+				    },75);
 			}
 
 		})
