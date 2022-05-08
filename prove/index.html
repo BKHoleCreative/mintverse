@@ -66,7 +66,7 @@
 				$('.result').empty();
 				serchData.forEach(function(item){
 					let gif = item.gif_url;
-					gif = '../image/sample.gif'
+					//gif = '../image/sample.gif'
 					$('.result').append(`<a href="${item.link}"><img src='${gif}''></a>`)
 				})
 			}
@@ -80,7 +80,7 @@
 				    contentType:'application/json;charset=utf-8',
 				    data:JSON.stringify({
 					  "keyword": key,
-					  "token_category": 2
+					  "token_category": 1
 					}),
 				    success: function (response) {
 				      	serchData = response.results;

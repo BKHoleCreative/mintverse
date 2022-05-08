@@ -937,7 +937,6 @@ function nft(data){
 
           //// 5/5
           if(synonym != ""){
-          console.log(synonym)
           p5.fill(blockData.textColor)
           synonymMarqueeX -= 2;
           synonymMarquee1X -= 2;
