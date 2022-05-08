@@ -154,6 +154,11 @@ function nft(data){
 
         let emojiArr = [];
 
+        let mainTextSize = 90;
+        let level = [95, 70, 50, 40, 30, 20, 10, 10, 10, 10];
+        let lines = [1, 2, 3, 4, 5, 5, 6, 6, 6, 6];
+        let currentLevel = 0;
+        let currnTextWidth = 0;
 
     p5.preload = function(){
       let authorId = '0';
@@ -394,7 +399,22 @@ function nft(data){
             selectContent = selectList(data.speechs[0]);
             selectContent1 = selectList(data.speechs[1]);
             calcAuthorWidth(author);
+            fontSizeMini();
           }
+        }
+        function fontSizeMini(){
+          console.log('fontSizeMini')
+          let length = notes.length;
+          p5.textSize(mainTextSize);
+          currnTextWidth = p5.textWidth(notes);          
+          if(currnTextWidth > 750*lines[currentLevel] + 550 - (mainTextSize*(currentLevel+1))*2.5 - currentLevel*20){
+            oldLength = notes.length
+            currentLevel++;
+            mainTextSize = level[currentLevel];
+            if(currentLevel>=9) currentLevel = 9;
+            fontSizeMini();
+          }
+          
         }
         function makeMask(maskImage, inverse, max){
           //maskImage: 要生成的遮罩圖
@@ -1100,11 +1120,6 @@ function nft(data){
 
             blinkArr.push([ marqueeData.x, marqueeData.y, marqueeData.width, marqueeData.height, 0 ])
         }
-        let mainTextSize = 90;
-        let level = [95, 70, 50, 40, 30, 20, 10, 10, 10, 10];
-        let lines = [1, 2, 3, 4, 5, 5, 6, 6, 6, 6];
-        let currentLevel = 0;
-        let currnTextWidth = 0;
 
         function measureText(){
           let length = notes.length;
