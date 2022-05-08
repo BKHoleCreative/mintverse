@@ -111,18 +111,6 @@ function nft(data){
           }
         }
         let notes = '', selectContent = '', selectContent1 = '', synonym =  '', author = '', synonymArr = ["", "", "", ""];
-        if(data.status == 2){
-          notes = data.context;
-          if(author != undefined && author != null)
-            author = data.definer;
-          data.synonyms.forEach(function(word, index){
-            synonymArr[index] = word;
-          });
-          //synonym = synonymArr.join(' ');
-          synonym = synonymArr;
-          selectContent = selectList(data.speechs[0]);
-          selectContent1 = selectList(data.speechs[1]);
-        }
         let oldLength = 0;
         const marqueeSpeed = 5;
         let sel,sel1;
@@ -165,6 +153,8 @@ function nft(data){
         let aniSpeed = 2; //數值越小越快
 
         let emojiArr = [];
+
+
     p5.preload = function(){
       let authorId = '0';
           switch (data.author) {
@@ -299,6 +289,7 @@ function nft(data){
           sel1 = p5.select('#speech1');
           sel1.changed(selectChange1);
 
+
           img.loadPixels()
           imgDotList = [];
           messageIndex = 0;
@@ -390,6 +381,20 @@ function nft(data){
           setBlinkData();
           setTimeGap();
           resolve({p5:p5js,status:'finish'});
+          if(data.status == 2){
+            notes = data.context;
+            changeNote(notes);
+            if(author != undefined && author != null)
+              author = data.definer;
+            data.synonyms.forEach(function(word, index){
+              synonymArr[index] = word;
+            });
+            //synonym = synonymArr.join(' ');
+            synonym = synonymArr;
+            selectContent = selectList(data.speechs[0]);
+            selectContent1 = selectList(data.speechs[1]);
+            calcAuthorWidth(author);
+          }
         }
         function makeMask(maskImage, inverse, max){
           //maskImage: 要生成的遮罩圖
@@ -415,6 +420,9 @@ function nft(data){
             this.value(this.value().slice(0, -1));
           }
           author = this.value();
+          calcAuthorWidth(author);
+        }
+        function calcAuthorWidth(author){
           p5.textSize(50);
           p5.textFont('Noto Sans TC');
           let long = p5.textWidth(author);
@@ -428,6 +436,9 @@ function nft(data){
             this.value(this.value().slice(0, -1));
           }
           notes = this.value()
+          changeNote(notes);
+        }
+        function changeNote(notes){
           message = 'Mintverse' + unicode(notes);
           let notesLength = notes.length;
           if(!cardType && notesLength!=0){
@@ -515,37 +526,37 @@ function nft(data){
         function selectList(val){
           let item = "";
           switch (val) {
-              case '1':
+              case 1:
                   item = ''
                 break;
-              case '2':
+              case 2:
                 item = '名詞'
                 break;
-              case '3':
+              case 3:
                 item = '動詞'
                 break;
-              case '4':
+              case 4:
                 item = '形容詞'
                 break;
-              case '5':
+              case 5:
                 item = '嘆詞'
                 break;
-              case '6':
+              case 6:
                 item = '狀聲詞'
                 break;
-              case '7':
+              case 7:
                 item = '代詞'
                 break;
-              case '8':
+              case 8:
                 item = '連接詞'
                 break;
-              case '9':
+              case 9:
                 item = '量詞'
                 break;
-              case '10':
+              case 10:
                 item = '助詞'
                 break;
-              case '11':
+              case 11:
                 item = '副詞'
                 break;
               default:
@@ -652,6 +663,7 @@ function nft(data){
           topData.blocks.forEach( function(block, index) {
             p5.fill(topData.color.h,topData.color.s,topData.color.b, alpha);
             p5.strokeWeight(blockData.stokeWeight);
+            p5.stroke(topData.strokeColor);
             p5.rect(blockX, topData.y, topData.width * block.width, topData.height);
 
             //// 5/5
@@ -925,6 +937,7 @@ function nft(data){
 
           //// 5/5
           if(synonym != ""){
+          console.log(synonym)
           p5.fill(blockData.textColor)
           synonymMarqueeX -= 2;
           synonymMarquee1X -= 2;
