@@ -392,7 +392,7 @@
 							speechs:nftDetail.word.part_of_speechs,
 							status:nftDetail.status,
 							//status:2,
-							definer:nftDetail.definer
+							definer:nftDetail.word.definer
 						}
 						nft(data).then(async success => {
 							if(success.status == 'finish'){
@@ -455,7 +455,7 @@
 				  //var now = new Date().getTime();
 				  var now = new Date(startTime).getTime();
 				  // Find the distance between now and the count down date
-				  var distance = countDownDate - startTime;
+				  var distance = countDownDate - now;
 
 				  // Time calculations for days, hours, minutes and seconds
 				  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
