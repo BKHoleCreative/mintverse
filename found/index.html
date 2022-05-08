@@ -234,7 +234,7 @@
 					$('.popset').openPop({message:'連結錢包成功'});
 
 		            // get wallet_info
-		            let wallet_info = await tokensOfOwner();
+		            let wallet_info = await tokens_of_owner();
 
 		            if(wallet_info.nftIdList.length==0){
 		            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
