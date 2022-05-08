@@ -270,6 +270,7 @@
 				/* Act on the event */
 				if($(this).hasClass('disable'))return;
 				if($(this).hasClass('submit')){
+					$('.popset').openPop({message:'請稍候，詞彙定義準備中！請勿關閉視窗'});
 					renderGif($('#myCanvas canvas')[0]);
 				}else{
 					changeView(2);
