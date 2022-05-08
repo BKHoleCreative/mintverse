@@ -20,6 +20,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
 	<script src="../js/header.js"></script>
 	<script src="../js/footer.js"></script>
+	<script src="../js/pop.js"></script>
+	<link rel="stylesheet" href="../css/pop.css">
 </head>
 <body>
 	<div id="app">
@@ -36,6 +38,7 @@
 				<h1 style="width:100%;">目前尚未有相關查詢結果喔</h1>
 			</div>
 		</section>
+		<div class="popset"></div>
 		<footer>
 		</footer>
 	</div>
@@ -43,7 +46,8 @@
 		$(document).ready(function() {
 			$('header').setHeader();
 			$('footer').setFooter();
-			search("")
+			$('.popset').setPop()
+			//search("")
 			let serchData = [];
 
 			// serchData.forEach(function(item){
@@ -71,6 +75,10 @@
 				})
 			}
 			async function search(key){
+				if($.trim($('input').val()).length == 0){
+					$('.popset').openPop({message:'請輸入詞彙關鍵字'});
+					return;
+				}
 				$('.result h1').hide();
 				let endpoint = `https://54.248.1.203/api/mintverse/token/search`;
 				let data = await $.ajax({
