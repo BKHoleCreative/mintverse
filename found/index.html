@@ -227,33 +227,35 @@
 				event.preventDefault();
 				/* Act on the event */
 
-				// connect wallet
-	            let connected = await onConnect(); 
+				if($('.check input').is(":checked")){
+					// connect wallet
+		            let connected = await onConnect(); 
 
-				if(connected){
-					$('.popset').openPop({message:'連結錢包成功'});
+					if(connected){
+						$('.popset').openPop({message:'連結錢包成功'});
 
-		            // get wallet_info
-		            let wallet_info = await tokens_of_owner();
+			            // get wallet_info
+			            let wallet_info = await tokens_of_owner();
 
-		            if(wallet_info.nftIdList.length==0){
-		            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
-		            	onDisconnect();
-		            	return;
-		            }
+			            if(wallet_info.nftIdList.length==0){
+			            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
+			            	onDisconnect();
+			            	return;
+			            }
 
-		            // create options for defining
-					wallet_info.nftIdList.forEach( function(item, index) {
-						// statements
-						$("#selectToken").append($("<option></option>").attr("value", item.token).text(item.token));
-					});
+			            // create options for defining
+						wallet_info.nftIdList.forEach( function(item, index) {
+							// statements
+							$("#selectToken").append($("<option></option>").attr("value", item.token).text(item.token));
+						});
 
-					// display define page
-					$('.intro').hide();
-					$('.edit').show();
+						// display define page
+						$('.intro').hide();
+						$('.edit').show();
 
-				}else{
-					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
+					}else{
+						$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
+					}
 				}
 
 
