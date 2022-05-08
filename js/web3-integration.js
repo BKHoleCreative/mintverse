@@ -548,9 +548,9 @@ async function tokens_of_owner(define_data){
     const tokensOfOwner_result = await WordContract.methods.tokensOfOwner(connectedAddress[0]).call({});
 
     let nftIdList = [];
-    for(i=0;i<result.length;i++){
+    for(i=0;i<tokensOfOwner_result.length;i++){
         nftIdList.push({
-            token:result[i]
+            token:tokensOfOwner_result[i]
         })
     }
 
