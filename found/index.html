@@ -474,7 +474,7 @@
 			}
 			async function submitGif(blob){
 				console.log(blob)
-				let endpoint = `http://54.248.1.203:8080/api/mintverse/word/definition/${nftDetail.id}`;
+				let endpoint = `https://54.248.1.203/api/mintverse/word/definition/${nftDetail.id}`;
 				let binary = '';
 				const blobToBinary = async (blob) => {
 				  const buffer = await blob.arrayBuffer();
@@ -554,7 +554,7 @@
 
 					function addFrame(canvas) {
 				        if (renderFinished) return;
-				        if (gif.frames.length < 5) {
+				        if (gif.frames.length < 10) {
 				        	console.log('addframe')
 				          	gif.addFrame(canvas, {delay: 200});
 				        } else {
