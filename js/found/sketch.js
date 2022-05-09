@@ -146,7 +146,7 @@ function nft(data){
 
         let authorImg, novelImg, dictionaryName, checkImg;
 
-        let maskStep = 30; // 切分遮罩動畫格數
+        let maskStep = 15; // 切分遮罩動畫格數
         let imgHeight = 380; //圖片高度
         let maskImageGroup = []; //存放不同階段的遮罩圖片
         let textImgAnimation = []; //存放不同階段的主要圖片
