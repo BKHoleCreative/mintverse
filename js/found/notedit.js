@@ -15,6 +15,9 @@ function notedit(nftDetail) {
             let authorId = '';
             p5.preload = function() {
                 switch (nftDetail.author) {
+                    case 'AI':
+                      authorId = '0';
+                      break;
                     case '甘耀明':
                         authorId = '1';
                         break;
@@ -54,11 +57,9 @@ function notedit(nftDetail) {
                 robotolight = p5.loadFont('../font/Roboto/Roboto-Light.ttf');
                 roboto = p5.loadFont('../font/Roboto/Roboto-Black.ttf');
                 logo = p5.loadImage('../image/logo.png');
-                authorImg = p5.loadImage(`${path}author/author${authorId}.png`);
-                if(authorId == '3')
-                  novelImg = p5.loadImage(`${path}novel/novel${authorId}_title.png`);
-                else
-                  novelImg = p5.loadImage(`${path}novel/novel${authorId}.png`);
+                authorImg = p5.loadImage(`${path}author/noedit/author/author${authorId}.png`);
+                if(authorId == '3')authorId = '3_title'
+                novelImg = p5.loadImage(`${path}novel/novel${authorId}.png`);
                 dictionaryName = p5.loadImage(`${path}dictionary.png`);
             }
             p5.setup = function() {
@@ -86,7 +87,7 @@ function notedit(nftDetail) {
                 p5.fill(255, 255, 255, 1);
 
                 for (let i = 0; i < nftDetail.font.length; i++) {
-                    p5.text(nftDetail.font[i], p5.width / 2 + (-1 + 2 * i) * p5.textWidth(nftDetail.font[i]) / 2.1, p5.height / 2);
+                    p5.text(nftDetail.font[i], p5.width / 2 + (-1 * (nftDetail.font.length - 1 ) + 2 * i) * p5.textWidth(nftDetail.font[i]) / 2.1, p5.height / 2);
                 }
                 p5.image(logo, (p5.width / 2) - 166, 50, 333, 21)
 
@@ -125,13 +126,15 @@ function notedit(nftDetail) {
                 }
 
 
-                p5.image(authorImg, 20 + ((p5.width - 40) / 3) * 2.5 - 125.33 * 0.75, p5.height - 97, 125.33 * 1.45, 60.41 * 1.45)
-                if(authorId == '4')
-                  p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 * 1.2 / 2, p5.height - ( 60*1.2 + 15), 142.7*1.2, 60*1.2)
-                else if(authorId == '3')
-                  p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 * 1.5 / 2, p5.height - 80, 142.7*1.5, 60)
-                else
-                  p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 / 2, p5.height - 80, 142.7, 60)
+                p5.image(authorImg, 20 + ((p5.width - 40) / 3) * 2.5 - 125.33 * 0.75, p5.height - 95, 125.33 * 1.45, 60.41 * 1.45)
+                p5.stroke(255)
+                if(authorId == '4' || authorId == '5' || authorId == '6'){
+                    p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - (142.7*1.2) / 2, p5.height - (60 * 1.2) - 14, 142.7*1.2, 60*1.2)
+                }else if(authorId == '3_title'){
+                    p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7*1.4 / 2, p5.height - 80, 142.7*1.4, 60)
+                }else{
+                    p5.image(novelImg, 20 + ((p5.width - 40) / 3) * 1.5 - 142.7 / 2, p5.height - 80, 142.7, 60)
+                }
 
                 p5.image(dictionaryName, 20 + ((p5.width - 40) / 3) / 2 - 198.1 / 2, p5.height - 80, 198.1, 60)
 

@@ -119,13 +119,9 @@
 				settingMintData(result.word_minted_num, result.dictionary_purchase_num);
 
 				// 決定為白名單或是公售樣式
-				let whiteList = true;
+				let whiteList = false;
 				if(whiteList){
 					$('.mint').addClass('whiteList');
-
-	        		// get WL mint stauts on address
-		            wallet_info = await get_wallet_info_web3();
-
 				}else{
 
 					// 最大限制 mint 數量
@@ -145,11 +141,10 @@
 					});
 
 					$('.mint').addClass('publicSale');
-					$('.mint').show();
-					$('.connect').hide();
 				}
 
-
+				// 取得可mint資格與數量
+				wallet_info = await get_wallet_info_web3();
 
 
 			});
@@ -158,9 +153,16 @@
 			$('#mintBtn').on('click', function(event) {
 				event.preventDefault();
 
-				$('.popset').openPop({message:'確認要白名單 Mint?',type:'check',complete:async function(){
+
+				$('.popset').openPop({message:'確認要FREEMINT?',type:'check',complete:async function(){
 					$('.popset').openPop({message:'等待智能合約回應中.....'});
-		            let mint_result = await mint_whitelist_word(wallet_info);
+
+					// check which minting function to select
+					if(wallet_info.is_whitelist_mint){
+						let mint_result = await mint_whitelist_word(wallet_info);
+					}else{
+		            	let mint_result = await mint_public_word(wallet_info);
+		        	}
 		            $('.popset').hide();
 		  		}});
 

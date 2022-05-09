@@ -74,21 +74,22 @@ canvas{
 	display: block;
 	text-align: center;
 }
-#noedit .info .countdown {
+#noedit .countdown {
 	  position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 20%;
+    bottom: 13%;
     text-align: center;
+    z-index: 2;
 }
-#noedit .info .countdown label{
+#noedit .countdown label{
 	font-size: 12px;
 	color: #fff;
   transform: scale(0.8);
   display: block;
   letter-spacing: 0.1em;
 }
-#noedit .info .countdown p{
+#noedit .countdown p{
     font-family: "Monotype";
     font-size: 23px;
     margin-bottom: 0;
@@ -367,16 +368,16 @@ section ul li{
 	#noedit .info .token{
 		transform: translateX(-50%) scale(0.8);
 	}
-	#noedit .info .countdown{
+	#noedit  .countdown{
 		bottom: 17%;
 	}
 	#noedit .info ul li{
 		font-size: 16px;
 	}
-	#noedit .info .countdown label{
+	#noedit  .countdown label{
 		  transform: scale(1);
 	}
-	#noedit .info .countdown p{
+	#noedit  .countdown p{
 		font-size: 32px;
 	}
 }
@@ -415,11 +416,11 @@ section ul li{
 	#noedit .info ul li{
 		font-size: 22px;
 	}
-	#noedit .info .countdown label{
+	#noedit .countdown label{
 		  transform: scale(1);
 		  font-size: 18px;
 	}
-	#noedit .info .countdown p{
+	#noedit  .countdown p{
 		font-size: 46px;
 	}
 }

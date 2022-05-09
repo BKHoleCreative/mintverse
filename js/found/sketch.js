@@ -108,21 +108,9 @@ function nft(data){
             width: bgW * 0.054,
             x: 0,
             y: 0,
-            inputData:'蛋餅人' 
           }
         }
         let notes = '', selectContent = '', selectContent1 = '', synonym =  '', author = '', synonymArr = ["", "", "", ""];
-        if(data.status == 2){
-          notes = data.context;
-          if(author != undefined && author != null)
-            author = data.definer;
-          data.synonyms.forEach(function(word, index){
-            synonymArr[index] = word;
-          });
-          synonym = synonymArr.join(' ')
-          selectContent = selectList(data.speechs[0]);
-          selectContent1 = selectList(data.speechs[1]);
-        }
         let oldLength = 0;
         const marqueeSpeed = 5;
         let sel,sel1;
@@ -163,6 +151,14 @@ function nft(data){
         let maskImageGroup = []; //存放不同階段的遮罩圖片
         let textImgAnimation = []; //存放不同階段的主要圖片
         let aniSpeed = 2; //數值越小越快
+
+        let emojiArr = [];
+
+        let mainTextSize = 90;
+        let level = [95, 70, 50, 40, 30, 20, 10, 10, 10, 10];
+        let lines = [1, 2, 3, 4, 5, 5, 6, 6, 6, 6];
+        let currentLevel = 0;
+        let currnTextWidth = 0;
 
     p5.preload = function(){
       let authorId = '0';
@@ -208,27 +204,37 @@ function nft(data){
           const imageMintName = cardType ? 'mint' : 'mint_black';
           const imageRName = cardType ? 'r' : 'r_black';
           const imgDisctionaryName = cardType ? 'disctionary' : 'disctionary_black';
-          img = p5.loadImage(`${path}word/單詞_${data.font}.png`);
+          img = p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿白.png`);
           imgMint = p5.loadImage(`${path}${imageMintName}.png`);
           imgR = p5.loadImage(`${path}${imageRName}.png`);
           imgDisctionary = p5.loadImage(`${path}${imgDisctionaryName}.png`);
           checkImg = p5.loadImage(`${path}check.png`)
-          NotoLight = p5.loadFont('../font/NotoSansJP-Light.otf')
+          NotoLight = p5.loadFont('../font/NotoSansTC-Light.otf')
           pressStart = p5.loadFont('../font/PressStart2P-Regular.ttf')
           spritedata = p5.loadJSON('../js/found/rSpritesheet.json');
+          Roboto = p5.loadFont('../font/Roboto/Roboto-Black.ttf');
           if(cardType){
             spritesheet = p5.loadImage(`${path}spritesheet.png`);
-            authorImg = p5.loadImage(`${path}author/author${authorId}.png`);
+            authorImg = p5.loadImage(`${path}author/noto/author${authorId}.png`);
             novelImg = p5.loadImage(`${path}novel/novel${authorId}.png`);
-            dictionaryName = p5.loadImage(`${path}dictionary.png`);
+            dictionaryName = p5.loadImage(`${path}dictionary_m.png`);
+            for (var i = 1; i < 5; i++) {
+              emojiArr[i] = p5.loadImage(`${path}emoji${i}.png`)
+            }
           }else{
             spritesheet = p5.loadImage(`${path}spritesheet_black.png`);
-            authorImg = p5.loadImage(`${path}author/author${authorId}_b.png`);
+            authorImg = p5.loadImage(`${path}author/noto/author${authorId}_b.png`);
             novelImg = p5.loadImage(`${path}novel/novel${authorId}_b.png`);
-            dictionaryName = p5.loadImage(`${path}dictionary_b.png`);
+            dictionaryName = p5.loadImage(`${path}dictionary_m_b.png`);
+            for (var i = 1; i < 5; i++) {
+              emojiArr[i] = p5.loadImage(`${path}emoji${i}_b.png`)
+            }
           }
           for(let i=0; i< maskStep*2; i++){
-            textImgAnimation.push(p5.loadImage(`../image/found/word/單詞_${data.font}.png`));
+            if(cardType)
+              textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_w/${data.font}＿白.png`));
+            else
+              textImgAnimation.push(p5.loadImage(`https://mintverse.s3.ap-northeast-1.amazonaws.com/display/image/found/word_b/${data.font}_黑.png`));
             let maskImg = p5.createImage(300, 150);
             maskImageGroup.push(maskImg);
           }
@@ -287,6 +293,7 @@ function nft(data){
           sel.changed(selectChange);
           sel1 = p5.select('#speech1');
           sel1.changed(selectChange1);
+
 
           img.loadPixels()
           imgDotList = [];
@@ -379,6 +386,35 @@ function nft(data){
           setBlinkData();
           setTimeGap();
           resolve({p5:p5js,status:'finish'});
+          if(data.status == 2){
+            notes = data.context;
+            changeNote(notes);
+            if(author != undefined && author != null)
+              author = data.definer;
+            data.synonyms.forEach(function(word, index){
+              synonymArr[index] = word;
+            });
+            //synonym = synonymArr.join(' ');
+            synonym = synonymArr;
+            selectContent = selectList(data.speechs[0]);
+            selectContent1 = selectList(data.speechs[1]);
+            calcAuthorWidth(author);
+            fontSizeMini();
+          }
+        }
+        function fontSizeMini(){
+          console.log('fontSizeMini')
+          let length = notes.length;
+          p5.textSize(mainTextSize);
+          currnTextWidth = p5.textWidth(notes);          
+          if(currnTextWidth > 750*lines[currentLevel] + 550 - (mainTextSize*(currentLevel+1))*2.5 - currentLevel*20){
+            oldLength = notes.length
+            currentLevel++;
+            mainTextSize = level[currentLevel];
+            if(currentLevel>=9) currentLevel = 9;
+            fontSizeMini();
+          }
+          
         }
         function makeMask(maskImage, inverse, max){
           //maskImage: 要生成的遮罩圖
@@ -400,42 +436,56 @@ function nft(data){
           return (h + p5.random(0, 360)) % 360;
         }
         function authorInputEvent() {
+          if(this.value().length > 10){
+            this.value(this.value().slice(0, -1));
+          }
           author = this.value();
+          calcAuthorWidth(author);
+        }
+        function calcAuthorWidth(author){
           p5.textSize(50);
-          p5.textFont('Noto Sans JP');
+          p5.textFont('Noto Sans TC');
           let long = p5.textWidth(author);
-          authorLong = long + 40  < 180 ? 200 : long + 60;
-          blinkArr[14][2] = authorLong;
+          authorLong = long + 40  < 180 ? 200 : long + 40;
+          if(!cardType)
+            //blinkArr[14][2] = authorLong;
+            nameFlash.setLong(blockData.name.width + authorLong);
         }
         function notesInputEvent() {
+          if(this.value().length > 100){
+            this.value(this.value().slice(0, -1));
+          }
           notes = this.value()
+          changeNote(notes);
+        }
+        function changeNote(notes){
           message = 'Mintverse' + unicode(notes);
           let notesLength = notes.length;
           if(!cardType && notesLength!=0){
-            notesLength = p5.sin(notesLength % 360) * 360;
+            notesLength = p5.map(notesLength, 0, 100, 0, 359);
             backgroundColor.h = notesLength;
             backgroundColor.s = 30;
 
             let colorNum = randomColor(notesLength)
             for (var i = 0; i < 5; i++) {
-              let colorNum = p5.random(0,200);
-              let offset = p5.random(20,40);
+              // let colorNum = p5.random(0,200);
+              // let offset = p5.random(20,40);
               if(i == 0){
-                topFlash.setColor({h:colorNum,s:100,b:100});
-                blockData.top.color = {h:colorNum + offset,s:100,b:100};
+                topFlash.setColor({h:((notesLength + 30) % 360),s:100,b:100});
+                blockData.top.color = {h:((notesLength + 45) % 360),s:100,b:100};
               }else if(i == 1){
-                nameFlash.setColor({h:colorNum,s:100,b:100});
-                blockData.name.color = {h:colorNum + offset,s:100,b:100};
+                nameFlash.setColor({h:((notesLength + 195) % 360),s:100,b:100});
+                blockData.name.color = {h:((notesLength + 195 + 10 ) % 360),s:100,b:100};
               }else if(i == 2){
-                marqueeFlash.setColor({h:colorNum,s:100,b:100});
-                blockData.marquee.color = {h:colorNum + offset,s:100,b:100}; 
+                marqueeFlash.setColor({h:((notesLength - 30) % 360),s:100,b:100});
+                blockData.marquee.color = {h:((notesLength - 45) % 360),s:100,b:100}; 
               }else if(i == 3){
-                mainFlashTop.setColor({h:colorNum,s:100,b:100});
-                mainFlashBottom.setColor({h:colorNum,s:100,b:100});
-                blockData.main.color = {h:colorNum + offset,s:100,b:100};
+                mainFlashTop.setColor({h:notesLength,s:100,b:100});
+                mainFlashBottom.setColor({h:notesLength,s:100,b:100});
+                blockData.main.color = {h: ((notesLength + 10) % 360),s:100,b:100};
               }else if(i == 4){
-                synonymFlash.setColor({h:colorNum,s:100,b:100});
-                blockData.synonym.color = {h:colorNum + offset,s:100,b:100};
+                synonymFlash.setColor({h:((notesLength + 165) % 360),s:100,b:100});
+                blockData.synonym.color = {h:((notesLength + 165 - 10) % 360),s:100,b:100};
               }
 
             }
@@ -460,13 +510,18 @@ function nft(data){
         function synonymInputEvent() {
           let arrIndex = this.elt.id.split('synonym')[1];
           let totalText;
+          // 5/6
+          if(this.value().length > 4){
+            this.value(this.value().slice(0, -1));
+          }
           synonymArr[arrIndex] = this.value();
           totalText = synonymArr.join('');
           if(totalText.replace(/\s/g, '').length > 10){
             this.value(this.value().slice(0, -1));
-            return
+            synonymArr[arrIndex] = this.value();
           }
-          synonym = synonymArr.join(' ');
+          //synonym = synonymArr.join(' ');
+          synonym = synonymArr;
 
         }
         function selectChange() {
@@ -491,37 +546,48 @@ function nft(data){
         function selectList(val){
           let item = "";
           switch (val) {
-              case 0:
+              case 1:
+              case "1":
                   item = ''
                 break;
-              case 1:
+              case 2:
+              case "2":
                 item = '名詞'
                 break;
-              case 2:
+              case 3:
+              case "3":
                 item = '動詞'
                 break;
-              case 3:
+              case 4:
+              case "4":
                 item = '形容詞'
                 break;
-              case 4:
+              case 5:
+              case "5":
                 item = '嘆詞'
                 break;
-              case 5:
+              case 6:
+              case "6":
                 item = '狀聲詞'
                 break;
-              case 6:
+              case 7:
+              case "7":
                 item = '代詞'
                 break;
-              case 7:
-                item = '介詞'
-                break;
               case 8:
-                item = '量詞'
+              case "8":
+                item = '連接詞'
                 break;
               case 9:
-                item = '助詞'
+              case "9":
+                item = '量詞'
                 break;
               case 10:
+              case "10":
+                item = '助詞'
+                break;
+              case 11:
+              case "11":
                 item = '副詞'
                 break;
               default:
@@ -564,9 +630,9 @@ function nft(data){
     } 
     function drawBackground() {
           //drawLineStroke();
-          moveLine((p5.frameCount * 10) % p5.height, 4);
-          moveLine((p5.frameCount + 30) % ( p5.height + 30) , 1);
-          moveLine((p5.frameCount * p5.frameCount / 100) % ( p5.height + 50 ), 10);
+          // moveLine((p5.frameCount * 10) % p5.height, 4);
+          // moveLine((p5.frameCount + 30) % ( p5.height + 30) , 1);
+          // moveLine((p5.frameCount * p5.frameCount / 100) % ( p5.height + 50 ), 10);
           drawRect();
     }
     function moveLine(posY, h){
@@ -579,11 +645,11 @@ function nft(data){
         }
     function drawBoxBackground() {
           p5.stroke(255);
-          drawMarqueeBg();
           drawTopBarBg();
           drawMainBg();
           drawNameBg();
           drawSynonymBg();
+          drawMarqueeBg();
     }
     function drawMarqueeBg(){
           const marqueeData = blockData.marquee;
@@ -612,6 +678,8 @@ function nft(data){
             alpha = 0;
           }
         }
+    let marqueeDataX = blockData.marquee.width + blockData.top.width * 0.414 * -1;
+    let marqueeData1X = blockData.marquee.width;
     function drawTopBarBg(){
           blockData.top.x = blockData.marquee.width + blockData.marquee.x;
           const topData = blockData.top;
@@ -626,7 +694,19 @@ function nft(data){
           topData.blocks.forEach( function(block, index) {
             p5.fill(topData.color.h,topData.color.s,topData.color.b, alpha);
             p5.strokeWeight(blockData.stokeWeight);
+            p5.stroke(topData.strokeColor);
             p5.rect(blockX, topData.y, topData.width * block.width, topData.height);
+
+            //// 5/5
+            if(index == 0){
+              p5.image(dictionaryName, marqueeDataX, topData.y, topData.width *  0.414, topData.height);
+              p5.image(dictionaryName, marqueeData1X, topData.y, topData.width *  0.414, topData.height);
+              marqueeDataX += 2;
+              marqueeData1X += 2;
+              if(marqueeDataX > marqueeData.width + topData.width * 0.414)marqueeDataX = marqueeData.width + topData.width * 0.414 * -1;
+              if(marqueeData1X > marqueeData.width + topData.width * 0.414)marqueeData1X = marqueeData.width + topData.width * 0.414 * -1;
+            }
+
             if(index == 2){
               p5.fill(topData.labelColor)
               p5.rect(blockX, topData.height * 0.7, topData.width * block.width, topData.height * 0.3);
@@ -659,13 +739,13 @@ function nft(data){
           p5.textAlign(p5.CENTER, p5.CENTER);
           p5.textFont('GB18030 Bitmap');
           //p5.text('第二宇宙辭典', topData.width * blockData.top.blocks[0].width / 2 + blockData.top.blocks[0].x , topData.height / 2 + 10);
-          p5.image(dictionaryName, marqueeData.width , topData.y, topData.width *  0.314, topData.height);
+          // p5.image(dictionaryName, marqueeData.width , topData.y, topData.width *  0.314, topData.height);
           p5.image(novelImg, marqueeData.width + topData.width *  0.314, topData.y, topData.width *  0.236, topData.height );
           //p5.text('宇宙飛船', topData.width * blockData.top.blocks[1].width / 2 + blockData.top.blocks[1].x, topData.height / 2 + 10);
           p5.textSize(15);
           p5.image(authorImg, marqueeData.width + topData.width *  0.55 + 8, topData.y + 5, topData.width *  0.136 * 0.85, topData.height * 0.7 * 0.85);
           //p5.text('作者 朱宥勳', topData.width * blockData.top.blocks[2].width / 2 + blockData.top.blocks[2].x , topData.height * 0.7 / 2 + 5);
-          p5.textFont('Noto Sans JP');
+          p5.textFont('Noto Sans TC');
           p5.fill(blockData.labelTextColor.r,blockData.labelTextColor.g,blockData.labelTextColor.b,alpha);
           p5.textSize(12);
           p5.textStyle(p5.BOLD);
@@ -675,7 +755,7 @@ function nft(data){
           p5.strokeWeight(1);
           p5.text('TOKEN ID', topData.width * blockData.top.blocks[2].width / 2 + blockData.top.blocks[2].x , topData.height * 0.85  );
           p5.colorMode(p5.RGB);
-          p5.textFont(HelveticaBlack);
+          p5.textFont(Roboto);
           p5.fill(blockData.textColor);
           p5.strokeWeight(0);
           p5.textSize(70)
@@ -688,8 +768,10 @@ function nft(data){
           let totalDisplay = blockData.top.width * blockData.top.blocks[3].width - 20;
           let startX = (totalDisplay - textW) / 2 + 10;
           for (var b = 0; b < font.length; b++) {
-            p5.text(font[b], blockData.top.blocks[3].x + startX + 10 * b, topData.height / 2 - 15); 
-            startX += p5.textWidth(font[b]);
+            let offset = font[b] == '1' ? 8 : 8;
+            let frontOffset = font[b] == '1' ? 1 : 0;
+            p5.text(font[b], blockData.top.blocks[3].x + startX + frontOffset, topData.height / 2 - 8); 
+            startX += p5.textWidth(font[b]) + offset;
           }
         }
         function drawMainBg(){
@@ -738,7 +820,7 @@ function nft(data){
           p5.strokeWeight(0);
           p5.textSize(18);
           p5.textAlign(p5.CENTER, p5.CENTER);
-          p5.textFont('Noto Sans JP');
+          p5.textFont('Noto Sans TC');
           p5.textStyle('normal');
           p5.textLeading(200);
           p5.text('註\n釋', marqueeX + mainData.blocks[1].x + mainData.blocks[1].width / 2 , mainData.blocks[1].y + mainData.blocks[1].height / 2);
@@ -747,11 +829,11 @@ function nft(data){
           p5.textAlign(p5.LEFT, p5.TOP);
           p5.textWrap(p5.CHAR);
           p5.textLeading(mainTextSize * 1.1);
-          p5.textFont('Noto Sans JP');
+          p5.textFont('Noto Sans TC');
           p5.textStyle('bold');
           p5.text(notes, marqueeX + mainData.blocks[2].x + 20, mainData.blocks[2].y + 10, marqueeX + mainData.blocks[2].x  +  mainData.blocks[2].width - 150, mainData.blocks[2].y + mainData.blocks[2].height - 100 )
           p5.textSize(70);
-          p5.text('。', bgW - 50, bgH - 100);
+          p5.text('。', bgW - 70, bgH - 80);
           drawMainImg();
         }
         function drawMainImg(){
@@ -856,17 +938,19 @@ function nft(data){
           p5.strokeWeight(0);
           p5.textSize(18);
           p5.textAlign(p5.CENTER, p5.CENTER);
-          p5.textFont('Noto Sans JP');
+          p5.textFont('Noto Sans TC');
           p5.textLeading(22);
           p5.text('鑄\n造\n者', nameBlockData.width / 2 + nameBlockData.x , nameBlockData.height / 2 + positionY);
           p5.textSize(50);
-          p5.textAlign(p5.CENTER, p5.CENTER);
+          p5.textAlign(p5.LEFT, p5.CENTER);
           p5.textStyle(p5.NORMAL);
           p5.textFont(NotoLight);
-          p5.text(author, nameBlockData.width + nameBlockData.x + (authorLong / 2) , nameBlockData.height / 2 + positionY - 10);
+          p5.text(author, blockData.marquee.width + 66 , nameBlockData.height / 2 + positionY - 10);
           if(cardType)
             p5.image(checkImg, nameBlockData.width + nameBlockData.x + authorLong - 25 , positionY +  5, 20, 20)
         }
+        let synonymMarqueeX = blockData.marquee.width + blockData.synonym.blocks[1].width + blockData.synonym.blocks[0].width + blockData.synonym.blocks[3].width ;
+        let synonymMarquee1X = blockData.marquee.width + blockData.synonym.blocks[1].width + blockData.synonym.blocks[0].width + blockData.synonym.blocks[3].width + blockData.synonym.blocks[4].width + 360;
         function drawSynonymBg() {
           let synonymData = blockData.synonym
           let positionY = blockData.top.height + blockData.main.blocks[0].height;
@@ -877,8 +961,36 @@ function nft(data){
           p5.fill(synonymData.color.h,synonymData.color.s,synonymData.color.b, alpha)
           p5.strokeWeight(blockData.stokeWeight);
           positionX = blockData.marquee.width;
+          //// 5/5
+          p5.rect(positionX + blockData.synonym.blocks[1].width + blockData.synonym.blocks[0].width + blockData.synonym.blocks[3].width, positionY, synonymData.blocks[4].width, synonymData.blocks[4].height);
+          p5.textSize(50);
+          p5.textAlign(p5.LEFT, p5.CENTER);
+
+          //// 5/5
+          if(synonym != ""){
+          p5.fill(blockData.textColor)
+          synonymMarqueeX -= 2;
+          synonymMarquee1X -= 2;
+          let x = 0;
+          for (var i = 0; i < 4; i++) {
+            p5.text(synonym[i], synonymMarqueeX + x, synonymData.blocks[0].y + synonymData.blocks[0].height / 2 - 10);
+            p5.image(emojiArr[ i + 1],synonymMarqueeX + p5.textWidth(synonym[i]) + x + 20, synonymData.blocks[0].y + (synonymData.blocks[0].height - 60)/ 2 , 60, 60)
+            p5.text(synonym[i], synonymMarquee1X + x, synonymData.blocks[0].y + synonymData.blocks[0].height / 2 - 10);
+            p5.image(emojiArr[ i + 1],synonymMarquee1X + p5.textWidth(synonym[i]) + x + 20, synonymData.blocks[0].y + (synonymData.blocks[0].height - 60)/ 2 , 60, 60)
+            x += p5.textWidth(synonym[i]) + 100;
+          }
+          // p5.text(synonym, synonymMarqueeX , synonymData.blocks[0].y + synonymData.blocks[0].height / 2 - 10);
+          // p5.text(synonym, synonymMarquee1X , synonymData.blocks[0].y + synonymData.blocks[0].height / 2 - 10);
+          if(synonymMarqueeX + synonymData.blocks[4].width + 360 < synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width)
+            synonymMarqueeX = synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + synonymData.blocks[4].width + 360;
+          if(synonymMarquee1X + synonymData.blocks[4].width + 360 < synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width )
+            synonymMarquee1X = synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + synonymData.blocks[4].width + 360;
+          }
+          //// 5/5
           synonymData.blocks.forEach( function(block, index) {
+            if( index==4 )return;
             // statements
+            p5.fill(synonymData.color.h,synonymData.color.s,synonymData.color.b, alpha)
             let y = positionY;
             if(index == 2) {y = y + block.height;}
             synonymData.blocks[index].x = positionX;
@@ -910,13 +1022,12 @@ function nft(data){
           p5.textSize(18);
           p5.textAlign(p5.CENTER, p5.CENTER);
           p5.textLeading(40);
-          p5.textFont('Noto Sans JP');
+          p5.textFont('Noto Sans TC');
           p5.text('詞\n性', synonymData.blocks[0].x + synonymData.blocks[0].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
           p5.textLeading(22);
           p5.text('同\n義\n詞', synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width / 2 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
           p5.textSize(50);
           p5.textAlign(p5.LEFT, p5.CENTER);
-          p5.text(synonym, synonymData.blocks[0].x + synonymData.blocks[1].width + synonymData.blocks[0].width + synonymData.blocks[3].width + 20 , synonymData.blocks[0].y + synonymData.blocks[0].height / 2);
           p5.textSize(18);
           p5.textAlign(p5.LEFT, p5.CENTER);
           let selecType = selectContent;
@@ -945,7 +1056,7 @@ function nft(data){
         }
     function setTimeGap(){
           let notesLength = notes.length + 1;
-          let time = getRandom(0,2000 - notesLength * 50);
+          let time = getRandom(0,2000 - p5.sin(notesLength) * 50);
           let num = getRandom(1, Math.floor( notesLength % 9 )); //max11
           setTimeout(function () {
               for(let i = 0; i < num; i++){
@@ -956,7 +1067,7 @@ function nft(data){
 
                 setTimeout(function() {
                   blinkArr[index][4] = 0;
-                },getRandom(1500 - notesLength * 10,2000 - notesLength * 10))
+                },getRandom(1500 - p5.sin(notesLength) * 10,2000 - p5.sin(notesLength) * 10))
               }
               setTimeGap();
           },time);
@@ -1020,11 +1131,6 @@ function nft(data){
 
             blinkArr.push([ marqueeData.x, marqueeData.y, marqueeData.width, marqueeData.height, 0 ])
         }
-        let mainTextSize = 90;
-        let level = [95, 70, 50, 40, 30, 20, 10, 10, 10, 10];
-        let lines = [1, 2, 3, 4, 5, 5, 6, 6, 6, 6];
-        let currentLevel = 0;
-        let currnTextWidth = 0;
 
         function measureText(){
           let length = notes.length;
@@ -1046,9 +1152,15 @@ function nft(data){
         function unicode(str){
           var value='';
           for (var i = 0; i < str.length; i++) {
-          value += '\\u' + left_zero_4(parseInt(str.charCodeAt(i)).toString(16));
+            if(isNum(str[i]))
+              value += str[i];
+            else
+              value += '\\u' + left_zero_4(parseInt(str.charCodeAt(i)).toString(16));
           }
           return value;
+        }
+        function isNum(val){
+          return !isNaN(val)
         }
         function left_zero_4(str) {
           if (str != null && str != '' && str != 'undefined') {

@@ -168,7 +168,9 @@ class lightBlink {
     this.x = this.startX;
     this.y = this.startY;
   }
-
+  setLong(value){
+    this.height = value;
+  }
   stop(){
     this.playState = 0;
   }

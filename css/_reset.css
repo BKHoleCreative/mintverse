@@ -48,11 +48,11 @@ table {
 }
 
 ::-moz-selection { /* Code for Firefox */
-	background: inherit;
+	background: #FF4D00;
 }
 
 ::selection {
-	background: inherit;
+	background: #FF4D00;
 }
 select{
 	appearance: none;
