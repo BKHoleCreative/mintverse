@@ -452,6 +452,7 @@ function nft(data){
             nameFlash.setLong(blockData.name.width + authorLong);
         }
         function notesInputEvent() {
+          console.log(this.value())
           if(this.value().length > 100){
             this.value(this.value().slice(0, -1));
           }
