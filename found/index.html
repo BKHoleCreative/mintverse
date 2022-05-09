@@ -84,6 +84,21 @@
 		    transform: rotate(360deg);
 		  }
 		}
+		.announcement{
+			position: fixed;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 999;
+		}
+		.announcement .pop {
+			display: block;
+    		background-color: rgba(0, 0, 0, 0.6);
+		}
+		.announcement .pop .content p{
+			margin-bottom: 0;
+		}
 	</style>	
 </head>
 <body>
@@ -204,6 +219,13 @@
 		<div class="popset"></div>
 		<footer>
 		</footer>
+	</div>
+	<div class="announcement">
+		<div class="pop" style="display:block;">
+			<div class="content">
+				<p>「由於資料量暴增，第二宇宙正在工程升級中，請晚點再回來鑄造定義」</p>
+			</div>
+		</div>
 	</div>
     <!-- Web3 Integration -->
     <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
