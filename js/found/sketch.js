@@ -547,36 +547,47 @@ function nft(data){
           let item = "";
           switch (val) {
               case 1:
+              case "1":
                   item = ''
                 break;
               case 2:
+              case "2":
                 item = '名詞'
                 break;
               case 3:
+              case "3":
                 item = '動詞'
                 break;
               case 4:
+              case "4":
                 item = '形容詞'
                 break;
               case 5:
+              case "5":
                 item = '嘆詞'
                 break;
               case 6:
+              case "6":
                 item = '狀聲詞'
                 break;
               case 7:
+              case "7":
                 item = '代詞'
                 break;
               case 8:
+              case "8":
                 item = '連接詞'
                 break;
               case 9:
+              case "9":
                 item = '量詞'
                 break;
               case 10:
+              case "10":
                 item = '助詞'
                 break;
               case 11:
+              case "11":
                 item = '副詞'
                 break;
               default:
