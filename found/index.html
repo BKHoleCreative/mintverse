@@ -357,7 +357,7 @@
 					resolve();
 				})
 			}
-			function changeView(status){
+			async function changeView(status){
 				console.log(nftDetail)
 				$('.canvasWrap').hide();
 				// "0:尚未被Mint, 1: 尚未開始寫作, 2: 開始寫作"
@@ -442,29 +442,31 @@
 							//status:2,
 							definer:nftDetail.word.definer
 						}
-						nft(data).then(async success => {
+						await nft(data).then(success => {
 							if(success.status == 'finish'){
-								$('.loading').hide();
-							   	nftP5 = success.p5;
-							   	$('#author').val(data.definer);
-							   	$('#textarea').val(data.context);
-
-							   	data.synonyms.forEach(function(word,index){
-							   		$(`#synonym${index}`).val(word);
-							   	})
-							   	$("#speech").val(data.speechs[0]);
-							   	//$("#speech").val(2);
-							   	if(data.speechs[0] != 0){
-							   		await updateSelect().then(() =>{
-										// console.log(data.speechs[1])
-									 	$("#speech1").val(data.speechs[1]);	
-									   	let selectIndex = $("#speech1").find(":selected").index();
-									});
-								}
+								nftP5 = success.p5;
 							}
+
 						}).catch(fail => {
 							console.log(fail);
 						});;
+						$('.loading').hide();
+					   	
+					   	$('#author').val(data.definer);
+					   	$('#textarea').val(data.context);
+
+					   	data.synonyms.forEach(function(word,index){
+					   		$(`#synonym${index}`).val(word);
+					   	})
+					   	$("#speech").val(data.speechs[0]);
+					   	//$("#speech").val(2);
+					   	if(data.speechs[0] != 0){
+					   		await updateSelect().then(() =>{
+								// console.log(data.speechs[1])
+							 	$("#speech1").val(data.speechs[1]);	
+							   	let selectIndex = $("#speech1").find(":selected").index();
+							});
+						}
 						break;
 					case 3:
 						$('.edit #empty .noReveal').attr("src", nftDetail.image_url);
