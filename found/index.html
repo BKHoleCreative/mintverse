@@ -199,6 +199,7 @@
 				</div>
 			</div>
 			<button class="disable">開始鑄造</button>
+			<span class="download">下載GIF</span>
 		</section>
 		<div class="popset"></div>
 		<footer>
@@ -218,6 +219,7 @@
 			let status = 0;
 			let wallet_info;
 			var timer = null;
+			let gifUrl = '';
 			$('header').setHeader();
 			$('footer').setFooter();
 			$('.popset').setPop();
@@ -287,6 +289,11 @@
 				}else{
 					changeView(2);
 				}
+			});
+			$('.edit .download').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				downloadGif(gifUrl);
 			});
 			$('#selectToken').on('change', async function() {
 				
@@ -394,7 +401,12 @@
 						$('.edit button').removeClass('disable').addClass('submit').text('MINT 鑄造定義');
 						$(".editForm").show();
 						$(".deadline").hide();
-
+						if(nftDetail.status == 2){
+							gifUrl = nftDetail.word.gif_defined;
+							$('.edit .download').show();
+						}else{
+							$('.edit .download').hide();
+						}
 						let data = {
 							author:nftDetail.word.author,
 							id:nftDetail.id,
@@ -546,7 +558,14 @@
 			        console.log(err);
 			      });
 			}
-
+			function downloadGif(url){
+				const link = document.createElement('a');
+		        link.href = url;
+		        link.setAttribute('download', `${nftDetail.id}.gif`);
+		        document.body.appendChild(link);
+		        link.click(); 
+		        link.parentNode.removeChild(link);
+			}
 			function renderGif(canvasDom){
 					let renderFinished = 0;
 					let timer = null;
@@ -559,18 +578,10 @@
 					});
 					gif.on('finished', function(blob) {
 						const url = window.URL.createObjectURL(new Blob([blob]));
-				        //const link = document.createElement('a');
-				        //link.href = url;
-				        //link.setAttribute('download', `gif_dead_${idName}.gif`);
-				        //link.setAttribute('download', `giffile.gif`);
-				        // Append to html link element page
-				        //document.body.appendChild(link);
-				        // Start download
-				        //link.click(); 
-				        // Clean up and remove the link
-				        //link.parentNode.removeChild(link);
+						gifUrl = url;
+						$('.edit .download').show();
 				        submitGif(blob)
-					  	window.open(URL.createObjectURL(blob));
+					  	//window.open(URL.createObjectURL(blob));
 					});
 
 					function addFrame(canvas) {

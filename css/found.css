@@ -247,7 +247,7 @@ section ul li{
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.intro button, .edit button{
+.intro button, .edit button, .edit > span{
 	width: 269px;
 	line-height: 2.5;
 	border-radius: 100px;
@@ -264,6 +264,13 @@ section ul li{
 	color: rgba(255, 255, 255, .5);
 	border-color: rgba(255, 255, 255, .5);
 	cursor: inherit;
+}
+.edit > span{
+	color: black;
+  margin-top: 40px;
+  text-align: center;
+  background-color: #fff;
+  display: none;
 }
 .edit{
 	max-width: 334px;
