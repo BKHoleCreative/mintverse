@@ -283,7 +283,7 @@
 			  		changeView('empty')
 			  		return
 			  	}		
-			  	const endpoint = `https://54.248.1.203/api/mintverse/token/${this.value}`;
+			  	const endpoint = `https://api2.mintverse.world/api/mintverse/token/${this.value}`;
 			  	let data = await $.ajax({
 			  		type: "GET",
 				    url: endpoint,
@@ -484,7 +484,7 @@
 			}
 			async function submitGif(blob){
 				console.log(blob)
-				let endpoint = `https://54.248.1.203/api/mintverse/word/definition/${nftDetail.id}`;
+				let endpoint = `https://api2.mintverse.world/api/mintverse/word/definition/${nftDetail.id}`;
 				let binary = '';
 				const blobToBinary = async (blob) => {
 				  const buffer = await blob.arrayBuffer();
