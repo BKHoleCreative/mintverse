@@ -385,7 +385,7 @@ function nft(data){
           );
           setBlinkData();
           setTimeGap();
-          resolve({p5:p5js,status:'finish'});
+          
           if(data.status == 2){
             notes = data.context;
             changeNote(notes);
@@ -401,6 +401,7 @@ function nft(data){
             calcAuthorWidth(author);
             fontSizeMini();
           }
+          resolve({p5:p5js,status:'finish'});
         }
         function fontSizeMini(){
           console.log('fontSizeMini')
