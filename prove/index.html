@@ -47,13 +47,13 @@
 			$('header').setHeader();
 			$('footer').setFooter();
 			$('.popset').setPop()
-			//search("")
 			let serchData = [];
 
 			// serchData.forEach(function(item){
 			// 	$('.result').empty();
 			// 	$('.result').append(`<img src=${item}>`)
 			// })
+			initData();
 			$('.searchInput span').on('click', function(event) {
 				event.preventDefault();
 				/* Act on the event */
@@ -65,7 +65,19 @@
 			     search($('input').val());
 			  }
 			});
+			function initData(){
+				
+				for (var i = 0; i < 30; i++) {
+					let jsonData = {}
+					jsonData.link = `#`;
+					if(i==29)i+=9;
+					jsonData.gif_url = `https://mintverse.s3.ap-northeast-1.amazonaws.com/gif_defined_${3800+i}.gif`;
+					serchData.push(jsonData)
+				}
+				
+				renderGif();
 
+			}
 			function renderGif(){
 				$('.result').empty();
 				serchData.forEach(function(item){
