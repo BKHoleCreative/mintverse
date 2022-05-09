@@ -79,8 +79,10 @@
 
 			}
 			function renderGif(){
-				$('.result').empty();
+				$('.result a').remove();
+				$('.result h1').hide();
 				serchData.forEach(function(item){
+					if(item.gif_url == null)return;
 					let gif = item.gif_url;
 					//gif = '../image/sample.gif'
 					$('.result').append(`<a href="${item.link}"><img src='${gif}''></a>`)
@@ -91,8 +93,9 @@
 					$('.popset').openPop({message:'請輸入詞彙關鍵字'});
 					return;
 				}
+				$('.result a').remove();
 				$('.result h1').hide();
-				let endpoint = `https://54.248.1.203/api/mintverse/token/search`;
+				let endpoint = `https://api2.mintverse.world/api/mintverse/token/search`;
 				let data = await $.ajax({
 			  		type: "POST",
 				    url: endpoint,
@@ -100,7 +103,7 @@
 				    contentType:'application/json;charset=utf-8',
 				    data:JSON.stringify({
 					  "keyword": key,
-					  "token_category": 1
+					  "token_category": 2
 					}),
 				    success: function (response) {
 				      	serchData = response.results;
