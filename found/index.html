@@ -266,12 +266,18 @@
 
 
 			});
+			$('#textarea').bind('input propertychange', function() {
+
+		      if(this.value.length > 100){
+		          $('#textarea').val($('#textarea').val().slice(0,100));
+		      }
+			});
 			$('.edit button').on('click',function(event) {
 				event.preventDefault();
 				/* Act on the event */
 				if($(this).hasClass('disable'))return;
 				if($(this).hasClass('submit')){
-					$('.popset').openPop({message:'請稍候，詞彙定義準備中！請勿關閉視窗'});
+					$('.popset').openPop({message:'正在鑄造定義，請稍待1-3分鐘，請勿關閉或重整頁面。等狐狸錢包跳出後，確認gas後按簽署，才算完成。'});
 					renderGif($('#myCanvas canvas')[0]);
 				}else{
 					changeView(2);
