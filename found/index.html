@@ -272,6 +272,11 @@
 		          $('#textarea').val($('#textarea').val().slice(0,100));
 		      }
 			});
+			$('textarea').keydown(function(evt){
+			    if (evt.keyCode == 13) {
+			        evt.preventDefault();
+			    }
+			});
 			$('.edit button').on('click',function(event) {
 				event.preventDefault();
 				/* Act on the event */
