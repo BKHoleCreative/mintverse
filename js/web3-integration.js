@@ -149,6 +149,7 @@ async function get_wallet_info_web3() {
     if(totalSupply - totalWordGiveaway==1900){
         $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
         onDisconnect();
+        $(".mintNum>p >span").text("Sold Out");
     }
 
     // get Dictionary Purchase status
@@ -238,6 +239,7 @@ async function mint_whitelist_word(wallet_info){
     if(totalSupply - totalWordGiveaway==1900){
         $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
         onDisconnect();
+        $(".mintNum>p >span").text("Sold Out");
     }
 
 
@@ -422,6 +424,7 @@ async function mint_public_word(wallet_info){
     if(totalSupply - totalWordGiveaway==1900){
         $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
         onDisconnect();
+        $(".mintNum>p >span").text("Sold Out");
     }
 
 
