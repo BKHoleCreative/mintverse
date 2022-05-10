@@ -21,7 +21,10 @@ section{
 	display: flex; /*使物件依序排列*/
   flex-direction: column; /*使物件垂直排列*/
 }
-
+video{
+	width: 100%;
+	margin-bottom: 40px;
+}
 
 .mint > div > h2{
 	color: var(--main-color);
