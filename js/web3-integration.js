@@ -170,7 +170,7 @@ async function get_wallet_info_web3() {
 
             }else{
                 // goes for whitelist mint
-                $('.popset').openPop({message:'您的地址至多可鑄造 '+wallet_info.mint_limit - wallet_info.claimed_Number+" 個"});
+                $('.popset').openPop({message:'您的地址至多可鑄造 '+(wallet_info.mint_limit - wallet_info.claimed_Number)+" 個"});
             }
 
 			// 最大限制 mint 數量
