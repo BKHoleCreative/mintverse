@@ -270,17 +270,16 @@
       <section class="database-url">
         <h3>
           <ul>
-            <li>法律條款 URI:</li>
-            <li>Animation Code (Word Token) URI:</li>
-            <li>Animation Code (Dictionary Token) URI:</li>
-            <li>視覺重現方式 URI:</li>
-            <li>10 篇創世小說 URI:</li>
-            <li>鑄造機制 URI:</li>
-            <li>詞彙ID Mapping URI:</li>
-            <li>詞性ID Mapping URI:</li>
-            <li>詞彙類別ID Mapping URI:</li>
-            <li>詞彙 Metadata Mapping URI:</li>
-            <li>辭典 Metadata Mapping URI:</li>
+            <li data-url="https://mirror.xyz/mintverse-dictionary.eth/lpTwv44NYAnBVkiio4yuoAI7h9jJgtUQl-wK3Zjf9Mk">法律條款 URI</li>
+            <li>Animation Code (Word Token) URI（TBU）</li>
+            <li>Animation Code (Dictionary Token) URI（TBU）</li>
+            <li>視覺重現方式 URI（TBU）</li>
+            <li>10 篇創世小說 URI（TBU）</li>
+            <li data-url="https://mirror.xyz/dashboard/edit/KEXLVpWGyDDqVEwI_JlFAjlW6Kz5UAQxg_zy1w4e7rQ">鑄造機制 URI</li>
+            <li data-url="https://mirror.xyz/mintverse-dictionary.eth/ba7HifZchpnJiLBYj7JT1qt6zxkM5jhEJWSMBjNBn2I">詞彙ID Mapping URI</li>
+            <li data-url="https://mirror.xyz/mintverse-dictionary.eth/hm7osdlOUz8M-YCMWdzeIfgjX3SL1yKZoK8RgSB4GOc">詞性ID Mapping URI</li>
+            <li data-url="https://mirror.xyz/mintverse-dictionary.eth/F_-tOjzl2lKPMxYdmPwY8FcxpYNXB2Lwv8O54rbT_0g">詞彙類別ID Mapping URI</li>
+            <li>辭典 Metadata Mapping URI（TBU）</li>
           </ul>
         </h3>
       </section>
@@ -290,7 +289,11 @@
     $(document).ready(function() {
         $('header').setHeader();
         $('footer').setFooter();
-
+        $('.database-url li').on('click', function(event) {
+          event.preventDefault();
+          /* Act on the event */
+          location.href = event.currentTarget.attributes['data-url'].value;
+        });
     })
     </script>
 </body>
