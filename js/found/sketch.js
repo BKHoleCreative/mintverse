@@ -1,7 +1,7 @@
 function nft(data){
   return new Promise((resolve, reject) => { 
   let p5js = new p5( p5 => {
-    console.log(data)
+    //console.log(data)
         let cardType = true;
         if(data.category == 1)cardType = false;
         const parentId = 'myCanvas';
@@ -155,7 +155,7 @@ function nft(data){
         let emojiArr = [];
 
         let mainTextSize = 90;
-        let level = [95, 70, 50, 40, 30, 20, 10, 10, 10, 10];
+        let level = [95, 70, 54, 43, 35, 20, 10, 10, 10, 10];
         let lines = [1, 2, 3, 4, 5, 5, 6, 6, 6, 6];
         let currentLevel = 0;
         let currnTextWidth = 0;
@@ -403,18 +403,22 @@ function nft(data){
           }
         }
         function fontSizeMini(){
-          console.log('fontSizeMini')
           let length = notes.length;
           p5.textSize(mainTextSize);
           currnTextWidth = p5.textWidth(notes);          
-          if(currnTextWidth > 750*lines[currentLevel] + 550 - (mainTextSize*(currentLevel+1))*2.5 - currentLevel*20){
+          if(currnTextWidth > 750*lines[currentLevel] + 550 - (mainTextSize*(currentLevel+1))*2.6 - currentLevel*20){
             oldLength = notes.length
             currentLevel++;
             mainTextSize = level[currentLevel];
             if(currentLevel>=9) currentLevel = 9;
             fontSizeMini();
+          }else if(currnTextWidth < 750*(lines[currentLevel])/2 + 550 - (mainTextSize*(currentLevel+1))*2 && length < oldLength){
+            oldLength = notes.length
+            currentLevel--;
+            if(currentLevel<=0) currentLevel = 0;
+            fontSizeMini();
           }
-          
+          mainTextSize = level[currentLevel];
         }
         function makeMask(maskImage, inverse, max){
           //maskImage: 要生成的遮罩圖
@@ -452,7 +456,6 @@ function nft(data){
             nameFlash.setLong(blockData.name.width + authorLong);
         }
         function notesInputEvent() {
-          console.log(this.value())
           if(this.value().length > 100){
             this.value(this.value().slice(0, -1));
           }
@@ -506,7 +509,7 @@ function nft(data){
             blockData.synonym.color = {h:12,s:95,b:96};
           }
 
-          measureText();
+          fontSizeMini();
         }
         function synonymInputEvent() {
           let arrIndex = this.elt.id.split('synonym')[1];
@@ -1149,6 +1152,19 @@ function nft(data){
           mainTextSize = level[currentLevel];
 
           //console.log(`Level: ${level[currentLevel]}  Lines: ${lines[currentLevel]}`);
+        }
+        function keyPressed() {
+          if(p5.keyCode == 8){
+            let length = notes.length;
+            p5.textSize(mainTextSize);
+            currnTextWidth = p5.textWidth(notes);
+            if(currnTextWidth < 750*(lines[currentLevel])/2 + 550 - (mainTextSize*(currentLevel+1))*2 && length < oldLength){
+              oldLength = notes.length
+              currentLevel--;
+              if(currentLevel<=0) currentLevel = 0;
+            }
+            mainTextSize = level[currentLevel];
+          }
         }
         function unicode(str){
           var value='';
