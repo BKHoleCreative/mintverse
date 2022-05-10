@@ -170,7 +170,7 @@ async function get_wallet_info_web3() {
 
             }else{
                 // goes for whitelist mint
-                $('.popset').openPop({message:'您的地址至多可鑄造 '+wallet_info.mint_limit+" 個"});
+                $('.popset').openPop({message:'您的地址至多可鑄造 '+(wallet_info.mint_limit - wallet_info.claimed_Number)+" 個"});
             }
 
 			// 最大限制 mint 數量
@@ -489,7 +489,7 @@ async function mint_public_word(wallet_info){
                         onDisconnect();
                     } else {
                         $('.popset').openPop({
-                            message: "白名單鑄造失敗！",
+                            message: "FREEMINT鑄造失敗！",
                             type: 'failed' 
                         });
                         onDisconnect();
@@ -541,7 +541,7 @@ async function mint_public_word(wallet_info){
                 onDisconnect();
             } else {
                 $('.popset').openPop({
-                    message: "白名單鑄造失敗！",
+                    message: "FREEMINT鑄造失敗！",
                     type: 'failed' 
                 });
                 onDisconnect();
