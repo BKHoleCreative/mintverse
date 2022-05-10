@@ -26,6 +26,10 @@ section h4 {
   margin-bottom: 1.5em;
   text-align: center;
 }
+.database-url li:nth-of-type(1),.database-url li:nth-of-type(6),.database-url li:nth-of-type(7),.database-url li:nth-of-type(8),.database-url li:nth-of-type(9){
+  text-decoration: underline;
+  cursor: pointer;
+}
 .overview h1{
   text-align: center;
   margin-bottom: 1em;
