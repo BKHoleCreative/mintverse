@@ -489,7 +489,7 @@ async function mint_public_word(wallet_info){
                         onDisconnect();
                     } else {
                         $('.popset').openPop({
-                            message: "白名單鑄造失敗！",
+                            message: "FREEMINT鑄造失敗！",
                             type: 'failed' 
                         });
                         onDisconnect();
@@ -541,7 +541,7 @@ async function mint_public_word(wallet_info){
                 onDisconnect();
             } else {
                 $('.popset').openPop({
-                    message: "白名單鑄造失敗！",
+                    message: "FREEMINT鑄造失敗！",
                     type: 'failed' 
                 });
                 onDisconnect();
