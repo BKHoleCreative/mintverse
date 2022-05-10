@@ -84,6 +84,21 @@
 		    transform: rotate(360deg);
 		  }
 		}
+		.announcement{
+			position: fixed;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 999;
+		}
+		.announcement .pop {
+			display: block;
+    		background-color: rgba(0, 0, 0, 0.6);
+		}
+		.announcement .pop .content p{
+			margin-bottom: 0;
+		}
 	</style>	
 </head>
 <body>
@@ -204,6 +219,13 @@
 		<div class="popset"></div>
 		<footer>
 		</footer>
+	</div>
+	<div class="announcement">
+		<div class="pop" style="display:block;">
+			<div class="content">
+				<p>鑄造小組的成員們，目前有很多定義正在依序排隊進行中，請休息一下，晚點再回來定義與開盒。</p>
+			</div>
+		</div>
 	</div>
     <!-- Web3 Integration -->
     <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
