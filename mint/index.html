@@ -22,12 +22,62 @@
 	<script src="../js/header.js"></script>
 	<script src="../js/footer.js"></script>
 	<script src="../js/pop.js"></script>
+	<style>
+		.loading{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.7);
+		}
+		.lds-ring {
+		  display: inline-block;
+		  position: relative;
+		  width: 80px;
+		  height: 80px;
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		}
+		.lds-ring div {
+		  box-sizing: border-box;
+		  display: block;
+		  position: absolute;
+		  width: 64px;
+		  height: 64px;
+		  margin: 8px;
+		  border: 8px solid #FF4D00;
+		  border-radius: 50%;
+		  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+		  border-color: #FF4D00 transparent transparent transparent;
+		}
+		.lds-ring div:nth-child(1) {
+		  animation-delay: -0.45s;
+		}
+		.lds-ring div:nth-child(2) {
+		  animation-delay: -0.3s;
+		}
+		.lds-ring div:nth-child(3) {
+		  animation-delay: -0.15s;
+		}
+		@keyframes lds-ring {
+		  0% {
+		    transform: rotate(0deg);
+		  }
+		  100% {
+		    transform: rotate(360deg);
+		  }
+		}
+	</style>
 </head>
 <body>
 	<div id="app">
 		<header>
 		</header>
 		<section class="connect" style="display: block;">
+			<div class="loading" style="display: none;max-width: 100%;">
+				<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+			</div>
 			<div class="connectWrap">
 				<!-- <p>錢包地址: <span>0x000000000</span></p> -->
 				<h1>MINTVERSE<br>第二宇宙辭典時程公告</h1>
@@ -41,6 +91,9 @@
 			</div>
 		</section>
 		<section class="mint" style="display: none;">
+			<div class="loading" style="display: none;max-width: 100%;">
+				<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+			</div>
 			<div>
 				<h4>錢包：<span id="address" style="color:var(--main-color)">0x000000000000000000000</span></h4>
 				<h2>您最高可鑄造<span id="max_mint">1</span>個免費詞彙</h2>
@@ -80,6 +133,7 @@
     <script src="../js/web3-integration.js"></script>
 	<script>
 		let wallet_info;
+		
 		$(document).ready(async function() {
 			$('header').setHeader();
 			$('footer').setFooter();
@@ -93,15 +147,16 @@
 			$('#connectWallect').on('click',async function(event) {
 				event.preventDefault();
 
+				$('.loading').show();
+
 				// connect wallet
 	            let connected = await onConnect(); 
 
 
-				if(connected){
-					$('.popset').openPop({message:'連結錢包成功'});
-				}else{
+				if(!connected){
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
+					return;
 				}
 
 
@@ -121,6 +176,8 @@
 				wallet_info = await get_wallet_info_web3();
 
 
+				$('.loading').hide();
+				$('.popset').openPop({message:'連結錢包成功'});
 			});
 
 			// Mint
@@ -129,6 +186,7 @@
 				event.preventDefault();
 
 				$('.popset').openPop({message:'確認要FREEMINT?',type:'check',complete:async function(){
+					$('.loading').show();
 					$('.popset').openPop({message:'等待智能合約回應中.....'});
 
 					// check which minting function to select
@@ -138,6 +196,7 @@
 		            	let mint_result = await mint_public_word(wallet_info);
 		        	}
 		            $('.popset').hide();
+		            $('.loading').hide();
 		  		}});
 
 			});
