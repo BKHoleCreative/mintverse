@@ -143,6 +143,14 @@ async function get_wallet_info_web3() {
     // get claimed number
     const claimedNumber = await WordContract.methods.whitelistMintAmount(connectedAddress[0]).call({});
 
+    // get total mint number
+    const totalSupply = await WordContract.methods.totalSupply().call({});
+    const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
+    if(totalSupply - totalWordGiveaway==1900){
+        $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
+        onDisconnect();
+    }
+
     // get Dictionary Purchase status
     const dictionaryPurchased = await WordContract.methods.purchaseDictionaryCheckByAddress(connectedAddress[0]).call({});
     if(dictionaryPurchased){
@@ -223,6 +231,14 @@ async function mint_whitelist_word(wallet_info){
     var purchasedictionary = $('#check').is(":checked") ? true : false;
 	var price = await WordContract.methods.DICT_ADDON_PRICE().call({});
   	var Bprice = web3.utils.toBN(price)
+
+    // get total mint number
+    const totalSupply = await WordContract.methods.totalSupply().call({});
+    const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
+    if(totalSupply - totalWordGiveaway==1900){
+        $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
+        onDisconnect();
+    }
 
 
     // Checks before minting
@@ -399,6 +415,14 @@ async function mint_public_word(wallet_info){
     const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
     let tx_hash;
     let is_tx_success = false;
+
+    // get total mint number
+    const totalSupply = await WordContract.methods.totalSupply().call({});
+    const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
+    if(totalSupply - totalWordGiveaway==1900){
+        $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
+        onDisconnect();
+    }
 
 
     var mint_num = 1;
