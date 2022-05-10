@@ -30,7 +30,7 @@
 						 	<li data-target="/literature">文獻</li>
 						 	<li data-target="/found">鑄造</li>
 						  	<li data-target="/prove">證明</li>
-						  	<li><span>ERC-721A</span></li>
+						  	<li data-target="/erc721">ERC-721A</li>
 						  	<!-- <li data-target="/found">鑄造</li>
 						  	<li data-target="/prove">證明</li>
 						  	<li data-target="/erc">ERC-721A</li>-->
@@ -52,7 +52,7 @@
 			case 'prove':
 				$(this).find('li').eq(3).addClass('active');
 				break;
-			case 'prove':
+			case 'erc721':
 				$(this).find('li').eq(4).addClass('active');
 				break;
 			default:
