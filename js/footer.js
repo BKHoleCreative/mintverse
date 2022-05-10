@@ -13,7 +13,7 @@
 			<div class="mint-container">
 				<div class="mint">
 					<label for="">鑄造</label>
-					<p>2100</p>
+					<p>1956</p>
 				</div>
 				<div class="total">
 					<label for="">總量</label>
