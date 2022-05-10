@@ -22,7 +22,7 @@
 	<link rel="stylesheet" href="../css/_reset.css">
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/footer.css">
-	<link rel="stylesheet" href="../css/found.css">
+	<link rel="stylesheet" href="../css/found.css?0510">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
 	<script src="../js/jquery-3.6.0.min.js"></script>
 	<script  src="../js/found/marquee.js"></script>
@@ -198,8 +198,8 @@
 					<p></p>
 				</div>
 			</div>
-			<button class="disable">開始鑄造</button>
-			<span class="download">下載GIF</span>
+			<button class="disable">開始定義</button>
+			<span class="download">下載PNG</span>
 		</section>
 		<div class="popset"></div>
 		<footer>
@@ -404,6 +404,7 @@
 						if(nftDetail.status == 2){
 							gifUrl = nftDetail.word.gif_defined;
 							$('.edit .download').show();
+							$('.edit .download').css('display', 'block');
 						}else{
 							$('.edit .download').hide();
 						}
@@ -534,7 +535,7 @@
 			        if(res.status==200){
 			        	// Upload GIF Successfully, send tx to contract
 			        	console.log(res.data.gif_url);
-			        	$('.popset').openPop({message:'鑄造準備完成，詞彙上鏈中....'});
+			        	$('.popset').openPop({message:'定義準備完成，詞彙上鏈中....'});
 
 			        	// get defined data
 			        	let define_data = {
@@ -551,17 +552,25 @@
 			        }else{
 			        	// Upload failed
 			        	console.log(res.data);
-			        	$('.popset').openPop({message:'鑄造時上傳失敗，請再重新嘗試一次'});
+			        	$('.popset').openPop({message:'定義時上傳失敗，請再重新嘗試一次'});
 			        }
 			      })
 			      .catch((err) => {
 			        console.log(err);
 			      });
 			}
+			// function saveToPngBlob(){
+			// 	let cvs = document.getElementById("canvas");
+			// 	cvs.toBlob(function(blob) {
+			// 	    let url = URL.createObjectURL(blob);
+			// 	    gifUrl = url;
+			// 	    submitGif(blob)
+			// 	}, 'image/gif');
+			// }
 			function downloadGif(url){
 				const link = document.createElement('a');
 		        link.href = url;
-		        link.setAttribute('download', `${nftDetail.id}.gif`);
+		        link.setAttribute('download', `${nftDetail.id}.png`);
 		        document.body.appendChild(link);
 		        link.click(); 
 		        link.parentNode.removeChild(link);
@@ -580,13 +589,14 @@
 						const url = window.URL.createObjectURL(new Blob([blob]));
 						gifUrl = url;
 						$('.edit .download').show();
+						$('.edit .download').css('display', 'block');
 				        submitGif(blob)
 					  	//window.open(URL.createObjectURL(blob));
 					});
 
 					function addFrame(canvas) {
 				        if (renderFinished) return;
-				        if (gif.frames.length < 150) {
+				        if (gif.frames.length < 1) {
 				        	console.log('addframe')
 				          	gif.addFrame(canvas, {delay: 30});
 				        } else {
