@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="../css/_reset.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/erc721.css">
+    <link rel="stylesheet" href="../css/secondworld.css" />
+    <link rel="stylesheet" href="../css/dictionary.css" />
     <script src="../js/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.marquee@1.6.0/jquery.marquee.min.js"></script>
     <script src="../js/header.js"></script>
@@ -26,11 +27,263 @@
 <body>
     <div id="app">
         <header></header>
-        <section class="article">
-            <div>
-                
-            </div>
-        </section>
+        <section class="overview">
+        <h1>Mintverse 合約架構</h1>
+        <h3>
+          1. 合約系統結構 - Contract Structure
+          <a href="#contract-structure">#</a>
+        </h3>
+        <h3>
+          2. 風險披露聲明 - Risk Disclosure <a href="#risk-disclosure">#</a>
+        </h3>
+        <h3>3. 未來優化方向 - Future Work <a href="#future-work">#</a></h3>
+        <h3>
+          4. 合約地址 - Contract Address <a href="#contract-address">#</a>
+        </h3>
+        <h3>
+          5. 去中心化資料庫 - Arweave Mapping Database URI
+          <a href="#database-url">#</a>
+        </h3>
+      </section>
+      <h1 class="title" id="contract-structure">合約系統結構</h1>
+      <section class="contract-structure">
+        <h3>
+          <div class="contracts">
+            contracts<br />
+            ├── MintverseDictionary.sol<br />
+            ├── MintverseWord.sol<br />
+            ├── interfaces<br />
+            │ ├── IMintverseDictionary.sol<br />
+            │ ├── IMintverseWord.sol<br />
+            │ └── IWord.sol<br />
+            └── libraries<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; └── ERC721A.sol<br />
+          </div>
+        </h3>
+        <h3 class="subtitle">ERC721A</h3>
+        <h3>
+          本次的兩份合約皆繼承
+          <a href="https://www.erc721a.org/">ERC721A</a>。ERC721A 是目前 NFT
+          圈中最常見，也是經過最多測試的 ERC721 延伸協議，最初由 NFT 項目 Azuki
+          發布，改進的方向是為了降低批量 Mint 時的 Gas Fee
+          所開發出來的協議，節省智能合約在鏈上寫入資料的工作。以往的標準較多使用
+          OpenZeppelin 所發佈的 ERC721 Enumerable，但 Mint 時需要一個個紀錄
+          Token 所有者，因此 Gas Fee 將會成倍數上升，而 ERC721A 則改由紀錄每次
+          Mint 時的起始編號，來改變需要一個一個 Mint的限制。而 ERC721A
+          也在團隊完成發行之後交由工程團隊 Chiru Labs
+          維護。以下為官方文件中有關於 Gas 的比較與介紹連結：
+        </h3>
+        <img
+          src="../image/ERC721A-1.png"
+          alt="Gas used: ERC721 Enumerable v.s. ERC721A"
+        />
+        <h4>Gas used: ERC721 Enumerable v.s. ERC721A</h4>
+        <img
+          src="../image/ERC721A-2.png"
+          alt="Gas Fee(in USD): ERC721 Enumerable v.s. ERC721A"
+        />
+        <h4>Gas Fee(in USD): ERC721 Enumerable v.s. ERC721A</h4>
+        <h3 class="subtitle">MintverseWord.sol</h3>
+        <h3>
+          <span>Metadata 上鏈</span><br />
+          MintverseWord Token 將會紀錄與詞彙相關的
+          Metadata。每一個詞彙一共會包含九個部分，分別是鑄造者
+          definerPart、關係詞 relatedWordPart、註釋 descriptionPart、詞彙
+          wordPart、詞彙類別 categoryPart、詞性一 partOfSpeechPart1、詞性二
+          partOfSpeechPart2、詞彙倒數起始時間 mintTime、是否定義 defined。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-1.png"
+          alt="每個 token 所會儲存在鏈上的資料"
+        />
+        <h4>每個 token 所會儲存在鏈上的資料</h4>
+        <h3>
+          <span>Gas 優化</span><br />
+          上述的詞彙 Metadata 在經過優化後，降低了百分之三十的 Gas
+          Fee。我們調整了資料儲存的順序與容量，讓所有資料能以四個 256 bytes
+          的儲存空間被紀錄在鏈上，同時也調整了合約內的判斷邏輯，讓每位鑄造者盡可能只需要經過最少的判斷式以節省
+          Gas 用量。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-2.png"
+          alt="MintverseWordV1.sol: mintPublicWord 281,004 Gas (0.014 ETH, 50 Gwei), defineWord 381,465 Gas (0.019 ETH, 50 Gwei)"
+        />
+        <h4>
+          MintverseWordV1.sol: mintPublicWord 281,004 Gas (0.014 ETH, 50 Gwei),
+          defineWord 381,465 Gas (0.019 ETH, 50 Gwei)
+        </h4>
+        <img
+          src="../image/MintverseWord.sol-3.png"
+          alt="MintverseWordV2.sol: mintPublicWord 144,951 Gas (0.007 ETH, 50 Gwei), defineWord 332,609 Gas (0.016 ETH, 50 Gwei)"
+        />
+        <h4>
+          MintverseWordV2.sol: mintPublicWord 144,951 Gas (0.007 ETH, 50 Gwei),
+          defineWord 332,609 Gas (0.016 ETH, 50 Gwei)
+        </h4>
+        <h3>
+          <span>隨機性詞彙</span><br />
+          要做到 100% 鏈上的隨機性，需要透過 Chainlink VRF
+          的服務，但這樣會需要更多的 Gas，因此我們參考 Hashmasks 的作法透過
+          block.timestamp 與 msg.sender 來產生 hash 進而決定出 token
+          與詞彙庫配對的起始點，在可預測性隨機與 Gas Fee 之間取得一個平衡。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-4.png"
+          alt="_setHeadWordId: 透過 block.timestamp & 鑄造者地址創造隨機性"
+        />
+        <h4>_setHeadWordId: 透過 block.timestamp & 鑄造者地址創造隨機性</h4>
+        <h3>
+          <span>解盲時間設定</span><br />
+          由於每個詞彙將在 5/9
+          進行解盲，因此開始倒數計時的時間也將不同，在合約中依據每個詞彙鑄造的時間，設定不同的倒數計時起始時間，如果是在解盲前鑄造將由解盲時間開始倒數計時，如果是在解盲後鑄造將依據鑄造時間開始倒數計時。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-5.png"
+          alt="_getCurWordTimestamp: 判斷詞彙倒數起始時間"
+        />
+        <h4>_getCurWordTimestamp: 判斷詞彙倒數起始時間</h4>
+        <h3>
+          <span>詞彙死亡與可撰寫時間</span><br />
+          每個詞彙在鑄造完成後設定了倒數計時起始時間，而詞彙只有兩種情況下可被撰寫：一、倒數起始的
+          42
+          小時內，二、已被撰寫過。反而言之，倒數起始前是無法撰寫的，以及倒數起始
+          42 小時後又無人撰寫的 Token 將進入死亡無法再撰寫並符合循環重置條件。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-6.png"
+          alt="wordNotExpired: 判斷詞彙可撰寫條件"
+        />
+        <h4>wordNotExpired: 判斷詞彙可撰寫條件</h4>
+        <h3>
+          <span>詞彙循環重置</span><br />
+          白名單與公售將會配對到隨機詞彙庫中的 1900 個詞彙，而每個詞彙在 42
+          小時後若無人定義，將死亡並重新回到詞彙庫中，因此合約中設計了清算的機制，由官方執行
+          settleExpiredWord 的函式，並由 startTokenId 依序往後清算至
+          endTokenId，若遇到死亡詞彙則觸發事件將詞彙移至詞彙庫末端。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-7.png"
+          alt="function settleExpiredWord(uint256 startTokenId, uint256 endTokenId)"
+        />
+        <h4>
+          function settleExpiredWord(uint256 startTokenId, uint256 endTokenId)
+        </h4>
+        <h3>
+          <span>資料儲存與讀取</span><br />
+          每個鑄造者可以透過 defineWord
+          函式來定義詞彙，送出交易並將資料寫入鏈上，而前端網頁以及生成式藝術引擎將會透過
+          getTokenProperties 函式讀取 token
+          的相關資料進行渲染與影像生成。以下為系統結構圖與相關的函式：
+        </h3>
+        <img src="../image/MintverseWord.sol-8.png" alt="" />
+        <h4></h4>
+        <img src="../image/MintverseWord.sol-9.png" alt="" />
+        <h4>
+          function defineWord(uint256 tokenId, string calldata definer, uint8
+          partOfSpeech1, uint8 partOfSpeech2, string calldata relatedWord,
+          string calldata description)
+        </h4>
+        <img src="../image/MintverseWord.sol-10.png" alt="" />
+        <h4>
+          function getTokenProperties(uint256 tokenId)public view override
+          returns (string memory definer, uint256 wordId, uint256 categoryId,
+          uint256 partOfSpeechId1, uint256 partOfSpeechId2, string memory
+          relatedWord, string memory description)
+        </h4>
+        <h3 class="subtitle">MintverseDictionary.sol</h3>
+        <h3>
+          MintverseDictionary Token
+          合約的主要功能則為判斷鑄造者地址是否有加購辭典，若有加購且尚未空投過則符合空投條件，會由官方承擔
+          Gas Fee 空投給持有者，另外也在白名單與公售的機制中與 MintverseWord
+          Token 互動，檢查加購數量，確保總數維持在 210 個。
+        </h3>
+        <img
+          src="../image/MintverseWord.sol-11.png"
+          alt="function airdropDictionary(address to)"
+        />
+        <h4>function airdropDictionary(address to)</h4>
+      </section>
+      <h1 class="title" id="risk-disclosure">風險披露聲明</h1>
+      <section class="risk-disclosure">
+        <h3>
+          <span>
+            創新總是伴隨著風險，MintverseWord
+            的合約中加入了隨機性、死亡時間檢查等許多有趣的新機制及玩法，儘管我們做了許多不同情境的測試，合約仍然存在著發生錯誤的可能性，因此我們保留了緊急狀況的安全機制，確保即便錯誤發生，仍有修正與補救的機會。
+          </span>
+        </h3>
+        <h3>
+          但能夠修正與補救即存在中心化的成份，因此我們向所有鑄造者揭露這些中心化的地方。在以下這些函式中官方有權限對
+          Token 的特定資料進行修改，一共分為<span> SYSTEM EMERGENCY CALLS </span
+          >與<span> TOKEN EMERGENCY CALLS </span
+          >兩部分，在系統緊急措施中，官方得以修改與配對詞彙、數量上限相關的參數，目的是為了在詞彙配對發生錯誤時，可以修正並讓計算方式回歸正常，在
+          Token 資料緊急措施中，官方得以修改 Token
+          的配對詞彙、是否經過鑄造、倒數起始時間，目的是為了在詞彙資料發生錯誤時，可以修正並讓鑄造者重新定義詞彙，但同時我們也無權控制鑄造者們所定義的內容，僅有權更改系統所配對到的資訊。
+        </h3>
+        <img
+          src="../image/risk-1.png"
+          alt="與緊急修改相關的函式一覽"
+        />
+        <h4>與緊急修改相關的函式一覽</h4>
+      </section>
+      <h1 class="title" id="future-work">未來優化方向</h1>
+      <section class="future-work">
+        <h3>
+          這次的合約在 4/23
+          完成最後定案，過程中經過了許多機制的變化與迭代，其中還有許多優化與進步的空間，原先設定每個地址僅能鑄造一個因此使用
+          struct 紀錄每個 token
+          的資料，但當一個地址能夠鑄造多個時，這樣的實作則無法發揮 ERC721A Batch
+          Mint 全部的優勢，在下一版的實作中會將 token 的 mintTime timestamp 與
+          wordId 改為 mapping 的格式紀錄每個地址的起始 tokenId，同時紀錄起始
+          token 所對應的 mintTime timestamp 與
+          wordId，則可以批量紀錄所有資料，另外與 token
+          有關的函式如：mintGiveawayDictionary, mintWhitelistWord,
+          mintPublicWord, defineWord
+          也皆可以調整為批量處理的形式，方便團隊與使用者使用，而最後則希望學習
+          <a href="https://opensea.io/collection/uniswap-v3-positions"
+            >Uniswap V3: Positions NFT</a
+          >
+          將全部的生成過程做到 100% 上鏈！創作者與開發者們 Let’s Keep BUIDLing!
+        </h3>
+      </section>
+      <h1 class="title" id="contract-address">合約地址</h1>
+      <section class="contract-address">
+        <h3>
+          <ul>
+            <li>
+              MintverseWord.sol:
+              <a
+                href="https://etherscan.io/address/0x895e34343e2cdaa58bd393ec416b446ba4781c1c"
+                >0x895e34343e2cdaa58bd393ec416b446ba4781c1c</a
+              >
+            </li>
+            <li>
+              MintverseDictionary.sol:
+              <a
+                href="https://etherscan.io/address/0x272edff3514fbfdb8d505fc7c5e0141b1425f2c2"
+                >0x272EDff3514fBFDB8D505Fc7c5E0141B1425f2c2</a
+              >
+            </li>
+          </ul>
+        </h3>
+      </section>
+      <h1 class="title" id="database-url">去中心化資料庫</h1>
+      <section class="database-url">
+        <h3>
+          <ul>
+            <li>法律條款 URI:</li>
+            <li>Animation Code (Word Token) URI:</li>
+            <li>Animation Code (Dictionary Token) URI:</li>
+            <li>視覺重現方式 URI:</li>
+            <li>10 篇創世小說 URI:</li>
+            <li>鑄造機制 URI:</li>
+            <li>詞彙ID Mapping URI:</li>
+            <li>詞性ID Mapping URI:</li>
+            <li>詞彙類別ID Mapping URI:</li>
+            <li>詞彙 Metadata Mapping URI:</li>
+            <li>辭典 Metadata Mapping URI:</li>
+          </ul>
+        </h3>
+      </section>
         <footer></footer>
     </div>
     <script>
