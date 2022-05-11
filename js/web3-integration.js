@@ -571,7 +571,7 @@ async function sign_messages(){
     })
         .then(function (result){
             console.log(result);
-            return signature;
+            return result;
         })
 }
 
