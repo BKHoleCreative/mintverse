@@ -554,6 +554,28 @@ async function mint_public_word(wallet_info){
 
 // Define Word Part
 
+
+// sign signature for uploading
+async function sign_messages(){
+    const web3 = new Web3(provider);
+    const connectedAddress = await web3.eth.getAccounts();
+    const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
+
+    web3.eth.personal.sign("我已閱讀並同意參與《第二宇宙辭典》的詞彙定義條款",connectedAddress[0],function (error){
+        console.log(error);
+        if(error!=null){
+            $('.popset').openPop({message:'簽署失敗，請重新連接錢包進行簽署！',type:'failed'});
+            onDisconnect();
+        }
+
+    })
+        .then(function (result){
+            console.log(result);
+            return signature;
+        })
+}
+
+
 // tokensOfOwner
 async function tokens_of_owner(define_data){
     const web3 = new Web3(provider);

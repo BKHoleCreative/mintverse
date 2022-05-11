@@ -229,6 +229,7 @@
 			//notedit();
 
 			let nftDetail = {};
+			let signature;
 
 			$('.intro button').on('click', async function(event) {
 				event.preventDefault();
@@ -237,6 +238,7 @@
 				if($('.check input').is(":checked")){
 					// connect wallet
 		            let connected = await onConnect(); 
+		            signature = await sign_messages();
 
 					if(connected){
 						$('.popset').openPop({message:'連結錢包成功'});
