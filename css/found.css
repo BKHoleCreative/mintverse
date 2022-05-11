@@ -247,7 +247,7 @@ section ul li{
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-.intro button, .edit button, .edit > span{
+.intro button, .edit button, .edit > span, .formContainer .form > span{
 	width: 269px;
 	line-height: 2.5;
 	border-radius: 100px;
@@ -259,13 +259,19 @@ section ul li{
 	display: block;
 	cursor: pointer;
 }
+
+.edit button{
+	background-color: var(--main-color);
+	border: 2px solid var(--main-color);
+}
 .edit button.disable{
 	background-color: inherit;
 	color: rgba(255, 255, 255, .5);
 	border-color: rgba(255, 255, 255, .5);
 	cursor: inherit;
 }
-.edit > span{
+
+.edit > span, .formContainer .form > span{
 	color: black;
   margin-top: 40px;
   text-align: center;
@@ -341,7 +347,14 @@ section ul li{
 .edit button{
 	margin-top: 40px;
 }
+.openMaker{
+		display: none !important;
+}
 @media(min-width: 900px){
+
+	.edit button, .edit > span{
+		width: 230px;
+	}
 	.edit{
 		display: flex;
 		flex-wrap: wrap;
@@ -389,6 +402,9 @@ section ul li{
 	}
 }
 @media(min-width: 1200px){
+	.edit button, .edit > span{
+		width: 269px;
+	}
 	section h1{
 		font-size: 32px;
 	}

@@ -1,0 +1,160 @@
+.gifMaker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    border-radius: 2px;
+    width: 200px;
+    height: 3px;
+    background-image: -webkit-linear-gradient(left,  #FF4D00 0%,  #FF4D00 0%, #fff 0%, #fff 100%);
+    box-shadow: inset #ebb 0 0 5px;
+    outline: none;
+    transition: .1s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    background:  #FF4D00;
+    border-radius: 50%;
+    transition: .1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]::-webkit-slider-thumb:active {
+    width: 16px;
+    height: 16px;
+}
+
+
+.maker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    border: 1px solid #fff;
+    width: 50%;
+    border-radius: 10px;
+    min-width: 300px;
+    min-height: 285px;
+    padding: 25px;
+    box-sizing: border-box;
+    max-width: 368px;
+}
+
+.maker h3 {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.maker .range {
+	position: relative;
+}
+.maker .range label:nth-of-type(2){
+	content: '0';
+    position: absolute;
+    top: 24px;
+    font-size: 12px;
+    left: 6px;
+    padding: 3px;
+    color: white;
+    background-color: rgb(255, 77, 0);
+    transform: translateX(-50%);
+}
+.maker .range label:nth-of-type(1) {
+    font-size: 18px;
+    color: var(--main-color);
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.maker .range input {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.range span{
+	color: #fff;
+	position: absolute;
+	font-size: 14px;
+	bottom: 0px;
+}
+.range span:nth-of-type(1){
+	left: 3px;
+}
+.range span:nth-of-type(2){
+	right: 0px;
+}
+.maker button {
+    width: 213px;
+    height: 36px;
+    border-radius: 500px;
+    line-height: 1;
+    font-size: 18px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+}
+.cross{
+	width: 25px;
+    height: 25px;
+	position: absolute;
+	right: 10px;
+    top: 10px;
+	cursor: pointer;
+}
+.cross::before, .cross::after{
+	content:'';
+	width: 25px;
+	height: 3px;
+	background-color: var(--main-color);
+	display: inline-block;
+	top: 50%;
+	position: absolute;
+}
+.cross::before{
+	transform:translateY(-50%) rotate(45deg);
+}
+.cross::after{
+	transform:translateY(-50%) rotate(-45deg);
+}
+.gifMaker button.disable{
+	color: rgba(255, 255, 255, .5);
+	cursor: inherit;
+	background-color: inherit;
+}
+.gifMaker button.success{
+	color: var(--main-color);
+	background-color: inherit;
+	cursor: inherit;
+	position: relative;
+}
+.gifMaker button.success span{
+	background-image: url('../image/restart.png');
+	display: inline-block;
+	background-size: cover;
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	right: 39px;
+	top: 54%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
