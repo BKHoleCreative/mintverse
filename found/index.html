@@ -23,6 +23,7 @@
 	<link rel="stylesheet" href="../css/header.css">
 	<link rel="stylesheet" href="../css/footer.css">
 	<link rel="stylesheet" href="../css/found.css?0510">
+	<link rel="stylesheet" href="../css/range.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
 	<script src="../js/jquery-3.6.0.min.js"></script>
 	<script  src="../js/found/marquee.js"></script>
@@ -199,11 +200,38 @@
 				</div>
 			</div>
 			<button class="disable">開始定義</button>
+			<span class="openMaker">製作專屬GIF</span>
 			<span class="download">下載PNG</span>
 		</section>
 		<div class="popset"></div>
 		<footer>
 		</footer>
+		<div class="gifMaker">
+			<div class="maker">
+				<div class="cross">
+				</div>
+				<h3>GIF 孵化器</h3>
+				<p>GIF settings:</p>
+				<div class="quality range">
+					<label for="quality">品質</label>
+					<label for="">0</label>
+				  	<input type="range" id="quality" name="quality"
+				         min="0" max="10" value="0">
+				    <span>0</span>
+				    <span>10</span>
+				</div>
+				<div class="count range">
+					<label for="count">張數</label>
+					<label for="">0</label>
+				  	<input type="range" id="count" name="count" 
+				         min="0" max="100" value="0" step="10">
+				    <span>0</span>
+				    <span>100</span>
+				</div>
+				<button class="making">製作GIF<span></span></button>
+				<button class="downloadGif" id="downloadGif" style="display: none;">下載GIF</button>
+			</div>
+		</div>
 	</div>
     <!-- Web3 Integration -->
     <script type="text/javascript" src="https://unpkg.com/web3@1.6.0/dist/web3.min.js"></script>
@@ -221,6 +249,7 @@
 			let wallet_info;
 			var timer = null;
 			let gifUrl = '';
+			let pngUrl = '';
 			$('header').setHeader();
 			$('footer').setFooter();
 			$('.popset').setPop();
@@ -263,7 +292,7 @@
 						// display define page
 						$('.intro').hide();
 						$('.edit').show();
-
+						window.scrollTo(0, 0);
 					}else{
 						$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					}
@@ -289,6 +318,7 @@
 				if($(this).hasClass('submit')){
 					$('.popset').openPop({message:'正在鑄造定義，請稍待1-3分鐘，請勿關閉或重整頁面。等狐狸錢包跳出後，確認gas後按簽署，才算完成。'});
 					renderGif($('#myCanvas canvas')[0]);
+					//saveToPngBlob();
 				}else{
 					changeView(2);
 				}
@@ -296,7 +326,7 @@
 			$('.edit .download').on('click', function(event) {
 				event.preventDefault();
 				/* Act on the event */
-				downloadGif(gifUrl);
+				saveToPngBlob();
 			});
 			$('#selectToken').on('change', async function() {
 				
@@ -325,6 +355,30 @@
 			$('#speech').on('change', function(event) {
 				updateSelect();
 			})
+			function canvasToImg(){
+				let url  = canvas.toDataURL('image/jpeg', 0.8); // 可指定 jpeg 品質
+				//let blob = dataURItoBlob(url);
+				//submitGif(blob);
+			}
+			// function dataURItoBlob(dataURI) {
+			//     // convert base64/URLEncoded data component to raw binary data held in a string
+			//     var byteString;
+			//     if (dataURI.split(',')[0].indexOf('base64') >= 0)
+			//         byteString = atob(dataURI.split(',')[1]);
+			//     else
+			//         byteString = unescape(dataURI.split(',')[1]);
+
+			//     // separate out the mime component
+			//     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+			//     // write the bytes of the string to a typed array
+			//     var ia = new Uint8Array(byteString.length);
+			//     for (var i = 0; i < byteString.length; i++) {
+			//         ia[i] = byteString.charCodeAt(i);
+			//     }
+
+			//     return new Blob([ia], {type:mimeString});
+			// }
 			function updateSelect(){
 				return new Promise((resolve, reject) => {
 					let selectIndex = $("#speech").find(":selected").index();
@@ -343,13 +397,10 @@
 				$('.canvasWrap').hide();
 				// "0:尚未被Mint, 1: 尚未開始寫作, 2: 開始寫作"
 				removeCanvas();
-				$('.edit .rule').hide();
-				$('.edit .form').hide();
-				$('.edit .dead').hide();
-				$('.edit #myCanvas').hide();
+				$('.edit .rule, .edit .form, .edit .dead, .edit #myCanvas, .edit #notedit, .edit .download').hide();
 				$('canvas').remove();
-				$('.edit #notedit').hide();
 				$('.loading').show();
+				$(".openMaker").hide();
 				switch (status) {
 					case 'empty':
 						$('.edit .rule').show();
@@ -405,9 +456,8 @@
 						$(".editForm").show();
 						$(".deadline").hide();
 						if(nftDetail.status == 2){
-							gifUrl = nftDetail.word.gif_defined;
-							$('.edit .download').show();
-							$('.edit .download').css('display', 'block');
+							$('.edit .download').show().css('display', 'block');
+							$(".openMaker").show().attr('style', 'display: block !important');
 						}else{
 							$('.edit .download').hide();
 						}
@@ -443,6 +493,7 @@
 									   	let selectIndex = $("#speech1").find(":selected").index();
 									});
 								}
+								$('.formContainer .form > span').show();
 							}
 						}).catch(fail => {
 							console.log(fail);
@@ -563,46 +614,86 @@
 			        $('.popset').openPop({message:'定義時上傳失敗，請再重新嘗試一次'});
 			      });
 			}
-			// function saveToPngBlob(){
-			// 	let cvs = document.getElementById("canvas");
-			// 	cvs.toBlob(function(blob) {
-			// 	    let url = URL.createObjectURL(blob);
-			// 	    gifUrl = url;
-			// 	    submitGif(blob)
-			// 	}, 'image/gif');
-			// }
-			function downloadGif(url){
+			function saveToPngBlob(){
+				let cvs = $('#myCanvas canvas')[0];
+				cvs.toBlob(function(blob) {
+				    let url = URL.createObjectURL(blob);
+				    window.open(URL.createObjectURL(blob));
+				    downloadGif(url, "png");
+				    //submitGif(blob)
+				}, 'image/png');
+			}
+			function downloadGif(url, type){
 				const link = document.createElement('a');
 		        link.href = url;
-		        link.setAttribute('download', `${nftDetail.id}.png`);
+		        if(type == 'png')
+		        	link.setAttribute('download', `${nftDetail.id}.png`);
+		        else
+		        	link.setAttribute('download', `${nftDetail.id}.gif`);
 		        document.body.appendChild(link);
 		        link.click(); 
 		        link.parentNode.removeChild(link);
 			}
-			function renderGif(canvasDom){
+			$('.making').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				renderGif($('#myCanvas canvas')[0],'noUpload')
+			});
+			$('#downloadGif').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				downloadGif(gifUrl);
+			});
+			function resetMaker(){
+				$('.downloadGif').hide();
+				$('.making').removeClass('success').text("製作GIF").attr("disabled",false);
+			}
+			function renderGif(canvasDom,status){
 					let renderFinished = 0;
 					let timer = null;
 					let canvas = canvasDom;
+					let quality = 3
+					let count = 1;
+					if(status == 'noUpload'){
+						quality = $('.quality input[type=range]').val();
+						count = $('.count input[type=range]').val();
+						$('.making').attr('disabled', true);
+						$('.making').addClass('disable').text("製作中...");
+					}
 					var gif = new GIF({
-					  workers: 8,
-					  quality: 3,
+					  workers: 2,
+					  quality: quality,
 					  workerScript:'../js/gifjs/gif.worker.js',
 					  repeat:0
 					});
 					gif.on('finished', function(blob) {
 						const url = window.URL.createObjectURL(new Blob([blob]));
-						gifUrl = url;
-						$('.edit .download').show();
 						$('.edit .download').css('display', 'block');
-				        submitGif(blob)
-					  	//window.open(URL.createObjectURL(blob));
+						if(status == 'noUpload'){
+							$('.making').removeClass('disable').addClass('success').text("製作完成").append('<span></span>');
+							$('.downloadGif').show();
+							gifUrl = url;
+							//window.open(URL.createObjectURL(blob));
+							$('.gifMaker button.success span').on('click', function(event) {
+								event.preventDefault();
+								/* Act on the event */
+								$('.gifMaker button.success span').off();
+								resetMaker();
+								event.stopPropagation();
+							});
+						}else{
+							$('.edit .download').show();
+							$(".openMaker").show().attr('style', 'display: block !important');
+							submitGif(blob)
+						}
+					  	
 					});
 
 					function addFrame(canvas) {
 				        if (renderFinished) return;
-				        if (gif.frames.length < 1) {
+				        if (gif.frames.length < count) {
 				        	console.log('addframe')
-				          	gif.addFrame(canvas, {delay: 30});
+				          	gif.addFrame(canvas, {delay: 200});
 				        } else {
 				        	clearInterval(timer);
 				        	console.log('render')
@@ -613,8 +704,37 @@
 				    }
 				    timer = setInterval(function(){
 				    	addFrame(canvas);
-				    },100);
+				    },10);
 			}
+			$('.gifMaker .cross, .openMaker').on('click', function(event) {
+				event.preventDefault();
+				/* Act on the event */
+				resetMaker();
+				$('.gifMaker').toggle();
+				bg($('.quality input[type=range]'), $('.quality input[type=range]').val());
+				bg($('.count input[type=range]'), $('.count input[type=range]').val());
+			});
+			$('.quality input[type=range]').on('input', function () {
+			    bg($(this), $(this).val());
+			});
+			$('.count input[type=range]').on('input', function () {
+			    bg($(this), $(this).val());
+			});
+		  function bg(ele, n){
+		  	if(ele[0].name == 'quality'){
+			    ele.css({
+			       'background-image':'-webkit-linear-gradient(left ,#FF4D00 0%,#FF4D00 '+n*10+'%,#fff '+n*10+'%, #fff 100%)'
+			    });
+			    $('.maker .quality label:nth-of-type(2)').css('left',`calc(${n*10}% + ${ (6 - n*0.8) }px)`);
+			    $('.maker .quality label:nth-of-type(2)').text(n);
+			}else {
+				ele.css({
+			       'background-image':'-webkit-linear-gradient(left ,#FF4D00 0%,#FF4D00 '+n+'%,#fff '+n+'%, #fff 100%)'
+			    });
+			    $('.maker .count label:nth-of-type(2)').css('left',`calc(${n}% + ${ (6 - n*0.08) }px )`);
+			    $('.maker .count label:nth-of-type(2)').text(n);
+			}
+		  }
 
 		})
 	</script>
