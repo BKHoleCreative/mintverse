@@ -214,6 +214,7 @@
 	<script src="../js/pop.js"></script>
 	<link rel="stylesheet" href="../css/pop.css">
 	<script>
+		var signature;
 		$(document).ready(function() {
 			let deadP5, nftP5, noteditP5;
 			let status = 0;
@@ -229,6 +230,7 @@
 			//notedit();
 
 			let nftDetail = {};
+			
 
 			$('.intro button').on('click', async function(event) {
 				event.preventDefault();
@@ -240,6 +242,7 @@
 
 					if(connected){
 						$('.popset').openPop({message:'連結錢包成功'});
+						await sign_messages();
 
 			            // get wallet_info
 			            wallet_info = await tokens_of_owner();
@@ -508,7 +511,7 @@
 			}
 			async function submitGif(blob){
 				console.log(blob)
-				let endpoint = `https://api2.mintverse.world/api/mintverse/word/definition/${nftDetail.word.id}`;
+				let endpoint = `https://api2.mintverse.world/api/mintverse/word/v2/definition/${nftDetail.word.id}?signature=${signature}`;
 				let binary = '';
 				const blobToBinary = async (blob) => {
 				  const buffer = await blob.arrayBuffer();
@@ -557,6 +560,7 @@
 			      })
 			      .catch((err) => {
 			        console.log(err);
+			        $('.popset').openPop({message:'定義時上傳失敗，請再重新嘗試一次'});
 			      });
 			}
 			// function saveToPngBlob(){
