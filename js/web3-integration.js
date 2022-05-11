@@ -557,6 +557,8 @@ async function mint_public_word(wallet_info){
 
 // sign signature for uploading
 async function sign_messages(){
+    $('.popset').openPop({message:'請至小狐狸簽署詞彙定義條款....'});
+
     const web3 = new Web3(provider);
     const connectedAddress = await web3.eth.getAccounts();
     const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
