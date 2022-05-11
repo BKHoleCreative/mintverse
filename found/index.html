@@ -214,6 +214,7 @@
 	<script src="../js/pop.js"></script>
 	<link rel="stylesheet" href="../css/pop.css">
 	<script>
+		var signature;
 		$(document).ready(function() {
 			let deadP5, nftP5, noteditP5;
 			let status = 0;
@@ -229,7 +230,7 @@
 			//notedit();
 
 			let nftDetail = {};
-			let signature;
+			
 
 			$('.intro button').on('click', async function(event) {
 				event.preventDefault();
