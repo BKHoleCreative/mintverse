@@ -238,10 +238,10 @@
 				if($('.check input').is(":checked")){
 					// connect wallet
 		            let connected = await onConnect(); 
-		            signature = await sign_messages();
 
 					if(connected){
 						$('.popset').openPop({message:'連結錢包成功'});
+						signature = await sign_messages();
 
 			            // get wallet_info
 			            wallet_info = await tokens_of_owner();
