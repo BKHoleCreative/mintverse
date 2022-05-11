@@ -560,6 +560,7 @@
 			      })
 			      .catch((err) => {
 			        console.log(err);
+			        $('.popset').openPop({message:'定義時上傳失敗，請再重新嘗試一次'});
 			      });
 			}
 			// function saveToPngBlob(){
