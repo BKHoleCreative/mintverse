@@ -510,7 +510,7 @@
 			}
 			async function submitGif(blob){
 				console.log(blob)
-				let endpoint = `https://api2.mintverse.world/api/mintverse/word/definition/${nftDetail.word.id}`;
+				let endpoint = `https://api2.mintverse.world/api/mintverse/word/v2/definition/${nftDetail.word.id}?signature=${signature}`;
 				let binary = '';
 				const blobToBinary = async (blob) => {
 				  const buffer = await blob.arrayBuffer();
