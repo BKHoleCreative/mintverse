@@ -573,6 +573,7 @@ async function sign_messages(){
     })
         .then(function (result){
             console.log(result);
+            $('.popset').hide();
             return result;
         })
 }
