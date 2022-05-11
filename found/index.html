@@ -241,7 +241,7 @@
 
 					if(connected){
 						$('.popset').openPop({message:'連結錢包成功'});
-						signature = await sign_messages();
+						await sign_messages();
 
 			            // get wallet_info
 			            wallet_info = await tokens_of_owner();
