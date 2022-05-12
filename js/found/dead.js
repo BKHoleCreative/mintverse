@@ -9,17 +9,23 @@ function renderDead(text = '鯨魚') {
             font = p.loadFont('../font/NotoSerifTC-Bold.otf');
         }
         p.setup = function() {
+            let textSize = 200;
+            if(text.length == 5){
+                textSize = 150;
+            }else if(text.length == 4){
+                textSize = 180;
+            }
             p.frameRate(24);
             p.pixelDensity(2.0);
             p.createCanvas(800, 800).parent(parentId);
             points = font.textToPoints(
-                text, 0, 0, 200, {
+                text, 0, 0, textSize, {
                     sampleFactor: 1,
                     simplifyThreshold: 0
                 });
 
             bounds = font.textBounds(
-                text, 0, 0, 200);
+                text, 0, 0, textSize);
 
             p.cursor(p.CROSS);
             p.fill(255, 127);
