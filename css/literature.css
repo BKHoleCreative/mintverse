@@ -5,14 +5,50 @@
 *{
 	font-family: 'Noto Sans TC', sans-serif;
 	color: #FF4D00;
+	scroll-behavior: smooth;
 }
 body{
 	height: 100%;
 }
-<<<<<<< HEAD
 a{
 	text-decoration: none;
 }
+
+/*::-webkit-scrollbar {
+
+  width: 7px;
+
+}*/
+
+::-webkit-scrollbar-button {
+
+  background: #FF4D00;
+
+  border-radius: 4px;
+
+}
+
+::-webkit-scrollbar-track-piece {
+
+  background: #FF4D00;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+  border-radius: 4px;
+
+  background-color: rgba(0, 0, 0, 0.4);
+
+}
+
+::-webkit-scrollbar-track {
+
+  box-shadow: transparent;
+
+}
+
+
 .pointer{
 	cursor: pointer;
 }
@@ -29,7 +65,9 @@ a{
 	display: flex; 
  	flex-direction: column;
 }
-
+section{
+	flex-grow: 1; 
+}
 .literature{
 		min-height: 30vh;
 		margin: 0 auto;
@@ -43,10 +81,6 @@ a{
 	line-height: 1.4em;
 	max-width: 465px;
 	margin: 0 auto 50px;
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 }
 .cardContainer{
 		padding: 80px 0px;
@@ -163,7 +197,7 @@ a{
     height: 85px;
     width: 95%;
     box-sizing: border-box;
-    padding: 18px;
+    padding: 18px 10px;
     /*display: flex;*/
     max-width: 310px;
     display: none;
@@ -177,15 +211,17 @@ a{
 .message .word img{
 	width: 23px;
   align-self: center;
-  margin-right: 10px;
 }
 .message .word p, .message .context{
 	  color: black;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
 }
 .message .context{
-	padding: 5px 15px;
+	padding: 5px 0px 5px 15px;
+	width: 70%;
+	overflow: scroll;
+	line-height: 1.25;
 }
 .literature button{
 	background-color: var(--main-color);
@@ -213,12 +249,13 @@ a{
 	.message .word img{
 		width: 36px;
 	}
-	.message .word p, .message .context{
-		font-size: 17px;
-	}
 	.literature button{
 		margin-bottom: -10px;
 	}
+	.message .word p, .message .context{
+		font-size: 15px;
+	}
+
 }
 @media (min-width: 768px){
 	.literature h3{
@@ -327,6 +364,9 @@ a{
 	}
 	.cardContainer .card.lock h2{
 		font-size: 46px;
+	}
+	.message .word p, .message .context{
+		font-size: 17px;
 	}
 	.literature button{
 		margin: 0 auto -20px auto
