@@ -60,7 +60,7 @@
 			<h1 class="title"></h1>
 			<h3 class="author"></h3>
 			<button style="cursor:pointer;"><img src="../image/back_orange.svg" alt="">其他的可能宇宙</button>
-			<div class="content"></div>
+			<p class="content"></p>
 			<div class="goTop"><img src="../image/back.svg" alt="">TOP</div>
 		</section>
 		<div class="message">
@@ -78,37 +78,38 @@
 		 <div id="myBar">10%</div>
 	</div>
 	<script>
-		$(document).ready(function() {
+		$(document).ready(async function() {
 			let authorData = []
 			let articleDetail;
 			let articleId = null;
+			let elem = document.getElementById("myBar");
+    		let width = 0;
 			const SearchURL = new URL(window.location.href);
 			let params = SearchURL.searchParams;
+			$('header').setHeader();
+			$('footer').setFooter();
 			if(params.has('article')){
-				getDetailArticle();
+				$('#myBar').show();
 				$('.literature').hide();
 				$('.article').show();
 				articleId = params.get('article');
-				$('#app').addClass('articlePage')
-				renderArticle();
+				$('#app').addClass('articlePage');
+				width = 20;
+				await getDetailArticle();
+				width = 100;
+				elem.style.width = width + "%";
+				elem.innerHTML = width  + "%";
+				let timer = setTimeout(function(){
+					$('#myBar').hide();
+					renderArticle();
+					clearTimeout(timer);
+				},500);
 			}else{
 				$('.literature').show();
 				$('.article').hide();
 				init();
 			}
-			$('header').setHeader();
-			$('footer').setFooter();
 
-			$('.content span').on('click', function(event) {
-				event.preventDefault();
-				console.log(event.currentTarget.innerHtml)
-				//event.currentTarget.attributes['data-url'].value
-				$('.message .word p').text(event.currentTarget.innerHTML);
-				$('.message .context').text(event.currentTarget.attributes['data-discript'].value);
-				$('.message .word a').attr("href", event.currentTarget.attributes['data-url'].value);
-				$('.message').show(400);
-				$('.message').css('display', 'flex');
-			});
 			$('.message').on('click', function(event) {
 				//event.preventDefault();
 				/* Act on the event */
@@ -118,7 +119,9 @@
 			$('.article button').on('click', replaceContext);
 			async function getDetailArticle(){
 				let endpoint;
-				
+				width = 50;
+				elem.style.width = width + "%";
+				elem.innerHTML = width  + "%";
 				endpoint = `https://api2.mintverse.world/api/mintverse/author/${articleId}`
 				let data = await $.ajax({
 			  		type: "GET",
@@ -127,6 +130,9 @@
 				    success: function (response) {
 				    	//id article article_title name written_percentage reserved_tokens
 				    	articleDetail = response.author;
+				    	width = 80;
+				    	elem.style.width = width + "%";
+						elem.innerHTML = width  + "%";
 				    },
 				    error: function (thrownError) {
 				      	console.log(thrownError);
@@ -136,8 +142,7 @@
 			}
 			async function init(){
 				let endpoint;
-				var elem = document.getElementById("myBar");
-    			var width = 0;
+    			width = 10;
 				/* ldBar stored in the element */
 				for (var i = 0; i < 11; i++) {
 					if(i != 1){;
@@ -168,6 +173,7 @@
 					  	})
 					}
 				}
+				$('#myBar').hide();
 				authorData.sort(function(a, b) {
 			    	return b.written_percentage - a.written_percentage;
 				});
@@ -196,42 +202,72 @@
 					}
 					
 				})
+				initClick();
 			}
 			function replaceContext(){
 				let replacArticle;
 				$('.article .content').empty();
 				replacArticle = replaceKeyWord(articleId, 1);
 				$('.article .content').append(replacArticle);
+				bindContentEvent();
 			}
 			function renderArticle(){
 				let replacArticle
 				replacArticle = replaceKeyWord(articleId, 0);
-				$('.article .title').append(authorData[articleId].article_title);
-				$('.article .author').append('作家'+' '+authorData[articleId].name);
+				$('.article .title').append(articleDetail.article_title);
+				$('.article .author').append('作家'+' '+articleDetail.name);
 				$('.article .content').append(replacArticle);
+				bindContentEvent();
 			}
 			function replaceKeyWord(id, status){
 				let data = articleDetail
 				let article;
 				if(status == 0){
-					data.reserved_tokens.forEach( function(keyword, index) {
-						article = data.article.replaceAll(keyword.word.word, `<span data-discript="${keyword.word.context}" data-url="${keyword.opensea_url}">${keyword.word.word}</span>`)
-					});
+					for (var i = 0; i < articleDetail.reserved_tokens.length; i++) {
+						if(articleDetail.reserved_tokens[i].status == 2){
+							//if(articleDetail.reserved_tokens[i].id == 1274){
+								let keyword = articleDetail.reserved_tokens[i]
+								article = data.article.replaceAll(keyword.word.word, `<span data-discript="${i}" data-url="${keyword.opensea_url}">${keyword.word.word}</span>`);
+								data.article = article;
+							//}
+						}
+					}
 				}else{
-					data.reserved_tokens.forEach( function(keyword, index) {
-						let num = getRandom(keyword.word.synonyms.length)
-						article = data.article.replaceAll(keyword.word.word, `<span data-discript="${keyword.word.context}" data-url="${keyword.opensea_url}">${keyword.word.synonyms[num]}</span>`)
-					});
+					for (var i = 0; i < articleDetail.reserved_tokens.length; i++) {
+						if(articleDetail.reserved_tokens[i].status == 2){
+							let keyword = articleDetail.reserved_tokens[i];
+							let num = keyword.word.synonyms == null || keyword.word.synonyms.length == 0 ? 0 : getRandom(keyword.word.synonyms.length);
+							article = data.article.replaceAll(keyword.word.word, `${keyword.word.synonyms[num]}`)
+							data.article = article;
+							//console.log(data.article)
+						}
+					}
 				}
 				return article;
 			}
-			$('.card').on('click', function(event) {
-				event.preventDefault();
-				/* Act on the event */
-				let index = $( ".card" ).index( this );
-				if(authorData[index].persent < 80) return;
-				location.href = location.href + '?article=' + authorData[index].id
-			});
+			function initClick(){
+				$('.card').off();
+				$('.card').on('click', function(event) {
+					event.preventDefault();
+					/* Act on the event */
+					let index = $( ".card" ).index( this );
+					if(authorData[index].written_percentage < 80) return;
+					location.href = location.href + '?article=' + authorData[index].id
+				});
+			}
+			function bindContentEvent(){
+				$('.content span').off();
+				$('.content span').on('click', function(event) {
+					event.preventDefault();
+					console.log(event.currentTarget.innerHtml)
+					//event.currentTarget.attributes['data-url'].value
+					$('.message .word p').text(event.currentTarget.innerHTML);
+					$('.message .context').text(articleDetail.reserved_tokens[event.currentTarget.attributes['data-discript'].value].word.context);
+					$('.message .word a').attr("href", event.currentTarget.attributes['data-url'].value);
+					$('.message').show(400);
+					$('.message').css('display', 'flex');
+				});
+			}
 			$('.back').on('click', function(event) {
 				event.preventDefault();
 				/* Act on the event */
