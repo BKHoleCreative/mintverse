@@ -223,6 +223,9 @@
 				$('.article .content').append(replacArticle);
 				bindContentEvent();
 			}
+			String.prototype.replaceAt = function(index, replacement) {
+			    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+			}
 			function replaceKeyWord(id, status){
 				let data = articleDetail
 				let article;
@@ -231,7 +234,15 @@
 						if(articleDetail.reserved_tokens[i].status == 2){
 							//if(articleDetail.reserved_tokens[i].id == 1274){
 								let keyword = articleDetail.reserved_tokens[i]
-								article = data.article.replaceAll(keyword.word.word, `<span data-discript="${i}" data-url="${keyword.opensea_url}">${keyword.word.word}</span>`);
+								if(keyword.word.word == '詩'){
+									for (let index = 0; index < data.article.length; index++) {
+									  if (data.article[index] === '詩' && data.article[index + 1] != '人') {
+										article = data.article.replaceAt(index, `<span data-discript="${i}" data-url="${keyword.opensea_url}">${keyword.word.word}</span>`);
+									  }
+									}
+								}else{
+									article = data.article.replaceAll(keyword.word.word, `<span data-discript="${i}" data-url="${keyword.opensea_url}">${keyword.word.word}</span>`);
+								}
 								data.article = article;
 							//}
 						}
@@ -241,9 +252,16 @@
 						if(articleDetail.reserved_tokens[i].status == 2){
 							let keyword = articleDetail.reserved_tokens[i];
 							let num = keyword.word.synonyms == null || keyword.word.synonyms.length == 0 ? 0 : getRandom(keyword.word.synonyms.length);
-							article = data.article.replaceAll(keyword.word.word, `${keyword.word.synonyms[num]}`)
+							//if(keyword.word.word == '詩'){
+							// 	for (let index = 0; index < $('.article .content').html().length; index++) {
+							// 	  if ($('.article .content').html()[index] === '詩' && $('.article .content').html()[index + 1] != '人') {
+							// 		article = $('.article .content').html().replaceAt(index, `${keyword.word.synonyms[num]}`);
+							// 	  }
+							// 	}
+							// }else{
+								article = data.article.replaceAll(keyword.word.word, `${keyword.word.synonyms[num]}`)
+							//}
 							data.article = article;
-							//console.log(data.article)
 						}
 					}
 				}
