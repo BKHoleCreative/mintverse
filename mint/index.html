@@ -87,7 +87,7 @@
 				<h3>5/9 12:00</h3>
 				<p>第二波公開FREEMINT</p>
 				<h3>5/10 12:00</h3>
-				<button id="connectWallect">連結錢包</button>
+				<button id="connectWallect" disabled>Sold Out</button>
 			</div>
 		</section>
 		<section class="mint" style="display: none;">
@@ -156,6 +156,7 @@
 	            let connected = await onConnect(); 
 
 
+
 				if(!connected){
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
@@ -172,6 +173,23 @@
 				if(whiteList){
 					$('.mint').addClass('whiteList');
 				}else{
+
+					// 最大限制 mint 數量
+					let maxMint = 1;
+					$('.inputWrap img').on('click', function(event) {
+						event.preventDefault();
+						/* Act on the event */
+						let num = $('.inputWrap span').text();
+						let index = $( ".inputWrap img" ).index( this );
+						num = parseInt(num);
+						if(index == 0){
+							num = num + 1 <= maxMint ? num + 1 : num;
+						}else{
+							num = num - 1 < 1 ? num  : num - 1;
+						}
+						$('.inputWrap span').text(num.toString());
+					});
+
 					$('.mint').addClass('publicSale');
 				}
 
@@ -184,9 +202,9 @@
 			});
 
 			// Mint
-
 			$('#mintBtn').on('click', function(event) {
 				event.preventDefault();
+
 
 				$('.popset').openPop({message:'確認要FREEMINT?',type:'check',complete:async function(){
 					$('.loading').show();

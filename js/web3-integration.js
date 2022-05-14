@@ -82,6 +82,7 @@ async function onDisconnect() {
         provider = null;
     }
 
+
     if(location.pathname=='/mint/'){
         // on minting page
         $('#connectWallect').text('重新連結錢包');
@@ -142,6 +143,15 @@ async function get_wallet_info_web3() {
     // get claimed number
     const claimedNumber = await WordContract.methods.whitelistMintAmount(connectedAddress[0]).call({});
 
+    // get total mint number
+    const totalSupply = await WordContract.methods.totalSupply().call({});
+    const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
+    if(totalSupply - totalWordGiveaway==1900){
+        $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
+        onDisconnect();
+        $(".mintNum>p >span").text("Sold Out");
+    }
+
     // get Dictionary Purchase status
     const dictionaryPurchased = await WordContract.methods.purchaseDictionaryCheckByAddress(connectedAddress[0]).call({});
     if(dictionaryPurchased){
@@ -157,6 +167,7 @@ async function get_wallet_info_web3() {
                 address: connectedAddress[0],
                 mint_limit: response.data.maxQuantity,
                 signedSignature: response.data.signedSignature,
+
                 claimed_Number: parseInt(claimedNumber),
                 is_whitelist_mint:true
             }
@@ -168,6 +179,7 @@ async function get_wallet_info_web3() {
                 wallet_info.is_whitelist_mint = false;
                 wallet_info.mint_limit = 1;
 
+
             }else{
                 // goes for whitelist mint
                 $('.popset').openPop({message:'您的地址至多可鑄造 '+(wallet_info.mint_limit - wallet_info.claimed_Number)+" 個"});
@@ -175,6 +187,7 @@ async function get_wallet_info_web3() {
 
 			// 最大限制 mint 數量
 			let maxMint = wallet_info.mint_limit - wallet_info.claimed_Number;
+
             if(maxMint<=0){
                 $('.popset').openPop({message:'您已經超過鑄造上限的數量了'});
                 onDisconnect();
@@ -219,6 +232,15 @@ async function mint_whitelist_word(wallet_info){
     var purchasedictionary = $('#check').is(":checked") ? true : false;
 	var price = await WordContract.methods.DICT_ADDON_PRICE().call({});
   	var Bprice = web3.utils.toBN(price)
+
+    // get total mint number
+    const totalSupply = await WordContract.methods.totalSupply().call({});
+    const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
+    if(totalSupply - totalWordGiveaway==1900){
+        $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
+        onDisconnect();
+        $(".mintNum>p >span").text("Sold Out");
+    }
 
 
     // Checks before minting
@@ -332,6 +354,7 @@ async function mint_whitelist_word(wallet_info){
 	                		type: 'failed' 
 	                	});
                         onDisconnect();
+
                     }
                 });
         })
@@ -394,6 +417,15 @@ async function mint_public_word(wallet_info){
     const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
     let tx_hash;
     let is_tx_success = false;
+
+    // get total mint number
+    const totalSupply = await WordContract.methods.totalSupply().call({});
+    const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
+    if(totalSupply - totalWordGiveaway==1900){
+        $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
+        onDisconnect();
+        $(".mintNum>p >span").text("Sold Out");
+    }
 
 
     var mint_num = 1;

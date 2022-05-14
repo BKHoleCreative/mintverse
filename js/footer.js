@@ -7,13 +7,13 @@
 			</div>
 			<p class="mintDescript" style="cursor:pointer;" >
 				<span>
-					<span>5/5 免費鑄造</span><span>FREEMINT</span>
+					<span>5/5 20:00 白名單</span>
 				</span>
 			</p>
 			<div class="mint-container">
 				<div class="mint">
 					<label for="">鑄造</label>
-					<p>1013</p>
+					<p>2100</p>
 				</div>
 				<div class="total">
 					<label for="">總量</label>
@@ -77,8 +77,8 @@
 		});
 	    if(whiteListTimeCheck() == true || whiteListTimeCheck() == 'whiteListEnd'){
 			$(this).find('.mintDescript').addClass('whiteList');
-			$(this).find('.mintDescript span span:nth-of-type(1)').text('FREEMINT 鑄造');
-			$(this).find('.mintDescript span span:nth-of-type(2)').text('鑄造點這');
+			$(this).find('.mintDescript span span:nth-of-type(1)').text('Sold out');
+			// $(this).find('.mintDescript span span:nth-of-type(2)').text('已經全部鑄造完畢');
 		}
 	}
 

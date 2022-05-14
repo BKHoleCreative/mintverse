@@ -10,6 +10,10 @@
 body{
 	height: 100%;
 }
+a{
+	text-decoration: none;
+}
+
 /*::-webkit-scrollbar {
 
   width: 7px;
@@ -236,6 +240,7 @@ section{
 	max-width: 293px;
 	cursor: pointer;
 }
+
 @media (min-width: 576px){
 	.message{
 		  max-width: 500px;
@@ -243,9 +248,6 @@ section{
 	}
 	.message .word img{
 		width: 36px;
-	}
-	.message .word p, .message .context{
-		font-size: 17px;
 	}
 	.literature button{
 		margin-bottom: -10px;
@@ -304,7 +306,6 @@ section{
 	.literature button{
 		margin: 0 auto 0px auto;
 	}
-
 }
 @media (min-width: 1200px){
 	.literature h3{
@@ -340,6 +341,9 @@ section{
 	.cardContainer .card.lock h2{
 		font-size: 46px;
 	}
+	.literature button{
+		margin: 0 auto -20px auto
+	}
 }
 @media (min-width: 1440px){
 	.cardContainer{
@@ -360,6 +364,9 @@ section{
 	}
 	.cardContainer .card.lock h2{
 		font-size: 46px;
+	}
+	.message .word p, .message .context{
+		font-size: 17px;
 	}
 	.literature button{
 		margin: 0 auto -20px auto

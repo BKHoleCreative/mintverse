@@ -28,7 +28,7 @@
 						<ul>
 						  	<li data-target="/declare">宣言</li>
 						 	<li data-target="/literature">文獻</li>
-						 	<li data-target="/found">鑄造</li>
+						 	<li data-target="/found">定義</li>
 						  	<li data-target="/prove">證明</li>
 						  	<li data-target="/erc721">ERC-721A</li>
 						  	<!-- <li data-target="/found">鑄造</li>
