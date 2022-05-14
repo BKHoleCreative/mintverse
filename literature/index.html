@@ -130,6 +130,10 @@
 				    success: function (response) {
 				    	//id article article_title name written_percentage reserved_tokens
 				    	articleDetail = response.author;
+						if(articleDetail.written_percentage * 100 < 80){
+							alert("此文章尚未解鎖");
+							location.href = '/literature';
+						}
 				    	width = 80;
 				    	elem.style.width = width + "%";
 						elem.innerHTML = width  + "%";
@@ -178,7 +182,7 @@
 			    	return b.written_percentage - a.written_percentage;
 				});
 				authorData.forEach( function(item, index){
-					let persentCheck = item.written_percentage >= 100 ? true : false;
+					let persentCheck = item.written_percentage >= 80 ? true : false;
 					let title = item.article_title;
 					let author = item.name;
 					if( author == '李屏瑤'){
@@ -251,7 +255,7 @@
 					event.preventDefault();
 					/* Act on the event */
 					let index = $( ".card" ).index( this );
-					if(authorData[index].written_percentage < 100) return;
+					if(authorData[index].written_percentage < 80) return;
 					location.href = location.href + '?article=' + authorData[index].id
 				});
 			}
