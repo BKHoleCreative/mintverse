@@ -387,7 +387,7 @@ function nft(data){
           setTimeGap();
           resolve({p5:p5js,status:'finish'});
           if(data.status == 2){
-            notes = data.context;
+            notes = data.context.replace('\n','');
             changeNote(notes);
             if(author != undefined && author != null)
               author = data.definer;
