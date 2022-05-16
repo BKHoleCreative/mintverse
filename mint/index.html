@@ -74,7 +74,7 @@
 	<div id="app">
 		<header>
 		</header>
-		<section class="connect" style="display: none;">
+		<section class="connect" style="display: block;">
 			<div class="loading" style="display: none;max-width: 100%;">
 				<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 			</div>
@@ -85,10 +85,11 @@
 				<h3>5/17 12:00</h3>
 				<p>第二波詞彙Freemint</p>
 				<h3>5/26 12:00</h3>				
-				<button id="connectWallect" disabled>Sold Out</button>
+				<!-- <button id="connectWallect" disabled>Sold Out</button> -->
+				<button id="connectWallect">連接錢包</button>
 			</div>
 		</section>
-		<section class="mint" style="display: block;">
+		<section class="mint" style="display: none;">
 			<div class="loading" style="display: none;max-width: 100%;">
 				<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 			</div>
@@ -155,13 +156,15 @@
 				if(!connected){
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
+					$('.loading').hide();
 					return;
 				}
 
 
+
 				// 設定已經被 mint 數量
 				let result = await update_minting_status(); 
-				settingMintData(result.word_minted_num, result.dictionary_purchase_num);
+				// settingMintData(result.word_minted_num, result.dictionary_purchase_num);
 
 				// 決定為白名單或是公售樣式
 				let whiteList = false;
@@ -189,11 +192,14 @@
 				}
 
 				// 取得可mint資格與數量
-				wallet_info = await get_wallet_info_web3();
+				// wallet_info = await get_wallet_info_web3();
 
 
 				$('.loading').hide();
 				$('.popset').openPop({message:'連結錢包成功'});
+				$('.connect').hide();
+				$('.mint').show();
+				
 			});
 
 			// Mint
@@ -201,16 +207,14 @@
 				event.preventDefault();
 
 
-				$('.popset').openPop({message:'確認要FREEMINT?',type:'check',complete:async function(){
+				$('.popset').openPop({message:'確認要購買辭典嗎?',type:'check',complete:async function(){
 					$('.loading').show();
 					$('.popset').openPop({message:'等待智能合約回應中.....'});
 
 					// check which minting function to select
-					if(wallet_info.is_whitelist_mint){
-						let mint_result = await mint_whitelist_word(wallet_info);
-					}else{
-		            	let mint_result = await mint_public_word(wallet_info);
-		        	}
+					let mint_result = await mint_public_dictionary();
+
+
 		            $('.popset').hide();
 		            $('.loading').hide();
 		  		}});
