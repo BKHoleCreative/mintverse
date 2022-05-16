@@ -303,8 +303,8 @@ video{
 		max-width: 390px;
 	}
 	.mint button , .connectWrap button {
-		width: 419px;
-		height: 73px;
+		width: 340px;
+    height: 62px;
 		font-size: 24px;
 	}
 	.connectWrap button{
