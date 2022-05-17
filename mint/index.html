@@ -81,13 +81,12 @@
 			<div class="connectWrap">
 				<!-- <p>錢包地址: <span>0x000000000</span></p> -->
 				<h1>MINTVERSE<br>第二宇宙辭典時程公告</h1>
-				<p>第一波白單 FREEMINT</p>
-				<h3>5/5 20:00 - 5/7 14:00 </h3>
-				<p>開詞彙盲盒，撰寫定義</p>
-				<h3>5/9 12:00</h3>
-				<p>第二波公開FREEMINT</p>
-				<h3>5/10 12:00</h3>
-				<button id="connectWallect" disabled>Sold Out</button>
+				<p>辭典開放公售</p>
+				<h3>5/17 12:00</h3>
+				<p>第二波詞彙Freemint</p>
+				<h3>5/26 12:00</h3>				
+				<!-- <button id="connectWallect" disabled>Sold Out</button> -->
+				<button id="connectWallect">連接錢包</button>
 			</div>
 		</section>
 		<section class="mint" style="display: none;">
@@ -96,9 +95,7 @@
 			</div>
 			<div>
 				<h4>錢包：<span id="address" style="color:var(--main-color)">0x000000000000000000000</span></h4>
-				<h2>您最高可鑄造<span id="max_mint">1</span>個免費詞彙</h2>
-				<!-- <h2>每個錢包限量持有一個<br>詞彙加購辭典可收藏全部詞彙</h2>
-				<h2>每個詞彙皆是獨一無二<br>加購辭典可收藏全部的詞彙</h2> -->
+				<!-- <h2>您最高可鑄造<span id="max_mint">1</span>個免費詞彙</h2>
 				<div class="inputWrap">
 					<img  src="../image/plus.svg" alt="">
 					<p><span id="mintQuantity">1</span></p>
@@ -107,21 +104,20 @@
 				<div class="mintNum">
 					<p><span id="worldHasMinted">1</span><span>/</span><span>2100</span></p>
 				</div>
-				<div class="line"></div>
+				<div class="line"></div> -->
 				<video id="cover-video" preload="metadata" alt="" loop="" autoplay="" muted="" playsinline webkit-playsinline style="display:block;" poster="../image/videoCover.png">
 		            <source src="../video/video.mp4" type="video/mp4">
 		        </video>
-				<h2 style="margin-bottom:20px;">加購辭典可收藏<br>「10篇文獻＋2100個詞彙」<br>外加「實體精裝辭典」乙本</h2>
-				<h5>辭典會於 5/14 18:00 前空投至錢包</h5>
-				<label class="check">加購辭典 (0.15 ETH)
+				<h2 style="margin-bottom:40px;">加購辭典可收藏<br>「10篇文獻＋2100個詞彙」<br>外加「實體精裝辭典」乙本</h2>
+				<!-- <label class="check">加購辭典 (0.15 ETH)
 				  <input type="checkbox" id="check">
 				  <span class="checkmark"></span>
-				</label>
+				</label> -->
 				<!-- <div class="dictionaryNum">
 					<p><span id="dictionaryHasMinted">1</span><span>/</span><span>210</span></p>
 				</div> -->
 			</div>
-			<button id="mintBtn">MINT 鑄造</button>
+			<button id="mintBtn">購買辭典</button>
 			<a href="/law">如果你按下鑄造，表示你同意本協議</a>
 		</section>
 		<div class="popset"></div>
@@ -160,13 +156,15 @@
 				if(!connected){
 					$('.popset').openPop({message:'連結錢包失敗',type:'failed'});
 					$('#connectWallect').text('重新連結錢包');
+					$('.loading').hide();
 					return;
 				}
 
 
+
 				// 設定已經被 mint 數量
 				let result = await update_minting_status(); 
-				settingMintData(result.word_minted_num, result.dictionary_purchase_num);
+				// settingMintData(result.word_minted_num, result.dictionary_purchase_num);
 
 				// 決定為白名單或是公售樣式
 				let whiteList = false;
@@ -194,11 +192,14 @@
 				}
 
 				// 取得可mint資格與數量
-				wallet_info = await get_wallet_info_web3();
+				// wallet_info = await get_wallet_info_web3();
 
 
 				$('.loading').hide();
 				$('.popset').openPop({message:'連結錢包成功'});
+				$('.connect').hide();
+				$('.mint').show();
+				
 			});
 
 			// Mint
@@ -206,16 +207,14 @@
 				event.preventDefault();
 
 
-				$('.popset').openPop({message:'確認要FREEMINT?',type:'check',complete:async function(){
+				$('.popset').openPop({message:'確認要購買辭典嗎?',type:'check',complete:async function(){
 					$('.loading').show();
 					$('.popset').openPop({message:'等待智能合約回應中.....'});
 
 					// check which minting function to select
-					if(wallet_info.is_whitelist_mint){
-						let mint_result = await mint_whitelist_word(wallet_info);
-					}else{
-		            	let mint_result = await mint_public_word(wallet_info);
-		        	}
+					let mint_result = await mint_public_dictionary();
+
+
 		            $('.popset').hide();
 		            $('.loading').hide();
 		  		}});

@@ -10,13 +10,18 @@ footer{
 	border-top: 1px solid var(--main-color);
 	border-bottom: 1px solid var(--main-color);
 	text-align: right;
-	padding: 10px 16px 6px;
+	/*padding: 10px 16px 6px;*/
 	box-sizing: border-box;
+
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .mintDescript span{
 	display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 .mintDescript span span{
 	color: black;
@@ -26,8 +31,13 @@ footer{
 }
 .mintDescript span span:nth-of-type(1){
 	font-size: 18px;
-	margin-bottom: 10px;
-	margin-bottom: 5px;
+	margin-bottom: 0px;
+
+	padding: 6px 6px;
+	border: 2px solid black;
+    border-radius: 40px;
+    width: 160px;
+    box-sizing: border-box;
 }
 .mintDescript span span:nth-of-type(2){
 	font-size: 31px;
@@ -182,6 +192,8 @@ footer{
 	}
 	.mintDescript.whiteList span span:nth-of-type(1){
 		font-size: 23px;
+		width: 210px;
+		padding: 6px 14px;
 	}
 	.social-container{
 		width: 55.9%;
@@ -243,7 +255,8 @@ footer{
 		border-left: none;
 	}
 	.mintDescript.whiteList span span:nth-of-type(1){
-		font-size: 23px;
+		font-size: 21px;
+		width: 195px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(2){
 		font-size: 21px;
@@ -284,7 +297,9 @@ footer{
 		font-size: 43px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(1){
-		font-size: 30px;
+		font-size: 25px;
+		padding: 15px 14px;
+		width: 230px;
 	}
 	.mintDescript.whiteList span span:nth-of-type(2){
 		font-size: 23px;
@@ -318,9 +333,9 @@ footer{
 	.mintDescript span:nth-of-type(2){
 		font-size: 51px;
 	}
-	.mintDescript.whiteList span span:nth-of-type(1){
+	/*.mintDescript.whiteList span span:nth-of-type(1){
 		font-size: 37px;
-	}
+	}*/
 	.mintDescript.whiteList span span:nth-of-type(2){
 		font-size: 25px;
 	}
