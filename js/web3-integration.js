@@ -216,7 +216,7 @@ async function mint_public_dictionary(){
                         onDisconnect();
                     } else {
                         $('.popset').openPop({
-                            message: "鑄造失敗！原因如下"+error,
+                            message: "鑄造失敗！原因如下"+error.message,
                             type: 'failed' 
                         });
                         onDisconnect();
@@ -262,7 +262,7 @@ async function mint_public_dictionary(){
                 onDisconnect();
             } else {
                 $('.popset').openPop({
-                    message: "鑄造失敗！原因如下"+error,
+                    message: "鑄造失敗！原因如下"+error.message,
                     type: 'failed' 
                 });
                 onDisconnect();
