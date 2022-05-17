@@ -70,7 +70,9 @@ async function onConnect() {
 
     // different condition
     provider.on("chainChanged", (chainId) => {});
-    provider.on("accountsChanged", (accounts) => {});
+    provider.on("accountsChanged", (accounts) => {
+        onDisconnect();
+    });
 
     return true
 }
