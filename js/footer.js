@@ -7,7 +7,9 @@
 			</div>
 			<p class="mintDescript" style="cursor:pointer;" >
 				<span>
-					<span>購買辭典0.15eth</span>
+					<!-- <span>購買辭典0.15eth</span> -->
+					<span>最後一波 Freemint</span>
+					<span>5/26 12:00</span>
 				</span>
 			</p>
 			<div class="mint-container">
