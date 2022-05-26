@@ -216,7 +216,7 @@ async function mint_public_dictionary(){
                         onDisconnect();
                     } else {
                         $('.popset').openPop({
-                            message: "鑄造失敗！原因如下"+error,
+                            message: "鑄造失敗！原因如下"+error.message,
                             type: 'failed' 
                         });
                         onDisconnect();
@@ -262,7 +262,7 @@ async function mint_public_dictionary(){
                 onDisconnect();
             } else {
                 $('.popset').openPop({
-                    message: "鑄造失敗！原因如下"+error,
+                    message: "鑄造失敗！原因如下"+error.message,
                     type: 'failed' 
                 });
                 onDisconnect();
@@ -519,7 +519,7 @@ async function mint_whitelist_word(wallet_info){
                         onDisconnect();
                     } else {
 	                	$('.popset').openPop({
-	                		message: "白名單鑄造失敗！",
+	                		message: "鑄造失敗！"+error.message,
 	                		type: 'failed' 
 	                	});
                         onDisconnect();
@@ -572,7 +572,7 @@ async function mint_whitelist_word(wallet_info){
                 onDisconnect();
 	        } else {
 	        	$('.popset').openPop({
-	        		message: "白名單鑄造失敗！",
+	        		message: "鑄造失敗！"+error.message,
 	        		type: 'failed' 
 	        	});
                 onDisconnect();
@@ -690,7 +690,7 @@ async function mint_public_word(wallet_info){
                         onDisconnect();
                     } else {
                         $('.popset').openPop({
-                            message: "FREEMINT鑄造失敗！",
+                            message: "FREEMINT鑄造失敗！"+error.message,
                             type: 'failed' 
                         });
                         onDisconnect();
@@ -742,7 +742,7 @@ async function mint_public_word(wallet_info){
                 onDisconnect();
             } else {
                 $('.popset').openPop({
-                    message: "FREEMINT鑄造失敗！",
+                    message: "FREEMINT鑄造失敗！"+error.message,
                     type: 'failed' 
                 });
                 onDisconnect();
