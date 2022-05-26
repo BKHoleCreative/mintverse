@@ -160,7 +160,7 @@
 
 
 				// 設定已經被 mint 數量
-				let result = await update_minting_status(); 
+				// let result = await update_minting_status(); 
 				// settingMintData(result.word_minted_num, result.dictionary_purchase_num);
 
 				// 決定為白名單或是公售樣式
@@ -189,7 +189,7 @@
 				}
 
 				// 取得可mint資格與數量
-				// wallet_info = await get_wallet_info_web3();
+				wallet_info = await get_wallet_info_web3();
 
 
 				$('.loading').hide();
@@ -203,13 +203,25 @@
 			$('#mintBtn').on('click', function(event) {
 				event.preventDefault();
 
+				var buy_dictionary_selected = $('#check').is(":checked") ? true : false;
+				var message_before_minting = ""
+				if(buy_dictionary_selected){
+					message_before_minting = "確認要FREEMINT詞彙並加購辭典嗎?"
+				}else{
+					message_before_minting = "確認要FREEMINT詞彙嗎?"
+				}
 
-				$('.popset').openPop({message:'確認要購買辭典嗎?',type:'check',complete:async function(){
+				$('.popset').openPop({message:message_before_minting,type:'check',complete:async function(){
 					$('.loading').show();
 					$('.popset').openPop({message:'等待智能合約回應中.....'});
 
 					// check which minting function to select
-					let mint_result = await mint_public_dictionary();
+					if(wallet_info.is_whitelist_mint){
+						let mint_result = await mint_whitelist_word(wallet_info);
+					}else{
+						let mint_result = await mint_public_word(wallet_info);
+					}
+					
 
 
 		            $('.popset').hide();
