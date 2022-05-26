@@ -315,7 +315,7 @@ async function get_wallet_info_web3() {
     // get total mint number
     const totalSupply = await WordContract.methods.totalSupply().call({});
     const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
-    if(totalSupply - totalWordGiveaway==1900){
+    if(totalSupply - totalWordGiveaway==2667){
         $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
         onDisconnect();
         $(".mintNum>p >span").text("Sold Out");
@@ -405,7 +405,7 @@ async function mint_whitelist_word(wallet_info){
     // get total mint number
     const totalSupply = await WordContract.methods.totalSupply().call({});
     const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
-    if(totalSupply - totalWordGiveaway==1900){
+    if(totalSupply - totalWordGiveaway==2667){
         $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
         onDisconnect();
         $(".mintNum>p >span").text("Sold Out");
@@ -590,7 +590,7 @@ async function mint_public_word(wallet_info){
     // get total mint number
     const totalSupply = await WordContract.methods.totalSupply().call({});
     const totalWordGiveaway = await WordContract.methods.totalWordGiveaway().call({});
-    if(totalSupply - totalWordGiveaway==1900){
+    if(totalSupply - totalWordGiveaway==2667){
         $('.popset').openPop({message:'很抱歉，全數的詞彙都被鑄造光了！',type:'failed'});
         onDisconnect();
         $(".mintNum>p >span").text("Sold Out");
