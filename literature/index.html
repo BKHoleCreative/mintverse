@@ -172,6 +172,7 @@
 						    	let json = response.author;
 						    	json.written_percentage = Math.floor(json.written_percentage*100);
 						    	if(json.written_percentage>=100)json.written_percentage = 100;
+						    	json.written_percentage = 100;
 						      	authorData.push(json)
 						      	if (width >= 100) {
 							        $('#myBar').hide();
@@ -205,7 +206,7 @@
 						title = insertStr(title, 8 , '<br>');
 						title = insertStr(title, title.length - 5 , '<br>');
 					}
-					$('.cardContainer').append(`<div class="card"><div class="info"><h3>${title}</h3><p>作家 ${author}</p></div><h2><span>${item.written_percentage}%</span><span>${'解鎖完成'}</span></h2></div>`)
+					$('.cardContainer').append(`<div class="card"><div class="info"><h3>${title}</h3><p>作家 ${author}</p></div><h2><span>${'解鎖完成'}</span></h2></div>`)
 					if(!persentCheck){
 						$('.card').eq(index) .addClass('lock');
 					}else{
