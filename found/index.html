@@ -272,7 +272,7 @@
 					if(connected){
 						$('.popset').openPop({message:'連結錢包成功'});
 						await sign_messages();
-						
+
 						$('.popset').openPop({message:'翻開你的錢包，檢查是否擁有Mintverse 詞彙NFT'});
 
 			            // get wallet_info
@@ -283,6 +283,8 @@
 			            	$('.popset').openPop({message:'尚未擁有Mintverse 詞彙NFT',type:'failed'});
 			            	onDisconnect();
 			            	return;
+			            }else{
+			            	$('.popset').openPop({message:'檢查成功，現在你可以開始定義！'});
 			            }
 
 			            // create options for defining
