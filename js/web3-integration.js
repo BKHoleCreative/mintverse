@@ -764,7 +764,7 @@ async function sign_messages(){
     const connectedAddress = await web3.eth.getAccounts();
     const WordContract = new web3.eth.Contract(connectionConfig.ABI_Word, connectionConfig.contractAddr_Word);
 
-    web3.eth.personal.sign("我已閱讀並同意參與《第二宇宙辭典》的詞彙定義條款",connectedAddress[0],function (error){
+    await web3.eth.personal.sign("我已閱讀並同意參與《第二宇宙辭典》的詞彙定義條款",connectedAddress[0],function (error){
         // console.log(error);
         if(error!=null){
             $('.popset').openPop({message:'簽署失敗，請重新連接錢包進行簽署！',type:'failed'});
@@ -772,11 +772,11 @@ async function sign_messages(){
         }
 
     })
-        .then(function (result){
-            // console.log(result);
-            $('.popset').openPop({message:'簽署成功，請稍候....'});
-            signature = result;
-        })
+    .then(function (result){
+        // console.log(result);
+        $('.popset').openPop({message:'簽署成功，請稍候....'});
+        signature = result;
+    })
 }
 
 
