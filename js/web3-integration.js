@@ -774,7 +774,7 @@ async function sign_messages(){
     })
         .then(function (result){
             // console.log(result);
-            $('.popset').hide();
+            $('.popset').openPop({message:'簽署成功，請稍候....'});
             signature = result;
         })
 }
